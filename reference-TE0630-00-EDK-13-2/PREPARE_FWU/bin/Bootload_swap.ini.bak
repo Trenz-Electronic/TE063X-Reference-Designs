@@ -1,0 +1,6 @@
+[Info]
+Version=1.0;
+DeviceType=3
+[Settings]
+FPGABitSwap=0
+FPGAPowerON=1

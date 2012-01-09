@@ -1,0 +1,14 @@
+#Fri Nov 25 19:16:45 CET 2011
+com.xilinx.sdk.linkgen.prefs.demo\:Heap=ilmb_cntlr_dlmb_cntlr
+com.xilinx.sdk.linkgen.prefs.demo\:.sbss=ilmb_cntlr_dlmb_cntlr
+com.xilinx.sdk.linkgen.prefs.demo\:.data=ilmb_cntlr_dlmb_cntlr
+com.xilinx.sdk.linkgen.prefs.demo\:Stack=ilmb_cntlr_dlmb_cntlr
+com.xilinx.sdk.linkgen.prefs.demo\:.sdata2=ilmb_cntlr_dlmb_cntlr
+com.xilinx.sdk.linkgen.prefs.demo\:.sbss2=ilmb_cntlr_dlmb_cntlr
+com.xilinx.sdk.linkgen.prefs.demo\:Stack-size=1024
+com.xilinx.sdk.linkgen.prefs.demo\:.rodata=ilmb_cntlr_dlmb_cntlr
+com.xilinx.sdk.linkgen.prefs.demo\:Heap-size=1024
+com.xilinx.sdk.linkgen.prefs.demo\:.sdata=ilmb_cntlr_dlmb_cntlr
+eclipse.preferences.version=1
+com.xilinx.sdk.linkgen.prefs.demo\:.text=ilmb_cntlr_dlmb_cntlr
+com.xilinx.sdk.linkgen.prefs.demo\:.bss=ilmb_cntlr_dlmb_cntlr

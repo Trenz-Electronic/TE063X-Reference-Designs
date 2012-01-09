@@ -1,0 +1,164 @@
+#include "Interrupts.h"
+
+#define FX2TX_FIFO_SIZE	512 //words
+#define FX2RX_FIFO_SIZE	512 //words
+#define MEMORY_OFFSET	0x10000 //offset for memory test, below is a MB code
+//====================================================
+//Menu function
+//====================================================
+void menu(void) {
+	xil_printf("\r\nType:\r\n");
+	xil_printf("    'a' RAM test\r\n");
+	xil_printf("    'f' RAM Ftest\r\n");
+	xil_printf("    'c' toggles caching\r\n");
+	xil_printf("    't' starts TX transmission\r\n");	
+	xil_printf("    'r' starts RX transmission\r\n");	
+	xil_printf("    's' stops all transmissions\r\n");
+	xil_printf("    'm' for the redraw menu\r\n");
+}
+
+//====================================================
+//MAIN
+//====================================================
+int main (void) 
+{	
+	Xint16 character, fifo_trig, fifo_mask;
+	Xint8  char8, timeout, cache=1;
+	Xuint32 i, ver;
+	Xuint32 counter=0;
+	Xuint8 k;
+	Xuint16 tx_count, rx_count;
+	Xuint32 data;
+	NPI_DMA_TYPE DMA;
+
+	Xuint8 rx_run = 0; //rx xfer start flag
+	Xuint8 tx_run = 0; //tx xfer start flag
+	Xuint32 tx_addr=XPAR_DDR3_SDRAM_MPMC_BASEADDR+MEMORY_OFFSET;
+	Xuint32 rx_addr=XPAR_DDR3_SDRAM_MPMC_BASEADDR+MEMORY_OFFSET;
+	
+	XIo_In32(tx_addr);//workaround to init RAM before access
+
+	ver = VERSION;
+	xil_printf("\r\n--Entering main TE0300 DEMO ver 0x%08X--\r\n", ver);
+	XIo_Out32(XPAR_LED_BASEADDR,0xF);
+	
+	start_intc();
+  
+    //NPI DMA properties
+  	DMA.BaseAddress=XPAR_XPS_NPI_DMA_0_BASEADDR;	//base address of the DMA device
+	DMA.WrStartAddr=tx_addr;	//start address for writing
+	DMA.RdStartAddr=rx_addr;	//start address for reading
+	DMA.WrBytes=(XPAR_DDR3_SDRAM_MPMC_HIGHADDR - XPAR_DDR3_SDRAM_MPMC_BASEADDR - MEMORY_OFFSET);			//number of bytes for writing
+	DMA.RdBytes=1024;			//number of bytes for reading
+	DMA.WrBurstSize=4;	//128bytes write burst size (for detailed description see SetWrBurstSize)
+	DMA.RdBurstSize=3;	//64bytes read burst size (for detailed description see SetRdBurstSize)
+	DMA.WrLoop=0;			//continous writing flag
+	DMA.RdLoop=0;			//continous reading flag
+  
+
+	//sets FX2 packet_end timeout to 800cycles = 10us
+	XPS_FX2_PktendTimeout(XPAR_XPS_FX2_0_BASEADDR, 800);
+	
+	//initalize control fifo
+	FIFO_ResetChar(&control_fifo);
+	
+	caching(cache); //cache setup - usually better off
+	
+//	FIFO_putchar(&control_fifo, 'a');
+	
+	menu();
+	
+//====================================================
+//MAIN LOOP
+//====================================================
+
+	while(1)
+	{
+		//TRANSFER DATA at readback
+		if (tx_run==1) { //RAM readout
+			tx_count = XPS_FX2_GetTXFIFOcount(XPAR_XPS_FX2_0_BASEADDR);
+			if (tx_count < FX2TX_FIFO_SIZE-(DMA.RdBytes>>2)) {
+		//	if (tx_count == 0) {
+				DMA.RdStartAddr=tx_addr;
+				u32 ret;
+				ret = XPS_NPI_DMA_ReadRAM_Blocking(&DMA);
+				tx_addr = ret; //increment tx_address
+				//xil_printf("\r\nRead addr: 0x%08X, ret 0x%08X\r\n", tx_addr, ret);
+			}
+		}
+
+	
+		//check the main control fifo
+		check_control_fifo_overlow(&control_fifo);
+		
+		//check for received char
+		if (1 != XUartLite_IsReceiveEmpty(STDIN_BASEADDRESS))
+		{ 	
+			character = (u8)XIo_In32(STDIN_BASEADDRESS + XUL_RX_FIFO_OFFSET); //receive char
+			if (character != 255)  //character valid!
+				FIFO_putchar(&control_fifo, character);
+		}
+		character = FIFO_getchar(&control_fifo);
+		
+		if (character > 1) 
+		{
+			switch (character) {
+				case 'a':
+					RAM_test(XPAR_DDR3_SDRAM_MPMC_BASEADDR+MEMORY_OFFSET, 60*1024*256,1); //60MB
+					break;
+				case 'f':
+					RAM_test(XPAR_DDR3_SDRAM_MPMC_BASEADDR+MEMORY_OFFSET, 60*1024*256,0); //60MB
+					break;
+				case 'c':
+					cache=~cache;
+					caching(cache);
+					break;
+				case 't':
+					XPS_FX2_TXFIFOrst(XPAR_XPS_FX2_0_BASEADDR);
+					XPS_FX2_RXFIFOrst(XPAR_XPS_FX2_0_BASEADDR);
+					XPS_NPI_DMA_Reset(&DMA);
+					DBG(xil_printf("\r\nRunning TX test\r\n");)
+					tx_run = 1;
+					tx_addr=XPAR_DDR3_SDRAM_MPMC_BASEADDR+MEMORY_OFFSET;
+					XPS_FX2_SetUSB_FIFOadr(XPAR_XPS_FX2_0_BASEADDR, PI_EP6);
+					break;
+				case 'r':
+					XPS_FX2_TXFIFOrst(XPAR_XPS_FX2_0_BASEADDR);
+					XPS_FX2_RXFIFOrst(XPAR_XPS_FX2_0_BASEADDR);
+					XPS_NPI_DMA_Reset(&DMA);
+					XPS_NPI_DMA_WriteRAM(&DMA); //non blocking call
+					xil_printf("\r\nDMA SR ");//0x%08X\r\n", XIo_In32(DMA.BaseAddress+XPS_NPI_DMA_SR_OFFSET)
+					DBG(xil_printf("\r\nRunning RX test\r\n");)
+					rx_run = 1;
+					counter=0;
+					break;
+				case 's':
+					if (rx_run==1) {
+						rx_addr = XIo_In32(DMA.BaseAddress + XPS_NPI_DMA_WCR_OFFSET); //gets number of transmitted bytes
+						DBG(xil_printf("\r\nrx_addr 0x%08X\r\n", rx_addr);)
+						DBG(xil_printf("\r\nReceived %d bytes\r\n", rx_addr-XPAR_DDR3_SDRAM_MPMC_BASEADDR-MEMORY_OFFSET);)
+						if (XST_SUCCESS == RAM_test(DMA.WrStartAddr,((rx_addr-XPAR_DDR3_SDRAM_MPMC_BASEADDR-MEMORY_OFFSET)>>2), 2)) //verify only
+							XIo_Out32(XPAR_XPS_I2C_SLAVE_0_BASEADDR + XPS_I2C_SLAVE_MB2FX2_REG0_OFFSET,1); //write status sucess
+						else
+							XIo_Out32(XPAR_XPS_I2C_SLAVE_0_BASEADDR + XPS_I2C_SLAVE_MB2FX2_REG0_OFFSET,0); //write status failure
+					}
+					XPS_NPI_DMA_Reset(&DMA); //stop DMA
+					tx_run = 0;
+					rx_run = 0;
+					//reset all FX2 fifos
+					XPS_FX2_TXFIFOrst(XPAR_XPS_FX2_0_BASEADDR);
+					XPS_FX2_RXFIFOrst(XPAR_XPS_FX2_0_BASEADDR);
+					DBG(xil_printf("\r\nALL Transfers canceled!");)
+					break;
+				case 'm' :
+					menu();	
+					break;
+				default:
+	//					DBG(xil_printf("\r\nWrong character '%c' (%d dec)\r\n",character,character);)
+					break;
+			} //CASE
+		} 
+	}//MAIN LOOP
+	
+   return 0;
+}

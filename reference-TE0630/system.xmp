@@ -3,7 +3,7 @@ XmpVersion: 13.2
 VerMgmt: 13.2
 IntStyle: default
 Flow: ise
-ModuleSearchPath: repos/
+ModuleSearchPath: ../TE-EDK-IP/
 MHS File: system.mhs
 Architecture: spartan6
 Device: xc6slx45

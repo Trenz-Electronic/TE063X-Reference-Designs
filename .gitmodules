@@ -1,0 +1,3 @@
+[submodule "TE-EDK-IP"]
+	path = TE-EDK-IP
+	url = git@github.com:Trenz-Electronic/TE-EDK-IP.git

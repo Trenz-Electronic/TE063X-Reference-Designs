@@ -3,7 +3,7 @@ xc6slx45csg484-2
 -lang
 vhdl
 -lp
-D:/Projekti/Trenz/TE0630/EDK/
+C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP/
 -msg
 __xps/ise/xmsgprops.lst
 system.mhs

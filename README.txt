@@ -8,9 +8,9 @@ To get projects:
 
 * Without Git
 Go to the download page https://github.com/Trenz-Electronic/TE063X-Reference-Designs/downloads
-Download TE063X-Reference-Designs.zip at the bottom of the page.
-Unzip projects
-Open TE063X-Reference-Designs/reference-TE0630/system.xmp in Xilinx EDK
+Download project zip archive at the bottom of the page.
+Unzip project
+Open project in Xilinx EDK or Xilinx ISE
 
 * Using Git
 Run Git Bash
@@ -18,4 +18,4 @@ git clone git@github.com:Trenz-Electronic/TE063X-Reference-Designs.git
 cd TE063X-Reference-Designs
 git submodule init
 git submodule update
-Open TE063X-Reference-Designs/reference-TE0630/system.xmp in Xilinx EDK
+Open project in Xilinx EDK or Xilinx ISE

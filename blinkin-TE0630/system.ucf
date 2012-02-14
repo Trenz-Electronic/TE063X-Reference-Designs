@@ -1,0 +1,17 @@
+
+Net sys_clk_pin LOC=AA12;
+Net sys_clk_pin IOSTANDARD = LVCMOS33;
+
+## System level constraints
+Net sys_clk_pin TNM_NET = sys_clk_pin;
+TIMESPEC TS_sys_clk_pin = PERIOD sys_clk_pin 10000 ps;
+
+
+#### Module LED constraints
+Net fpga_0_LED_GPIO_d_out_pin<*>  IOSTANDARD = LVCMOS33;
+
+Net fpga_0_LED_GPIO_d_out_pin<0> LOC=K8;
+Net fpga_0_LED_GPIO_d_out_pin<1> LOC=F2;
+Net fpga_0_LED_GPIO_d_out_pin<2> LOC=F1;
+Net fpga_0_LED_GPIO_d_out_pin<3> LOC=J4;
+

@@ -1,0 +1,39 @@
+################################################################################
+# Copyright (C) 2012 Trenz Electronic
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a 
+# copy of this software and associated documentation files (the "Software"), 
+# to deal in the Software without restriction, including without limitation 
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+# and/or sell copies of the Software, and to permit persons to whom the 
+# Software is furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included 
+# in all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
+# IN THE SOFTWARE.
+################################################################################
+# xc6slx45/75/100/150-2csg484 
+
+Net sys_clk_pin LOC=AA12;
+Net sys_clk_pin IOSTANDARD = LVCMOS33;
+
+## System level constraints
+Net sys_clk_pin TNM_NET = sys_clk_pin;
+TIMESPEC TS_sys_clk_pin = PERIOD sys_clk_pin 10000 ps;
+
+
+#### Module LED constraints
+Net fpga_0_LED_GPIO_d_out_pin<*>  IOSTANDARD = LVCMOS33;
+
+Net fpga_0_LED_GPIO_d_out_pin<0> LOC=K8;
+Net fpga_0_LED_GPIO_d_out_pin<1> LOC=F2;
+Net fpga_0_LED_GPIO_d_out_pin<2> LOC=F1;
+Net fpga_0_LED_GPIO_d_out_pin<3> LOC=J4;
+

@@ -2,7 +2,7 @@
 # Projects to release
 REPOSITORY=TE063X-Reference-Designs
 # Numbers of projects to release (list like '1 2 3 4')
-PROJECT_LIST='1'
+PROJECT_LIST='1 2'
 # Project 1 description
 # List of folders requred to release (First will be used as name)
 NAME1='reference-TE0630 TE-EDK-IP'
@@ -12,9 +12,9 @@ TOOL1='EDK-13.2'
 VER1='1.0'
 
 # Project 2 description
-NAME2=''
-TOOL2=''
-VER2=''
+NAME2='blinkin-TE0630'
+TOOL2='ISE-13.2'
+VER2='1.0'
 
 # Project 3 description
 NAME3=''

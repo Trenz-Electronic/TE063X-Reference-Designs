@@ -76,7 +76,7 @@ NET "USB_SLRD_pin" 			OFFSET = OUT 7.4 ns AFTER  "USB_IFCLK_pin" RISING;	# If yo
 #NET "USB_SLRD_pin" 				OFFSET = OUT 5.7 ns AFTER  "USB_IFCLK_pin" RISING;	# If you use DCM
 NET "USB_SLOE_pin" 				OFFSET = OUT   9 ns AFTER  "USB_IFCLK_pin" RISING;
 NET "USB_PKTEND_pin" 			OFFSET = OUT   9 ns AFTER  "USB_IFCLK_pin" RISING;
-NET "USB_FIFOADR_pin<*>" 	OFFSET = OUT   9.5 ns AFTER  "USB_IFCLK_pin" RISING;
+#NET "USB_FIFOADR_pin<*>" 	OFFSET = OUT   9.5 ns AFTER  "USB_IFCLK_pin" RISING;
 
 Net USB_*_pin*  IOSTANDARD = LVCMOS33;
 
@@ -111,6 +111,61 @@ Net  USB_FD_pin<7>        LOC = A3;
 
 
 #### Module DDR_SDRAM constraints 
-#all fixed
-#NET  "fpga_0_MCB1_mcbx_dram_reset_n_pin"                         IOSTANDARD = SSTL15_II;
-#NET  "fpga_0_MCB1_mcbx_dram_reset_n_pin"                         LOC =  ;
+#NET "DDR3_SDRAM/mpmc_core_0/gen_spartan6_mcb.s6_phy_top_if/mpmc_mcb_raw_wrapper_0/selfrefresh_mcb_mode" TIG;
+
+#########################################################################
+# TIG synchronizer signals                                              #
+#########################################################################
+#INST "DDR3_SDRAM/mpmc_core_0/gen_spartan6_mcb.s6_phy_top_if/uo_done_cal_d1*" TNM="TNM_TIG_DDR3_SDRAM_S6_DONE_CAL_SYNCH";
+#TIMESPEC "TS_TIG_DDR3_SDRAM_S6_DONE_CAL_SYNCH" = FROM FFS TO "TNM_TIG_DDR3_SDRAM_S6_DONE_CAL_SYNCH" TIG;
+
+#INST "DDR3_SDRAM/mpmc_core_0/gen_spartan6_mcb.s6_phy_top_if/rst_d1*" TNM="TNM_TIG_DDR3_SDRAM_S6_SYS_RST_SYNCH";
+#TIMESPEC "TS_TIG_DDR3_SDRAM_S6_SYS_RST_SYNCH" = FROM FFS TO "TNM_TIG_DDR3_SDRAM_S6_SYS_RST_SYNCH" TIG;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[0]" LOC = B21 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[1]" LOC = B22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[2]" LOC = C22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[3]" LOC = J21 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[4]" LOC = D22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[5]" LOC = L17 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[6]" LOC = K17 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[7]" LOC = C20 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[8]" LOC = G20 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[9]" LOC = G22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[10]" LOC = D21 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[11]" LOC = H20 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_addr_pin[12]" LOC = E22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_ba_pin[0]" LOC = K18 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_ba_pin[1]" LOC = K19 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_ba_pin[2]" LOC = H22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_ras_n_pin" LOC = M18 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_cas_n_pin" LOC = M19 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_we_n_pin" LOC = H21 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_cke_pin" LOC = E20 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_clk_pin" LOC = J17 | IOSTANDARD = DIFF_SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_clk_n_pin" LOC = J19 | IOSTANDARD = DIFF_SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[0]" LOC = N20 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[1]" LOC = N22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[2]" LOC = N19 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[3]" LOC = M20 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[4]" LOC = L20 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[5]" LOC = L22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[6]" LOC = K21 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[7]" LOC = K22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[8]" LOC = P21 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[9]" LOC = P22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[10]" LOC = R20 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[11]" LOC = R22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[12]" LOC = U20 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[13]" LOC = U22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[14]" LOC = V21 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dq_pin[15]" LOC = V22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dqs_pin" LOC = M21 | IOSTANDARD = DIFF_SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_ldm_pin" LOC = K20 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_dqs_n_pin" LOC = M22 | IOSTANDARD = DIFF_SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_udqs_pin" LOC = T21 | IOSTANDARD = DIFF_SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_udqs_n_pin" LOC = T22 | IOSTANDARD = DIFF_SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_udm_pin" LOC = L19 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_odt_pin" LOC = J22 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_mcbx_dram_rst_pin" LOC = H19 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_rzq_pin" LOC = F15 | IOSTANDARD = SSTL15_II;
+#NET "fpga_0_MCB1_zio_pin" LOC = F13 | IOSTANDARD = SSTL15_II;

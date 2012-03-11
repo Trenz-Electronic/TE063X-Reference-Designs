@@ -1,18 +1,4 @@
 
-# ##############################################################################
-# Created by Base System Builder Wizard for Xilinx EDK 9.2.02 Build EDK_Jm_SP2.3
-# Mon Mar 10 21:22:25 2008
-# Target Board:  Trenz Electronic USB Spartan-3E 1200E Micromodule Dev Board Rev RevB
-# Family:	 spartan3e
-# Device:	 XC3S1200E, XC3S1800E
-# Package:	 FG320
-# Speed Grade:	 -4
-# Processor: microblaze_0
-# System clock frequency: 50.00 MHz, 62.25 MHz
-# On Chip Memory :  16 KB
-# Total Off Chip Memory :  64 MB
-# - DDR_SDRAM =  64 MB
-# ##############################################################################
  PARAMETER VERSION = 2.1.0
 
 
@@ -24,7 +10,7 @@
  PORT fpga_0_SPI_FLASH_MOSI_pin = fpga_0_SPI_FLASH_MOSI, DIR = IO
  PORT fpga_0_SPI_FLASH_SCK_pin = fpga_0_SPI_FLASH_SCK, DIR = IO
  PORT fpga_0_SPI_FLASH_SS_pin = fpga_0_SPI_FLASH_SS, DIR = IO, VEC = [0:0]
- PORT fpga_0_MCB1_mcbx_dram_reset_n_pin = fpga_0_MCB1_mcbx_dram_reset_n_pin, DIR = O
+ PORT fpga_0_MCB1_mcbx_dram_rst_pin = fpga_0_MCB1_mcbx_dram_rst_pin, DIR = O
  PORT fpga_0_MCB1_mcbx_dram_addr_pin = fpga_0_MCB1_mcbx_dram_addr_pin, DIR = O, VEC = [12:0]
  PORT fpga_0_MCB1_mcbx_dram_ba_pin = fpga_0_MCB1_mcbx_dram_ba_pin_vslice_2_0_concat, DIR = O, VEC = [2:0]
  PORT fpga_0_MCB1_mcbx_dram_ras_n_pin = fpga_0_MCB1_mcbx_dram_ras_n_pin, DIR = O
@@ -76,7 +62,6 @@ BEGIN microblaze
  PARAMETER C_DCACHE_BASEADDR = 0x40000000
  PARAMETER C_DCACHE_HIGHADDR = 0x47FFFFFF
  PARAMETER C_AREA_OPTIMIZED = 0
- PARAMETER C_FAMILY = spartan3e
  PARAMETER C_INSTANCE = microblaze_0
  PARAMETER C_ICACHE_ALWAYS_USED = 0
  PARAMETER C_DCACHE_ALWAYS_USED = 0
@@ -225,7 +210,7 @@ BEGIN mpmc
  PORT mcbx_dram_odt = fpga_0_MCB1_mcbx_dram_odt_pin
  PORT rzq = fpga_0_MCB1_rzq_pin
  PORT zio = fpga_0_MCB1_zio_pin
- PORT mcbx_dram_ddr3_rst = fpga_0_MCB1_mcbx_dram_reset_n_pin
+ PORT mcbx_dram_ddr3_rst = fpga_0_MCB1_mcbx_dram_rst_pin
  PORT MPMC_Clk0 = sys_clk_s
 END
 
@@ -237,18 +222,26 @@ BEGIN clock_generator
  PARAMETER C_CLKOUT0_FREQ = 50000000
  PARAMETER C_CLKOUT0_PHASE = 0
  PARAMETER C_CLKOUT0_GROUP = NONE
- PARAMETER C_CLKOUT1_FREQ = 625000000
- PARAMETER C_CLKOUT1_PHASE = 0
- PARAMETER C_CLKOUT1_GROUP = PLL0
- PARAMETER C_CLKOUT2_FREQ = 625000000
- PARAMETER C_CLKOUT2_PHASE = 180
- PARAMETER C_CLKOUT2_GROUP = PLL0
- PARAMETER C_CLKOUT0_BUF = TRUE
- PARAMETER C_CLKOUT1_BUF = FALSE
- PARAMETER C_CLKOUT2_BUF = FALSE
  PORT CLKOUT0 = sys_clk_s
- PORT CLKOUT1 = clk_MCB_nobuf
- PORT CLKOUT2 = clk_MCB_180_nobuf
+ PORT RST = sys_rst_s
+ PORT CLKIN = dcm_clk_s
+END
+
+BEGIN clock_generator
+ PARAMETER INSTANCE = clock_generator_1
+ PARAMETER HW_VER = 4.02.a
+ PARAMETER C_EXT_RESET_HIGH = 1
+ PARAMETER C_CLKIN_FREQ = 100000000
+ PARAMETER C_CLKOUT0_FREQ = 625000000
+ PARAMETER C_CLKOUT0_PHASE = 0
+ PARAMETER C_CLKOUT0_GROUP = PLL0
+ PARAMETER C_CLKOUT1_FREQ = 625000000
+ PARAMETER C_CLKOUT1_PHASE = 180
+ PARAMETER C_CLKOUT1_GROUP = PLL0
+ PARAMETER C_CLKOUT0_BUF = FALSE
+ PARAMETER C_CLKOUT1_BUF = FALSE
+ PORT CLKOUT0 = clk_MCB_nobuf
+ PORT CLKOUT1 = clk_MCB_180_nobuf
  PORT LOCKED = clock_generator_locked
  PORT RST = sys_rst_s
  PORT CLKIN = dcm_clk_s
@@ -259,7 +252,6 @@ BEGIN mdm
  PARAMETER HW_VER = 2.00.b
  PARAMETER C_MB_DBG_PORTS = 1
  PARAMETER C_USE_UART = 1
-# PARAMETER C_UART_WIDTH = 8
  PARAMETER C_BASEADDR = 0x84400000
  PARAMETER C_HIGHADDR = 0x8440ffff
  BUS_INTERFACE SPLB = mb_plb
@@ -278,6 +270,7 @@ BEGIN proc_sys_reset
  PORT Bus_Struct_Reset = sys_bus_reset
  PORT MB_Debug_Sys_Rst = Debug_SYS_Rst
  PORT Peripheral_Reset = sys_periph_reset
+ PORT Peripheral_aresetn = sys_periph_aresetn
 END
 
 BEGIN xps_intc
@@ -302,7 +295,6 @@ END
 BEGIN xps_uartlite
  PARAMETER INSTANCE = RS232
  PARAMETER HW_VER = 1.02.a
-# PARAMETER C_SPLB_CLK_FREQ_HZ = 62500000
  PARAMETER C_BAUDRATE = 115200
  PARAMETER C_ODD_PARITY = 0
  PARAMETER C_USE_PARITY = 0

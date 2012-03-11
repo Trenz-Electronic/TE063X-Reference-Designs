@@ -1,1 +1,0 @@
-Execute batch-TE0300.bat in this working directory ro generate bit-streams for all module variants.

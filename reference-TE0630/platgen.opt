@@ -1,9 +1,9 @@
 -p
-xc6slx45csg484-2
+xc6slx150csg484-2
 -lang
 vhdl
 -lp
-C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP/
+../TE-EDK-IP/
 -msg
 __xps/ise/xmsgprops.lst
 system.mhs

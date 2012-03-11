@@ -6,7 +6,7 @@ Flow: ise
 ModuleSearchPath: ../TE-EDK-IP/
 MHS File: system.mhs
 Architecture: spartan6
-Device: xc6slx45
+Device: xc6slx150
 Package: csg484
 SpeedGrade: -2
 UserCmd1: 

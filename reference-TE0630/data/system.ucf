@@ -22,11 +22,11 @@ Net sys_periph_reset TIG;
 
 #### Module RS232 constraints 
 
-#last pins in J5
-Net fpga_0_RS232_RX_pin LOC=AA18;
+# J1 at TE0304
+Net fpga_0_RS232_RX_pin LOC=Y7;
 Net fpga_0_RS232_RX_pin IOSTANDARD = LVCMOS33;
 Net fpga_0_RS232_RX_pin PULLUP;
-Net fpga_0_RS232_TX_pin LOC=W14;
+Net fpga_0_RS232_TX_pin LOC=AB7;
 Net fpga_0_RS232_TX_pin IOSTANDARD = LVCMOS33;
 
 #### Module LED constraints

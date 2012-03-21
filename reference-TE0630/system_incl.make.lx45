@@ -21,7 +21,7 @@ DEVICE = xc6slx45csg484-2
 
 LANGUAGE = vhdl
 GLOBAL_SEARCHPATHOPT = 
-PROJECT_SEARCHPATHOPT =  -lp ../TE-EDK-IP/
+PROJECT_SEARCHPATHOPT =  -lp C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP/
 
 SEARCHPATHOPT = $(PROJECT_SEARCHPATHOPT) $(GLOBAL_SEARCHPATHOPT)
 
@@ -38,9 +38,10 @@ PPC440_BOOTLOOP = $(XILINX_EDK_DIR)/sw/lib/ppc440/ppc440_bootloop.elf
 BOOTLOOP_DIR = bootloops
 
 MICROBLAZE_0_BOOTLOOP = $(BOOTLOOP_DIR)/microblaze_0.elf
+MICROBLAZE_0_ELF_IMP = SDK/SDK_Workspace/demo/Release/demo.elf
 
-BRAMINIT_ELF_IMP_FILES = $(MICROBLAZE_0_BOOTLOOP)
-BRAMINIT_ELF_IMP_FILE_ARGS = -pe microblaze_0 $(MICROBLAZE_0_BOOTLOOP)
+BRAMINIT_ELF_IMP_FILES = $(MICROBLAZE_0_ELF_IMP)
+BRAMINIT_ELF_IMP_FILE_ARGS = -pe microblaze_0 $(MICROBLAZE_0_ELF_IMP)
 
 BRAMINIT_ELF_SIM_FILES = $(MICROBLAZE_0_BOOTLOOP)
 BRAMINIT_ELF_SIM_FILE_ARGS = -pe microblaze_0 $(MICROBLAZE_0_BOOTLOOP)
@@ -71,6 +72,7 @@ implementation/led_wrapper.ngc \
 implementation/spi_flash_wrapper.ngc \
 implementation/ddr3_sdram_wrapper.ngc \
 implementation/clock_generator_0_wrapper.ngc \
+implementation/clock_generator_1_wrapper.ngc \
 implementation/debug_module_wrapper.ngc \
 implementation/proc_sys_reset_0_wrapper.ngc \
 implementation/xps_intc_0_wrapper.ngc \

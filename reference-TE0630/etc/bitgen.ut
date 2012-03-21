@@ -1,3 +1,3 @@
 -g TdoPin:PULLNONE
--g StartUpClk:JTAGCLK
+-g StartUpClk:CClk
 #add other options here.

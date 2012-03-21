@@ -1,4 +1,4 @@
-#Fri Nov 25 19:27:19 CET 2011
+#Tue Mar 20 16:39:49 EET 2012
 org.eclipse.debug.ui.PREF_LAUNCH_PERSPECTIVES=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<launchPerspectives/>\r\n
 pref_state_memento.org.eclipse.debug.ui.VariableView=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<VariablesViewMemento org.eclipse.debug.ui.SASH_DETAILS_PART\="315" org.eclipse.debug.ui.SASH_VIEW_PART\="684">\r\n<COLUMN_SIZES IMemento.internal.id\="org.eclipse.debug.ui.VARIALBE_COLUMN_PRESENTATION.COL_VAR_NAME" SIZE\="406"/>\r\n<COLUMN_SIZES IMemento.internal.id\="org.eclipse.debug.ui.VARIALBE_COLUMN_PRESENTATION.COL_VAR_VALUE" SIZE\="294"/>\r\n<PRESENTATION_CONTEXT_PROPERTIES IMemento.internal.id\="org.eclipse.debug.ui.VariableView"/>\r\n</VariablesViewMemento>
 pref_state_memento.org.eclipse.debug.ui.RegisterView=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<VariablesViewMemento org.eclipse.debug.ui.SASH_DETAILS_PART\="315" org.eclipse.debug.ui.SASH_VIEW_PART\="684">\r\n<PRESENTATION_CONTEXT_PROPERTIES IMemento.internal.id\="org.eclipse.debug.ui.RegisterView"/>\r\n</VariablesViewMemento>
@@ -9,4 +9,4 @@ preferredDetailPanes=DefaultDetailPane\:DefaultDetailPane|
 org.eclipse.debug.ui.switch_perspective_on_suspend=never
 preferredTargets=org.eclipse.cdt.debug.ui.toggleCBreakpointTarget\:org.eclipse.cdt.debug.ui.toggleCBreakpointTarget|
 eclipse.preferences.version=1
-org.eclipse.debug.ui.user_view_bindings=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<viewBindings>\r\n<view id\="org.eclipse.debug.ui.ExpressionView">\r\n<perspective id\="org.eclipse.debug.ui.DebugPerspective" userAction\="opened"/>\r\n</view>\r\n</viewBindings>\r\n
+org.eclipse.debug.ui.user_view_bindings=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<viewBindings>\r\n<view id\="org.eclipse.debug.ui.DebugView">\r\n<perspective id\="org.eclipse.cdt.ui.CPerspective" userAction\="closed"/>\r\n</view>\r\n<view id\="org.eclipse.debug.ui.ExpressionView">\r\n<perspective id\="org.eclipse.debug.ui.DebugPerspective" userAction\="opened"/>\r\n</view>\r\n</viewBindings>\r\n

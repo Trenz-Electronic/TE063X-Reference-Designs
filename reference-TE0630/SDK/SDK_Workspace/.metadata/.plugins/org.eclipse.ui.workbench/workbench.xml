@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="23" version="2.0">
+<workbench progressCount="25" version="2.0">
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="50" y="50">
 <fastViewData fastViewLocation="1024"/>
-<intro standby="true"/>
 <perspectiveBar>
 <itemSize x="160"/>
 </perspectiveBar>
@@ -36,6 +35,7 @@
 <part id="2"/>
 <part id="3"/>
 <part id="4"/>
+<part id="5"/>
 </presentation>
 </folder>
 </info>
@@ -46,9 +46,9 @@
 <editor id="com.xilinx.sdk.sw.MSSEditor" name="system.mss" partName="system.mss" path="D:/Projekti/Trenz/TE0630/EDK/reference-TE0630-00-EDK-13-2/SDK/SDK_Workspace/standalone_bsp_0/system.mss" title="system.mss" tooltip="standalone_bsp_0/system.mss" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/standalone_bsp_0/system.mss"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="D:/Projekti/Trenz/TE0630/EDK/reference-TE0630-00-EDK-13-2/SDK/SDK_Workspace/demo/src/main.c" title="main.c" tooltip="demo/src/main.c" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/reference-TE0630/SDK/SDK_Workspace/demo/src/main.c" title="main.c" tooltip="demo/src/main.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/demo/src/main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="993" selectionTopPixel="595"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="control_fifo.c" partName="control_fifo.c" path="D:/Projekti/Trenz/TE0630/EDK/reference-TE0630-00-EDK-13-2/SDK/SDK_Workspace/demo/src/control_fifo.c" title="control_fifo.c" tooltip="demo/src/control_fifo.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/demo/src/control_fifo.c"/>
@@ -57,6 +57,10 @@
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="func.c" partName="func.c" path="D:/Projekti/Trenz/TE0630/EDK/reference-TE0630-00-EDK-13-2/SDK/SDK_Workspace/demo/src/func.c" title="func.c" tooltip="demo/src/func.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/demo/src/func.c"/>
 <editorState selectionHorizontalPixel="0" selectionLength="13" selectionOffset="253" selectionTopPixel="0"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="interrupts.h" partName="interrupts.h" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/reference-TE0630/SDK/SDK_Workspace/demo/src/interrupts.h" title="interrupts.h" tooltip="demo/src/interrupts.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/demo/src/interrupts.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="112" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -112,14 +116,8 @@
 <view id="org.eclipse.ui.console.ConsoleView" partName="Console">
 <viewState/>
 </view>
-<view id="org.eclipse.ui.internal.introview" partName="Welcome">
-<viewState>
-<presentation currentPage="file:///C:/Xilinx/13.2/ISE_DS/EDK/eclipse/nt/eclipse/plugins/com.xilinx.sdk.product_1.0.0/intro/index.html" restore="true"/>
-<standbyPart/>
-</viewState>
-</view>
 </views>
-<perspectives activePart="org.eclipse.ui.console.ConsoleView" activePerspective="org.eclipse.cdt.ui.CPerspective">
+<perspectives activePart="org.eclipse.cdt.ui.editor.CEditor" activePerspective="org.eclipse.cdt.ui.CPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.cdt.internal.ui.CPerspectiveFactory" id="org.eclipse.cdt.ui.CPerspective" label="C/C++"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -176,8 +174,6 @@
 <view id="org.eclipse.tm.terminal.view.TerminalView"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <view id="org.eclipse.cdt.make.ui.views.MakeView"/>
-<view id="org.eclipse.debug.ui.DebugView"/>
-<view id="org.eclipse.ui.internal.introview"/>
 <fastViewBars/>
 <layout>
 <mainWindow>
@@ -193,15 +189,12 @@
 </folder>
 </info>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@8353f6" ratio="0.75" ratioLeft="750" ratioRight="250" relationship="2" relative="topLeft">
-<folder activePageID="org.eclipse.ui.internal.introview" appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
-<page content="org.eclipse.ui.internal.introview" label="Welcome"/>
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.debug.ui.DebugView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-<part id="1"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.25" ratioLeft="250" ratioRight="750" relationship="2" relative="topLeft"/>
@@ -346,13 +339,8 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/src/func.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/src/control_fifo.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/src/func.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/src/interrupts.h"/>
 </editors>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1742" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1793" y="0"/>
-</item>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="1887" y="0"/>
 </item>
@@ -491,8 +479,17 @@
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="850" y="0"/>
 </item>
-<item active="true" historyLabel="main.c" index="0">
+<item historyLabel="main.c" index="0">
 <position info="not_deleted" x="850" y="0"/>
+</item>
+<item historyLabel="interrupts.h" index="5">
+<position info="not_deleted" x="775" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="interrupts.h" index="5">
+<position info="not_deleted" x="0" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -511,6 +508,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="interrupts.h" tooltip="demo/src/interrupts.h">
+<persistable path="/demo/src/interrupts.h"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="func.c" tooltip="demo/src/func.c">
 <persistable path="/demo/src/func.c"/>
 </file>

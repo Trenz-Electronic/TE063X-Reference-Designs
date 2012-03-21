@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2012-03-11T18:07:43</DateModified>
+  <DateModified>2012-03-21T12:04:36</DateModified>
   <ModuleName>system</ModuleName>
-  <SummaryTimeStamp>2012-03-11T18:07:43</SummaryTimeStamp>
+  <SummaryTimeStamp>2012-03-21T12:04:36</SummaryTimeStamp>
   <SavedFilePath>C:/Projects/Trenz/repos/TE063X-Reference-Designs/reference-TE0630/__xps/ise/system.xreport</SavedFilePath>
   <FilterFile>filter.filter</FilterFile>
   <SavedFilterFilePath>C:/Projects/Trenz/repos/TE063X-Reference-Designs/reference-TE0630/__xps/ise</SavedFilterFilePath>

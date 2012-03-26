@@ -19,7 +19,8 @@ git submodule update
 Open project in Xilinx EDK or Xilinx ISE
 
 ## Build projects
-All projects contain already implemented result files ready to download.
+All projects contain already implemented result files ready to download.  
+
 * To build ISE projects - Open project for your module type in "Project Navigator"
     and run "Generate Programming File"
 * To build EDK projects - run set_FPGAID_project.bat (where FPGAID is size of FPGA

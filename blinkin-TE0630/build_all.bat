@@ -5,7 +5,7 @@ set PATH=%XILINX%\bin\nt;%XILINX%\lib\nt;%PATH%
 
 rem Run 45 version build
 xtclsh blinkin-TE0630-45.tcl rebuild_project
-rem bitgen -intstyle ise -f blinkin.ut blinkin.ncd
+rem bitgen -intstyle ise -f blinkin.ncd
 promgen -w -u 0 blinkin.bit -o TE0630-45.mcs
 promgen -w -p bin -u 0 blinkin.bit -o fpga.bin
 copy blinkin.bit TE0630-45.bit
@@ -29,7 +29,6 @@ rem Clean
 
 rem Run 75 version build
 xtclsh blinkin-TE0630-75.tcl rebuild_project
-rem bitgen -intstyle ise -f blinkin.ut blinkin.ncd
 promgen -w -u 0 blinkin.bit -o TE0630-75.mcs
 promgen -w -p bin -u 0 blinkin.bit -o fpga.bin
 copy blinkin.bit TE0630-75.bit
@@ -53,7 +52,7 @@ rem Clean
 
 rem Run 100 version build
 xtclsh blinkin-TE0630-100.tcl rebuild_project
-rem bitgen -intstyle ise -f blinkin.ut blinkin.ncd
+rem bitgen -intstyle ise -f blinkin.ncd
 promgen -w -u 0 blinkin.bit -o TE0630-100.mcs
 promgen -w -p bin -u 0 blinkin.bit -o fpga.bin
 copy blinkin.bit TE0630-100.bit
@@ -77,7 +76,7 @@ rem Clean
 
 rem Run 150 version build
 xtclsh blinkin-TE0630-150.tcl rebuild_project
-rem bitgen -intstyle ise -f blinkin.ut blinkin.ncd
+rem bitgen -intstyle ise -f blinkin.ncd
 promgen -w -u 0 blinkin.bit -o TE0630-150.mcs
 promgen -w -p bin -u 0 blinkin.bit -o fpga.bin
 copy blinkin.bit TE0630-150.bit
@@ -100,4 +99,6 @@ rem Clean
 @del /F /q blinkin_summary.html blinkin_guide.ncd
 
 @del /F /q blinkin_summary.html par_usage_statistics.html
+
+pause
 

@@ -13,6 +13,8 @@ make -f system.make init_bram
 copy /y implementation\system.bit system_lx45.bit
 copy /y implementation\system_bd.bmm system_bd_lx45.bmm
 copy /y implementation\download.bit download_lx45.bit
+promgen -w -u 0 download_lx45.bit -o system_lx45.mcs
+rm system_lx45.prm system_lx45.cfi
 @rem Clean project
 make -f system.make hwclean
 
@@ -28,6 +30,8 @@ make -f system.make init_bram
 copy /y implementation\system.bit system_lx75.bit
 copy /y implementation\system_bd.bmm system_bd_lx75.bmm
 copy /y implementation\download.bit download_lx75.bit
+promgen -w -u 0 download_lx75.bit -o system_lx75.mcs
+rm system_lx75.prm system_lx75.cfi
 @rem Clean project
 make -f system.make hwclean
 
@@ -42,6 +46,8 @@ make -f system.make init_bram
 copy /y implementation\system.bit system_lx100.bit
 copy /y implementation\system_bd.bmm system_bd_lx100.bmm
 copy /y implementation\download.bit download_lx100.bit
+promgen -w -u 0 download_lx100.bit -o system_lx100.mcs
+rm system_lx100.prm system_lx100.cfi
 @rem Clean project
 make -f system.make hwclean
 
@@ -56,6 +62,8 @@ make -f system.make init_bram
 copy /y implementation\system.bit system_lx150.bit
 copy /y implementation\system_bd.bmm system_bd_lx150.bmm
 copy /y implementation\download.bit download_lx150.bit
+promgen -w -u 0 download_lx150.bit -o system_lx150.mcs
+rm system_lx150.prm system_lx150.cfi
 @rem Clean project
 make -f system.make hwclean
 @rem Remove logs
@@ -101,3 +109,5 @@ move TE0630-150.zip TE0630-150.fwu
 @rem Remove files
 @del usb.bin 
 @del Bootload.ini
+
+pause

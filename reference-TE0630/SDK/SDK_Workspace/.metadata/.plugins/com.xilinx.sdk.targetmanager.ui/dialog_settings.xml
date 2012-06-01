@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<section name="Workbench">
-	<item value="D:\Projekti\Trenz\TE0630\EDK\reference-TE0630-00-EDK-13-2\SDK\SDK_Export\hw\system_bd.bmm" key="reference-TE0630-00-EDK-13-2_hw_platform-bmmFile"/>
-	<item value="D:\Projekti\Trenz\TE0630\EDK\reference-TE0630-00-EDK-13-2\SDK\SDK_Workspace\demo\Release\demo.elf" key="reference-TE0630-00-EDK-13-2_hw_platform-microblaze_0-initElf"/>
-	<item value="D:\Projekti\Trenz\TE0630\EDK\reference-TE0630-00-EDK-13-2\SDK\SDK_Export\hw\system.bit" key="reference-TE0630-00-EDK-13-2_hw_platform-bitFile"/>
-</section>

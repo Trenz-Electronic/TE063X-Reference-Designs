@@ -1,2 +1,0 @@
-Demo DMA transfer application.
-

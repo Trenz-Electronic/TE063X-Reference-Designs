@@ -38,7 +38,7 @@ PPC440_BOOTLOOP = $(XILINX_EDK_DIR)/sw/lib/ppc440/ppc440_bootloop.elf
 BOOTLOOP_DIR = bootloops
 
 MICROBLAZE_0_BOOTLOOP = $(BOOTLOOP_DIR)/microblaze_0.elf
-MICROBLAZE_0_ELF_IMP = SDK/SDK_Workspace/demo/Release/demo.elf
+MICROBLAZE_0_ELF_IMP = sw/demo.elf
 
 BRAMINIT_ELF_IMP_FILES = $(MICROBLAZE_0_ELF_IMP)
 BRAMINIT_ELF_IMP_FILE_ARGS = -pe microblaze_0 $(MICROBLAZE_0_ELF_IMP)
@@ -46,20 +46,35 @@ BRAMINIT_ELF_IMP_FILE_ARGS = -pe microblaze_0 $(MICROBLAZE_0_ELF_IMP)
 BRAMINIT_ELF_SIM_FILES = $(MICROBLAZE_0_BOOTLOOP)
 BRAMINIT_ELF_SIM_FILE_ARGS = -pe microblaze_0 $(MICROBLAZE_0_BOOTLOOP)
 
-SIM_CMD = isim_system
+SIM_CMD = vsim
 
-BEHAVIORAL_SIM_SCRIPT = simulation/behavioral/$(SYSTEM)_setup.tcl
+BEHAVIORAL_SIM_SCRIPT = simulation/behavioral/$(SYSTEM)_setup.do
 
-STRUCTURAL_SIM_SCRIPT = simulation/structural/$(SYSTEM)_setup.tcl
+STRUCTURAL_SIM_SCRIPT = simulation/structural/$(SYSTEM)_setup.do
 
-TIMING_SIM_SCRIPT = simulation/timing/$(SYSTEM)_setup.tcl
+TIMING_SIM_SCRIPT = simulation/timing/$(SYSTEM)_setup.do
 
 DEFAULT_SIM_SCRIPT = $(BEHAVIORAL_SIM_SCRIPT)
 
-SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_SIM_FILE_ARGS) -msg __xps/ise/xmsgprops.lst -s isim
+SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_SIM_FILE_ARGS) -msg __xps/ise/xmsgprops.lst -s mgm -X C:/Projects/Trenz/repos/TE063X-Reference-Designs/reference-TE0630/
 
 
-CORE_STATE_DEVELOPMENT_FILES = 
+CORE_STATE_DEVELOPMENT_FILES = C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/proc_common_pkg.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/ipif_pkg.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/or_muxcy.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/or_gate128.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/family_support.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/pselect_f.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/counter_f.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/soft_reset.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_01_a/hdl/vhdl/plb_address_decoder.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_01_a/hdl/vhdl/plb_slave_attachment.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_01_a/hdl/vhdl/plbv46_slave_single.vhd \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/interrupt_control_v2_01_a/hdl/vhdl/interrupt_control.vhd \
+C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP/MyProcessorIPLib/pcores/xps_fx2_v1_50_b/hdl/vhdl/fx2_core.vhd \
+C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP/MyProcessorIPLib/pcores/xps_fx2_v1_50_b/hdl/vhdl/fx2_engine.vhd \
+C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP/MyProcessorIPLib/pcores/xps_fx2_v1_50_b/hdl/vhdl/user_logic.vhd \
+C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP/MyProcessorIPLib/pcores/xps_fx2_v1_50_b/hdl/vhdl/xps_fx2.vhd
 
 WRAPPER_NGC_FILES = implementation/microblaze_0_wrapper.ngc \
 implementation/mb_plb_wrapper.ngc \

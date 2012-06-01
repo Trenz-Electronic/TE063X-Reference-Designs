@@ -21,22 +21,22 @@ ADDRESS_MAP microblaze_0 MICROBLAZE 100
 
     ADDRESS_SPACE lmb_bram_combined RAMB16 [0x00000000:0x00007FFF]
         BUS_BLOCK
-            lmb_bram/lmb_bram/ramb16bwer_0 [31:30] INPUT = lmb_bram_combined_0.mem PLACED = X0Y46;
-            lmb_bram/lmb_bram/ramb16bwer_1 [29:28] INPUT = lmb_bram_combined_1.mem PLACED = X1Y48;
-            lmb_bram/lmb_bram/ramb16bwer_2 [27:26] INPUT = lmb_bram_combined_2.mem PLACED = X0Y48;
-            lmb_bram/lmb_bram/ramb16bwer_3 [25:24] INPUT = lmb_bram_combined_3.mem PLACED = X0Y52;
-            lmb_bram/lmb_bram/ramb16bwer_4 [23:22] INPUT = lmb_bram_combined_4.mem PLACED = X0Y50;
-            lmb_bram/lmb_bram/ramb16bwer_5 [21:20] INPUT = lmb_bram_combined_5.mem PLACED = X1Y54;
-            lmb_bram/lmb_bram/ramb16bwer_6 [19:18] INPUT = lmb_bram_combined_6.mem PLACED = X1Y50;
-            lmb_bram/lmb_bram/ramb16bwer_7 [17:16] INPUT = lmb_bram_combined_7.mem PLACED = X0Y54;
-            lmb_bram/lmb_bram/ramb16bwer_8 [15:14] INPUT = lmb_bram_combined_8.mem PLACED = X1Y56;
+            lmb_bram/lmb_bram/ramb16bwer_0 [31:30] INPUT = lmb_bram_combined_0.mem PLACED = X1Y46;
+            lmb_bram/lmb_bram/ramb16bwer_1 [29:28] INPUT = lmb_bram_combined_1.mem PLACED = X0Y46;
+            lmb_bram/lmb_bram/ramb16bwer_2 [27:26] INPUT = lmb_bram_combined_2.mem PLACED = X1Y44;
+            lmb_bram/lmb_bram/ramb16bwer_3 [25:24] INPUT = lmb_bram_combined_3.mem PLACED = X1Y48;
+            lmb_bram/lmb_bram/ramb16bwer_4 [23:22] INPUT = lmb_bram_combined_4.mem PLACED = X0Y52;
+            lmb_bram/lmb_bram/ramb16bwer_5 [21:20] INPUT = lmb_bram_combined_5.mem PLACED = X0Y54;
+            lmb_bram/lmb_bram/ramb16bwer_6 [19:18] INPUT = lmb_bram_combined_6.mem PLACED = X0Y50;
+            lmb_bram/lmb_bram/ramb16bwer_7 [17:16] INPUT = lmb_bram_combined_7.mem PLACED = X0Y48;
+            lmb_bram/lmb_bram/ramb16bwer_8 [15:14] INPUT = lmb_bram_combined_8.mem PLACED = X1Y54;
             lmb_bram/lmb_bram/ramb16bwer_9 [13:12] INPUT = lmb_bram_combined_9.mem PLACED = X1Y52;
-            lmb_bram/lmb_bram/ramb16bwer_10 [11:10] INPUT = lmb_bram_combined_10.mem PLACED = X1Y44;
-            lmb_bram/lmb_bram/ramb16bwer_11 [9:8] INPUT = lmb_bram_combined_11.mem PLACED = X1Y46;
-            lmb_bram/lmb_bram/ramb16bwer_12 [7:6] INPUT = lmb_bram_combined_12.mem PLACED = X2Y50;
-            lmb_bram/lmb_bram/ramb16bwer_13 [5:4] INPUT = lmb_bram_combined_13.mem PLACED = X3Y54;
-            lmb_bram/lmb_bram/ramb16bwer_14 [3:2] INPUT = lmb_bram_combined_14.mem PLACED = X2Y54;
-            lmb_bram/lmb_bram/ramb16bwer_15 [1:0] INPUT = lmb_bram_combined_15.mem PLACED = X2Y52;
+            lmb_bram/lmb_bram/ramb16bwer_10 [11:10] INPUT = lmb_bram_combined_10.mem PLACED = X1Y50;
+            lmb_bram/lmb_bram/ramb16bwer_11 [9:8] INPUT = lmb_bram_combined_11.mem PLACED = X2Y50;
+            lmb_bram/lmb_bram/ramb16bwer_12 [7:6] INPUT = lmb_bram_combined_12.mem PLACED = X2Y52;
+            lmb_bram/lmb_bram/ramb16bwer_13 [5:4] INPUT = lmb_bram_combined_13.mem PLACED = X3Y52;
+            lmb_bram/lmb_bram/ramb16bwer_14 [3:2] INPUT = lmb_bram_combined_14.mem PLACED = X3Y54;
+            lmb_bram/lmb_bram/ramb16bwer_15 [1:0] INPUT = lmb_bram_combined_15.mem PLACED = X3Y56;
         END_BUS_BLOCK;
     END_ADDRESS_SPACE;
 

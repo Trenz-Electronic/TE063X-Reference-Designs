@@ -13,8 +13,6 @@ make -f system.make init_bram
 copy /y implementation\system.bit system_lx45.bit
 copy /y implementation\system_bd.bmm system_bd_lx45.bmm
 copy /y implementation\download.bit download_lx45.bit
-promgen -w -u 0 download_lx45.bit -o system_lx45.mcs
-rm system_lx45.prm system_lx45.cfi
 @rem Clean project
 make -f system.make hwclean
 
@@ -30,8 +28,6 @@ make -f system.make init_bram
 copy /y implementation\system.bit system_lx75.bit
 copy /y implementation\system_bd.bmm system_bd_lx75.bmm
 copy /y implementation\download.bit download_lx75.bit
-promgen -w -u 0 download_lx75.bit -o system_lx75.mcs
-rm system_lx75.prm system_lx75.cfi
 @rem Clean project
 make -f system.make hwclean
 
@@ -46,8 +42,6 @@ make -f system.make init_bram
 copy /y implementation\system.bit system_lx100.bit
 copy /y implementation\system_bd.bmm system_bd_lx100.bmm
 copy /y implementation\download.bit download_lx100.bit
-promgen -w -u 0 download_lx100.bit -o system_lx100.mcs
-rm system_lx100.prm system_lx100.cfi
 @rem Clean project
 make -f system.make hwclean
 
@@ -62,8 +56,6 @@ make -f system.make init_bram
 copy /y implementation\system.bit system_lx150.bit
 copy /y implementation\system_bd.bmm system_bd_lx150.bmm
 copy /y implementation\download.bit download_lx150.bit
-promgen -w -u 0 download_lx150.bit -o system_lx150.mcs
-rm system_lx150.prm system_lx150.cfi
 @rem Clean project
 make -f system.make hwclean
 @rem Remove logs
@@ -75,39 +67,56 @@ set XILINX=C:\Xilinx\13.2\ISE_DS\ISE
 set XILINX_DSP=%XILINX%
 set PATH=%XILINX%\bin\nt;%XILINX%\lib\nt;%PATH%
 @rem Copy needed files
-copy PREPARE_FWU\bin\usb.bin .\
-copy PREPARE_FWU\bin\Bootload.ini .\
+@copy PREPARE_FWU\bin\usb.bin .\
+@copy PREPARE_FWU\bin\Bootload.ini .\
 
 @rem Generate FWU for LX45
-promgen -w -p bin -u 0 download_lx45.bit -o fpga.bin
-zip -q TE0630-45.zip fpga.bin Bootload.ini usb.bin
-move TE0630-45.zip TE0630-45.fwu
+@copy download_lx45.bit fpga.bit
+@impact -batch etc\bit2bin.cmd
+@move fpga.bin TE0630-LX45.bin
+@impact -batch etc\bit2mcs.cmd
+@move fpga.mcs TE0630-LX45.mcs
+@zip -q TE0630-LX45.zip fpga.bin Bootload.ini usb.bin
+@move TE0630-LX45.zip TE0630-LX45.fwu
 @rem Remove logs
-@del fpga.bin fpga.prm fpga.cfi
+@del fpga.bin fpga.prm fpga.cfi fpga.bit fpga.sig
 
 @rem Generate FWU for LX75
-promgen -w -p bin -u 0 download_lx75.bit -o fpga.bin
-zip -q TE0630-75.zip fpga.bin Bootload.ini usb.bin
-move TE0630-75.zip TE0630-75.fwu
+@copy download_lx75.bit fpga.bit
+@impact -batch etc\bit2bin.cmd
+@move fpga.bin TE0630-LX75.bin
+@impact -batch etc\bit2mcs.cmd
+@move fpga.mcs TE0630-LX75.mcs
+@zip -q TE0630-LX75.zip fpga.bin Bootload.ini usb.bin
+@move TE0630-LX75.zip TE0630-LX75.fwu
 @rem Remove logs
-@del fpga.bin fpga.prm fpga.cfi
+@del fpga.bin fpga.prm fpga.cfi fpga.bit fpga.sig
 
 @rem Generate FWU for LX100
-promgen -w -p bin -u 0 download_lx100.bit -o fpga.bin
-zip -q TE0630-100.zip fpga.bin Bootload.ini usb.bin
-move TE0630-100.zip TE0630-100.fwu
+@copy download_lx100.bit fpga.bit
+@impact -batch etc\bit2bin.cmd
+@move fpga.bin TE0630-LX100.bin
+@impact -batch etc\bit2mcs.cmd
+@move fpga.mcs TE0630-LX100.mcs
+@zip -q TE0630-LX100.zip fpga.bin Bootload.ini usb.bin
+@move TE0630-LX100.zip TE0630-LX100.fwu
 @rem Remove logs
-@del fpga.bin fpga.prm fpga.cfi
+@del fpga.bin fpga.prm fpga.cfi fpga.bit fpga.sig
 
 @rem Generate FWU for LX150
-promgen -w -p bin -u 0 download_lx150.bit -o fpga.bin
-zip -q TE0630-150.zip fpga.bin Bootload.ini usb.bin
-move TE0630-150.zip TE0630-150.fwu
+@copy download_lx150.bit fpga.bit
+@promgen -w -p bin -u 0 fpga.bit -o TE0630-LX150.bin
+del TE0630-LX150.cfi TE0630-LX150.prm
+@impact -batch etc\bit2mcs.cmd
+@move fpga.mcs TE0630-LX150.mcs
+@zip -q TE0630-LX150.zip fpga.bin Bootload.ini usb.bin
+@move TE0630-LX150.zip TE0630-LX150.fwu
 @rem Remove logs
-@del fpga.bin fpga.prm fpga.cfi
+@del fpga.prm fpga.cfi fpga.bit fpga.sig
 
 @rem Remove files
 @del usb.bin 
 @del Bootload.ini
+@del _impactbatch.log
 
 pause

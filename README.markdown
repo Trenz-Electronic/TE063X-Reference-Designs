@@ -33,3 +33,4 @@ All projects contain already implemented result files ready to download.
 * reference-TE0630 - EDK project with Microblaze processor, which show how to
 	use FX2 USB interface at TE0630 module
 * TE-EDK-IP - subproject which contain cores used in reference projects
+* vcom-TE0630 - Virtual COM port example project for TE0630 module

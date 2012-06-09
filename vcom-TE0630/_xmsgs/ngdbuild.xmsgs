@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated
+     by the Xilinx ISE software.  Any direct editing or
+     changes made to this file may result in unpredictable
+     behavior or data corruption.  It is strongly advised that
+     users do not edit the contents of this file. -->
+<messages>
+<msg type="info" file="ConstraintSystem" num="0" >The Period constraint &lt;PERIOD = 10000 ps;&gt; [src/te0630.ucf(22)], is specified using the Net Period method which is not recommended. Please use the Timespec PERIOD method.
+</msg>
+
+<msg type="info" file="ConstraintSystem" num="0" >The Period constraint &lt;PERIOD = 20833 ps;&gt; [src/te0630.ucf(46)], is specified using the Net Period method which is not recommended. Please use the Timespec PERIOD method.
+</msg>
+
+<msg type="warning" file="ConstraintSystem" num="0" >The Offset constraint &lt;TIMEGRP &quot;USB_DATA_IN&quot; 		OFFSET =  IN   9   ns BEFORE &quot;USB_IFCLK_pin&quot; TIMEGRP &quot;USB_DATA_IN&quot; RISING;&gt; [src/te0630.ucf(33)], is specified without a duration.  This will result in a lack of hold time checks in timing reports.  If hold time checks are desired a duration value should be specified following the &apos;VALID&apos; keyword.
+</msg>
+
+<msg type="warning" file="ConstraintSystem" num="0" >The Offset constraint &lt;NET &quot;USB_FLAGA_pin&quot; 		OFFSET =  IN  10   ns BEFORE &quot;USB_IFCLK_pin&quot; RISING;&gt; [src/te0630.ucf(35)], is specified without a duration.  This will result in a lack of hold time checks in timing reports.  If hold time checks are desired a duration value should be specified following the &apos;VALID&apos; keyword.
+</msg>
+
+<msg type="warning" file="ConstraintSystem" num="0" >The Offset constraint &lt;NET &quot;USB_FLAGB_pin&quot; 		OFFSET =  IN  10   ns BEFORE &quot;USB_IFCLK_pin&quot; RISING;&gt; [src/te0630.ucf(36)], is specified without a duration.  This will result in a lack of hold time checks in timing reports.  If hold time checks are desired a duration value should be specified following the &apos;VALID&apos; keyword.
+</msg>
+
+<msg type="warning" file="ConstraintSystem" num="0" >The Offset constraint &lt;NET &quot;USB_FLAGC_pin&quot; 		OFFSET =  IN  10   ns BEFORE &quot;USB_IFCLK_pin&quot; RISING;&gt; [src/te0630.ucf(37)], is specified without a duration.  This will result in a lack of hold time checks in timing reports.  If hold time checks are desired a duration value should be specified following the &apos;VALID&apos; keyword.
+</msg>
+
+<msg type="warning" file="ConstraintSystem" num="0" >The Offset constraint &lt;NET &quot;USB_FLAGD_pin&quot; 		OFFSET =  IN  10   ns BEFORE &quot;USB_IFCLK_pin&quot; RISING;&gt; [src/te0630.ucf(38)], is specified without a duration.  This will result in a lack of hold time checks in timing reports.  If hold time checks are desired a duration value should be specified following the &apos;VALID&apos; keyword.
+</msg>
+
+</messages>
+

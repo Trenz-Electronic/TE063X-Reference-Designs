@@ -1,0 +1,64 @@
+################################################################################
+# Copyright (C) 2012 Trenz Electronic
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a 
+# copy of this software and associated documentation files (the "Software"), 
+# to deal in the Software without restriction, including without limitation 
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+# and/or sell copies of the Software, and to permit persons to whom the 
+# Software is furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included 
+# in all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
+# IN THE SOFTWARE.
+################################################################################
+NET sys_clk LOC=AA12 | IOSTANDARD = LVCMOS33  | PERIOD = 10000 ps;
+NET sys_rst LOC=R7 | IOSTANDARD = LVCMOS33 | PULLDOWN | TIG;
+
+NET LED<0> LOC=K8  | IOSTANDARD = LVCMOS33;
+NET LED<1> LOC=F2  | IOSTANDARD = LVCMOS33;
+NET LED<2> LOC=F1  | IOSTANDARD = LVCMOS33;
+NET LED<3> LOC=J4  | IOSTANDARD = LVCMOS33;
+
+
+# FX2 timing constrains
+INST "USB_FD_pin<*>" 		TNM = USB_DATA_IN;
+TIMEGRP "USB_DATA_IN" 		OFFSET =  IN   9   ns BEFORE "USB_IFCLK_pin" TIMEGRP "USB_DATA_IN" RISING;
+TIMEGRP "USB_DATA_IN" 		OFFSET = OUT  10   ns AFTER  "USB_IFCLK_pin" TIMEGRP "USB_DATA_IN" RISING;
+NET "USB_FLAGA_pin" 		OFFSET =  IN  10   ns BEFORE "USB_IFCLK_pin" RISING;
+NET "USB_FLAGB_pin" 		OFFSET =  IN  10   ns BEFORE "USB_IFCLK_pin" RISING;
+NET "USB_FLAGC_pin" 		OFFSET =  IN  10   ns BEFORE "USB_IFCLK_pin" RISING;
+NET "USB_FLAGD_pin" 		OFFSET =  IN  10   ns BEFORE "USB_IFCLK_pin" RISING;
+NET "USB_SLWR_pin" 			OFFSET = OUT  10   ns AFTER  "USB_IFCLK_pin" RISING;
+NET "USB_SLRD_pin" 			OFFSET = OUT  10   ns AFTER  "USB_IFCLK_pin" RISING;
+NET "USB_SLOE_pin" 			OFFSET = OUT  10   ns AFTER  "USB_IFCLK_pin" RISING;
+NET "USB_PKTEND_pin" 		OFFSET = OUT  10   ns AFTER  "USB_IFCLK_pin" RISING;
+NET "USB_FIFOADR_pin<0>"	OFFSET = OUT  10   ns AFTER  "USB_IFCLK_pin" RISING;
+NET "USB_FIFOADR_pin<1>"	OFFSET = OUT  10   ns AFTER  "USB_IFCLK_pin" RISING;
+
+NET  USB_IFCLK_pin        	LOC = N4  | IOSTANDARD = LVCMOS33 | PERIOD = 20833 ps;
+NET  USB_SLRD_pin         	LOC = M4  | IOSTANDARD = LVCMOS33;
+NET  USB_SLWR_pin         	LOC = M3  | IOSTANDARD = LVCMOS33;
+NET  USB_FLAGA_pin        	LOC = F3  | IOSTANDARD = LVCMOS33;
+NET  USB_FLAGB_pin        	LOC = E1  | IOSTANDARD = LVCMOS33;
+NET  USB_FLAGC_pin        	LOC = E3  | IOSTANDARD = LVCMOS33;
+NET  USB_FLAGD_pin        	LOC = A2  | IOSTANDARD = LVCMOS33;
+NET  USB_SLOE_pin        	LOC = C1  | IOSTANDARD = LVCMOS33;
+NET  USB_PKTEND_pin        	LOC = B2  | IOSTANDARD = LVCMOS33;
+NET  USB_FIFOADR_pin<0>    	LOC = B1  | IOSTANDARD = LVCMOS33;
+NET  USB_FIFOADR_pin<1>    	LOC = C3  | IOSTANDARD = LVCMOS33;
+NET  USB_FD_pin<0>        	LOC = J6  | IOSTANDARD = LVCMOS33;
+NET  USB_FD_pin<1>        	LOC = H8  | IOSTANDARD = LVCMOS33;
+NET  USB_FD_pin<2>        	LOC = H5  | IOSTANDARD = LVCMOS33;
+NET  USB_FD_pin<3>        	LOC = H6  | IOSTANDARD = LVCMOS33;
+NET  USB_FD_pin<4>        	LOC = G7  | IOSTANDARD = LVCMOS33;
+NET  USB_FD_pin<5>        	LOC = G8  | IOSTANDARD = LVCMOS33;
+NET  USB_FD_pin<6>        	LOC = F8  | IOSTANDARD = LVCMOS33;
+NET  USB_FD_pin<7>        	LOC = A3  | IOSTANDARD = LVCMOS33;

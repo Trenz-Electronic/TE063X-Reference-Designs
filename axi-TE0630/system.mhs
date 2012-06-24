@@ -1,0 +1,292 @@
+
+# ##############################################################################
+# Created by Base System Builder Wizard for Xilinx EDK 13.2 Build EDK_O.61xd
+# Fri Jun 22 22:24:45 2012
+# Target Board:  Custom
+# Family:    spartan6
+# Device:    xc6slx45
+# Package:   csg484
+# Speed Grade:  -2
+# ##############################################################################
+ PARAMETER VERSION = 2.1.0
+
+
+ PORT SPI_FLASH_SS = SPI_FLASH_SS, DIR = IO
+ PORT SPI_FLASH_SCK = SPI_FLASH_SCLK, DIR = IO
+ PORT SPI_FLASH_MOSI = SPI_FLASH_MOSI, DIR = IO
+ PORT SPI_FLASH_MISO = SPI_FLASH_MISO, DIR = IO
+ PORT RS232_TX = RS232_Uart_1_sout, DIR = O
+ PORT RS232_RX = RS232_Uart_1_sin, DIR = I
+ PORT sys_rst_pin = RESET, DIR = I, SIGIS = RST, RST_POLARITY = 1
+ PORT MCB_DDR3_zio = MCB_DDR3_zio, DIR = IO
+ PORT MCB_DDR3_rzq = MCB_DDR3_rzq, DIR = IO
+ PORT MCB_DDR3_dram_we_n = MCB_DDR3_dram_we_n, DIR = O
+ PORT MCB_DDR3_dram_udqs_n = MCB_DDR3_dram_udqs_n, DIR = IO
+ PORT MCB_DDR3_dram_udqs = MCB_DDR3_dram_udqs, DIR = IO
+ PORT MCB_DDR3_dram_udm = MCB_DDR3_dram_udm, DIR = O
+ PORT MCB_DDR3_dram_ras_n = MCB_DDR3_dram_ras_n, DIR = O
+ PORT MCB_DDR3_dram_odt = MCB_DDR3_dram_odt, DIR = O
+ PORT MCB_DDR3_dram_ldm = MCB_DDR3_dram_ldm, DIR = O
+ PORT MCB_DDR3_dram_dqs_n = MCB_DDR3_dram_dqs_n, DIR = IO
+ PORT MCB_DDR3_dram_dqs = MCB_DDR3_dram_dqs, DIR = IO
+ PORT MCB_DDR3_dram_dq = MCB_DDR3_dram_dq, DIR = IO, VEC = [15:0]
+# PORT MCB_DDR3_dram_ddr3_rst = net_gnd, DIR = O
+ PORT MCB_DDR3_dram_ddr3_rst = MCB_DDR3_dram_ddr3_rst, DIR = O
+ PORT MCB_DDR3_dram_clk_n = MCB_DDR3_dram_clk_n, DIR = O
+ PORT MCB_DDR3_dram_clk = MCB_DDR3_dram_clk, DIR = O
+ PORT MCB_DDR3_dram_cke = MCB_DDR3_dram_cke, DIR = O
+ PORT MCB_DDR3_dram_cas_n = MCB_DDR3_dram_cas_n, DIR = O
+ PORT MCB_DDR3_dram_ba = MCB_DDR3_dram_ba, DIR = O, VEC = [2:0]
+ PORT MCB_DDR3_dram_addr = MCB_DDR3_dram_addr, DIR = O, VEC = [12:0]
+ PORT LED = LEDS_TRI_O, DIR = O, VEC = [0:3]
+# PORT CLK_P = CLK, DIR = I, DIFFERENTIAL_POLARITY = P, SIGIS = CLK, CLK_FREQ = 100000000
+# PORT CLK_N = CLK, DIR = I, DIFFERENTIAL_POLARITY = N, SIGIS = CLK, CLK_FREQ = 100000000
+ PORT sys_clk_pin = CLK, DIR = I, SIGIS = CLK, CLK_FREQ = 100000000
+ PORT I2C_SDA = i2c_sda_s, DIR = IO
+ PORT I2C_SCL = i2c_scl_s, DIR = IO
+
+
+BEGIN proc_sys_reset
+ PARAMETER INSTANCE = proc_sys_reset_0
+ PARAMETER HW_VER = 3.00.a
+ PARAMETER C_EXT_RESET_HIGH = 1
+ PORT MB_Debug_Sys_Rst = proc_sys_reset_0_MB_Debug_Sys_Rst
+ PORT Dcm_locked = proc_sys_reset_0_Dcm_locked
+ PORT MB_Reset = proc_sys_reset_0_MB_Reset
+ PORT Slowest_sync_clk = clk_100_0000MHzPLL0
+ PORT Interconnect_aresetn = proc_sys_reset_0_Interconnect_aresetn
+ PORT Ext_Reset_In = RESET
+ PORT BUS_STRUCT_RESET = proc_sys_reset_0_BUS_STRUCT_RESET
+END
+
+BEGIN axi_intc
+ PARAMETER INSTANCE = microblaze_0_intc
+ PARAMETER HW_VER = 1.01.a
+ PARAMETER C_BASEADDR = 0x41200000
+ PARAMETER C_HIGHADDR = 0x4120ffff
+ BUS_INTERFACE S_AXI = axi4lite_0
+ PORT IRQ = microblaze_0_interrupt
+ PORT S_AXI_ACLK = clk_100_0000MHzPLL0
+ PORT INTR = Generic_IIC_Bus_IIC2INTC_Irpt & Generic_SPI_IP2INTC_Irpt & RS232_Interrupt
+END
+
+BEGIN lmb_v10
+ PARAMETER INSTANCE = microblaze_0_ilmb
+ PARAMETER HW_VER = 2.00.b
+ PORT SYS_RST = proc_sys_reset_0_BUS_STRUCT_RESET
+ PORT LMB_CLK = clk_100_0000MHzPLL0
+END
+
+BEGIN lmb_bram_if_cntlr
+ PARAMETER INSTANCE = microblaze_0_i_bram_ctrl
+ PARAMETER HW_VER = 3.00.b
+ PARAMETER C_BASEADDR = 0x00000000
+ PARAMETER C_HIGHADDR = 0x00001fff
+ BUS_INTERFACE SLMB = microblaze_0_ilmb
+ BUS_INTERFACE BRAM_PORT = microblaze_0_i_bram_ctrl_2_microblaze_0_bram_block
+END
+
+BEGIN lmb_v10
+ PARAMETER INSTANCE = microblaze_0_dlmb
+ PARAMETER HW_VER = 2.00.b
+ PORT SYS_RST = proc_sys_reset_0_BUS_STRUCT_RESET
+ PORT LMB_CLK = clk_100_0000MHzPLL0
+END
+
+BEGIN lmb_bram_if_cntlr
+ PARAMETER INSTANCE = microblaze_0_d_bram_ctrl
+ PARAMETER HW_VER = 3.00.b
+ PARAMETER C_BASEADDR = 0x00000000
+ PARAMETER C_HIGHADDR = 0x00001fff
+ BUS_INTERFACE SLMB = microblaze_0_dlmb
+ BUS_INTERFACE BRAM_PORT = microblaze_0_d_bram_ctrl_2_microblaze_0_bram_block
+END
+
+BEGIN bram_block
+ PARAMETER INSTANCE = microblaze_0_bram_block
+ PARAMETER HW_VER = 1.00.a
+ BUS_INTERFACE PORTA = microblaze_0_i_bram_ctrl_2_microblaze_0_bram_block
+ BUS_INTERFACE PORTB = microblaze_0_d_bram_ctrl_2_microblaze_0_bram_block
+END
+
+BEGIN microblaze
+ PARAMETER INSTANCE = microblaze_0
+ PARAMETER HW_VER = 8.20.a
+ PARAMETER C_INTERCONNECT = 2
+ PARAMETER C_USE_BARREL = 1
+ PARAMETER C_USE_FPU = 0
+ PARAMETER C_DEBUG_ENABLED = 1
+ PARAMETER C_ICACHE_BASEADDR = 0xc0000000
+ PARAMETER C_ICACHE_HIGHADDR = 0xc7ffffff
+ PARAMETER C_USE_ICACHE = 1
+ PARAMETER C_CACHE_BYTE_SIZE = 8192
+ PARAMETER C_ICACHE_ALWAYS_USED = 1
+ PARAMETER C_DCACHE_BASEADDR = 0xc0000000
+ PARAMETER C_DCACHE_HIGHADDR = 0xc7ffffff
+ PARAMETER C_USE_DCACHE = 1
+ PARAMETER C_DCACHE_BYTE_SIZE = 8192
+ PARAMETER C_DCACHE_ALWAYS_USED = 1
+ BUS_INTERFACE ILMB = microblaze_0_ilmb
+ BUS_INTERFACE DLMB = microblaze_0_dlmb
+ BUS_INTERFACE M_AXI_DP = axi4lite_0
+ BUS_INTERFACE M_AXI_DC = axi4_0
+ BUS_INTERFACE M_AXI_IC = axi4_0
+ BUS_INTERFACE DEBUG = microblaze_0_debug
+ PORT MB_RESET = proc_sys_reset_0_MB_Reset
+ PORT CLK = clk_100_0000MHzPLL0
+ PORT INTERRUPT = microblaze_0_interrupt
+END
+
+BEGIN mdm
+ PARAMETER INSTANCE = debug_module
+ PARAMETER HW_VER = 2.00.b
+ PARAMETER C_INTERCONNECT = 2
+ PARAMETER C_USE_UART = 1
+ PARAMETER C_BASEADDR = 0x74800000
+ PARAMETER C_HIGHADDR = 0x7480ffff
+ BUS_INTERFACE S_AXI = axi4lite_0
+ BUS_INTERFACE MBDEBUG_0 = microblaze_0_debug
+ PORT Debug_SYS_Rst = proc_sys_reset_0_MB_Debug_Sys_Rst
+ PORT S_AXI_ACLK = clk_100_0000MHzPLL0
+END
+
+BEGIN clock_generator
+ PARAMETER INSTANCE = clock_generator_0
+ PARAMETER HW_VER = 4.02.a
+ PARAMETER C_CLKIN_FREQ = 100000000
+ PARAMETER C_CLKOUT0_FREQ = 600000000
+ PARAMETER C_CLKOUT0_GROUP = PLL0
+ PARAMETER C_CLKOUT0_BUF = FALSE
+ PARAMETER C_CLKOUT1_FREQ = 600000000
+ PARAMETER C_CLKOUT1_PHASE = 180
+ PARAMETER C_CLKOUT1_GROUP = PLL0
+ PARAMETER C_CLKOUT1_BUF = FALSE
+ PARAMETER C_CLKOUT2_FREQ = 100000000
+ PARAMETER C_CLKOUT2_GROUP = PLL0
+ PORT LOCKED = proc_sys_reset_0_Dcm_locked
+ PORT CLKOUT2 = clk_100_0000MHzPLL0
+ PORT RST = RESET
+ PORT CLKOUT0 = clk_600_0000MHzPLL0_nobuf
+ PORT CLKOUT1 = clk_600_0000MHz180PLL0_nobuf
+ PORT CLKIN = CLK
+END
+
+BEGIN axi_interconnect
+ PARAMETER INSTANCE = axi4lite_0
+ PARAMETER HW_VER = 1.03.a
+ PARAMETER C_INTERCONNECT_CONNECTIVITY_MODE = 0
+ PORT INTERCONNECT_ARESETN = proc_sys_reset_0_Interconnect_aresetn
+ PORT INTERCONNECT_ACLK = clk_100_0000MHzPLL0
+END
+
+BEGIN axi_interconnect
+ PARAMETER INSTANCE = axi4_0
+ PARAMETER HW_VER = 1.03.a
+ PORT interconnect_aclk = clk_100_0000MHzPLL0
+ PORT INTERCONNECT_ARESETN = proc_sys_reset_0_Interconnect_aresetn
+END
+
+BEGIN axi_uartlite
+ PARAMETER INSTANCE = RS232
+ PARAMETER HW_VER = 1.02.a
+ PARAMETER C_BAUDRATE = 115200
+ PARAMETER C_DATA_BITS = 8
+ PARAMETER C_USE_PARITY = 0
+ PARAMETER C_ODD_PARITY = 1
+ PARAMETER C_BASEADDR = 0x40600000
+ PARAMETER C_HIGHADDR = 0x4060ffff
+ BUS_INTERFACE S_AXI = axi4lite_0
+ PORT S_AXI_ACLK = clk_100_0000MHzPLL0
+ PORT TX = RS232_Uart_1_sout
+ PORT RX = RS232_Uart_1_sin
+ PORT Interrupt = RS232_Interrupt
+END
+
+BEGIN axi_s6_ddrx
+ PARAMETER INSTANCE = MCB_DDR3
+ PARAMETER HW_VER = 1.03.a
+ PARAMETER C_MCB_RZQ_LOC = F15
+ PARAMETER C_MCB_ZIO_LOC = F13
+ PARAMETER C_MEM_PARTNO = MT41J64M16XX-187E
+ PARAMETER C_INTERCONNECT_S0_AXI_MASTERS = microblaze_0.M_AXI_DC & microblaze_0.M_AXI_IC
+ PARAMETER C_INTERCONNECT_S0_AXI_AW_REGISTER = 8
+ PARAMETER C_INTERCONNECT_S0_AXI_AR_REGISTER = 8
+ PARAMETER C_INTERCONNECT_S0_AXI_W_REGISTER = 8
+ PARAMETER C_INTERCONNECT_S0_AXI_R_REGISTER = 8
+ PARAMETER C_INTERCONNECT_S0_AXI_B_REGISTER = 8
+ PARAMETER C_S0_AXI_BASEADDR = 0xc0000000
+ PARAMETER C_S0_AXI_HIGHADDR = 0xc7ffffff
+ PARAMETER C_MCB_LOC = MEMC1
+ PARAMETER C_MCB_PERFORMANCE = EXTENDED
+ PARAMETER C_S0_AXI_STRICT_COHERENCY = 0
+ BUS_INTERFACE S0_AXI = axi4_0
+ PORT s0_axi_aclk = clk_100_0000MHzPLL0
+ PORT ui_clk = clk_100_0000MHzPLL0
+ PORT zio = MCB_DDR3_zio
+ PORT sysclk_2x = clk_600_0000MHzPLL0_nobuf
+ PORT sysclk_2x_180 = clk_600_0000MHz180PLL0_nobuf
+ PORT rzq = MCB_DDR3_rzq
+ PORT mcbx_dram_we_n = MCB_DDR3_dram_we_n
+ PORT mcbx_dram_udqs_n = MCB_DDR3_dram_udqs_n
+ PORT mcbx_dram_udqs = MCB_DDR3_dram_udqs
+ PORT mcbx_dram_udm = MCB_DDR3_dram_udm
+ PORT mcbx_dram_ras_n = MCB_DDR3_dram_ras_n
+ PORT mcbx_dram_odt = MCB_DDR3_dram_odt
+ PORT mcbx_dram_ldm = MCB_DDR3_dram_ldm
+ PORT mcbx_dram_dqs_n = MCB_DDR3_dram_dqs_n
+ PORT mcbx_dram_dqs = MCB_DDR3_dram_dqs
+ PORT mcbx_dram_dq = MCB_DDR3_dram_dq
+ PORT mcbx_dram_clk_n = MCB_DDR3_dram_clk_n
+ PORT mcbx_dram_clk = MCB_DDR3_dram_clk
+ PORT mcbx_dram_cke = MCB_DDR3_dram_cke
+ PORT mcbx_dram_cas_n = MCB_DDR3_dram_cas_n
+ PORT mcbx_dram_ba = MCB_DDR3_dram_ba
+ PORT mcbx_dram_addr = MCB_DDR3_dram_addr
+ PORT mcbx_dram_ddr3_rst = MCB_DDR3_dram_ddr3_rst
+ PORT SYS_RST = proc_sys_reset_0_BUS_STRUCT_RESET
+ PORT PLL_LOCK = proc_sys_reset_0_Dcm_locked
+END
+
+BEGIN axi_gpio
+ PARAMETER INSTANCE = LEDS
+ PARAMETER HW_VER = 1.01.a
+ PARAMETER C_GPIO_WIDTH = 4
+ PARAMETER C_ALL_INPUTS = 0
+ PARAMETER C_INTERRUPT_PRESENT = 0
+ PARAMETER C_IS_DUAL = 0
+ PARAMETER C_BASEADDR = 0x40000000
+ PARAMETER C_HIGHADDR = 0x4000ffff
+ BUS_INTERFACE S_AXI = axi4lite_0
+ PORT S_AXI_ACLK = clk_100_0000MHzPLL0
+ PORT GPIO_IO_O = LEDS_TRI_O
+END
+
+BEGIN axi_spi
+ PARAMETER INSTANCE = Generic_SPI
+ PARAMETER HW_VER = 1.01.a
+ PARAMETER C_BASEADDR = 0x40a00000
+ PARAMETER C_HIGHADDR = 0x40a0ffff
+ BUS_INTERFACE S_AXI = axi4lite_0
+ PORT S_AXI_ACLK = clk_100_0000MHzPLL0
+ PORT SS = SPI_FLASH_SS
+ PORT SCK = SPI_FLASH_SCLK
+ PORT MOSI = SPI_FLASH_MOSI
+ PORT MISO = SPI_FLASH_MISO
+ PORT SPISEL = net_vcc
+ PORT IP2INTC_Irpt = Generic_SPI_IP2INTC_Irpt
+END
+
+BEGIN axi_iic
+ PARAMETER INSTANCE = Generic_IIC_Bus
+ PARAMETER HW_VER = 1.01.a
+ PARAMETER C_IIC_FREQ = 100000
+ PARAMETER C_TEN_BIT_ADR = 0
+ PARAMETER C_BASEADDR = 0x40800000
+ PARAMETER C_HIGHADDR = 0x4080ffff
+ BUS_INTERFACE S_AXI = axi4lite_0
+ PORT S_AXI_ACLK = clk_100_0000MHzPLL0
+ PORT IIC2INTC_Irpt = Generic_IIC_Bus_IIC2INTC_Irpt
+ PORT Sda = i2c_sda_s
+ PORT Scl = i2c_scl_s
+END
+

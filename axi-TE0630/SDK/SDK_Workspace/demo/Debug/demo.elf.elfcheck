@@ -1,0 +1,9 @@
+elfcheck
+Xilinx EDK 13.2 Build EDK_O.61xd
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+
+Command Line: elfcheck -hw ../../axi-TE0630_hw_platform/system.xml -pe
+microblaze_0 demo.elf 
+
+ELF file	: demo.elf
+elfcheck passed.

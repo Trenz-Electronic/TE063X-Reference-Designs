@@ -173,6 +173,14 @@
 
 /******************************************************************/
 
+
+/* Definitions for peripheral AXI_FX2_0 */
+#define XPAR_AXI_FX2_0_BASEADDR 0x7EE00000
+#define XPAR_AXI_FX2_0_HIGHADDR 0x7EE0FFFF
+
+
+/******************************************************************/
+
 /* Definitions for driver BRAM */
 #define XPAR_XBRAM_NUM_INSTANCES 2
 
@@ -189,7 +197,7 @@
 #define XPAR_MICROBLAZE_0_D_BRAM_CTRL_ECC_ONOFF_RESET_VALUE 1
 #define XPAR_MICROBLAZE_0_D_BRAM_CTRL_WRITE_ACCESS 2
 #define XPAR_MICROBLAZE_0_D_BRAM_CTRL_BASEADDR 0x00000000
-#define XPAR_MICROBLAZE_0_D_BRAM_CTRL_HIGHADDR 0x00001FFF
+#define XPAR_MICROBLAZE_0_D_BRAM_CTRL_HIGHADDR 0x00007FFF
 
 
 /* Definitions for peripheral MICROBLAZE_0_I_BRAM_CTRL */
@@ -205,7 +213,7 @@
 #define XPAR_MICROBLAZE_0_I_BRAM_CTRL_ECC_ONOFF_RESET_VALUE 1
 #define XPAR_MICROBLAZE_0_I_BRAM_CTRL_WRITE_ACCESS 2
 #define XPAR_MICROBLAZE_0_I_BRAM_CTRL_BASEADDR 0x00000000
-#define XPAR_MICROBLAZE_0_I_BRAM_CTRL_HIGHADDR 0x00001FFF
+#define XPAR_MICROBLAZE_0_I_BRAM_CTRL_HIGHADDR 0x00007FFF
 
 
 /******************************************************************/
@@ -223,7 +231,7 @@
 #define XPAR_BRAM_0_ECC_ONOFF_RESET_VALUE 1
 #define XPAR_BRAM_0_WRITE_ACCESS 2
 #define XPAR_BRAM_0_BASEADDR 0x00000000
-#define XPAR_BRAM_0_HIGHADDR 0x00001FFF
+#define XPAR_BRAM_0_HIGHADDR 0x00007FFF
 
 /* Canonical definitions for peripheral MICROBLAZE_0_I_BRAM_CTRL */
 #define XPAR_BRAM_1_DEVICE_ID XPAR_MICROBLAZE_0_I_BRAM_CTRL_DEVICE_ID
@@ -238,7 +246,7 @@
 #define XPAR_BRAM_1_ECC_ONOFF_RESET_VALUE 1
 #define XPAR_BRAM_1_WRITE_ACCESS 2
 #define XPAR_BRAM_1_BASEADDR 0x00000000
-#define XPAR_BRAM_1_HIGHADDR 0x00001FFF
+#define XPAR_BRAM_1_HIGHADDR 0x00007FFF
 
 
 /******************************************************************/

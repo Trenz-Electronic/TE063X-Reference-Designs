@@ -1,0 +1,11 @@
+-batch 
+-create axi_fx2 
+-ver 1.00.a 
+-dir "C:\Projects\Trenz\repos\TE063X-Reference-Designs\axi-TE0630" 
+-lang vhdl 
+-bus axi4lite s 
+-rst 
+-reg 8 
+-xps 
+-bfmsim all
+-driver 

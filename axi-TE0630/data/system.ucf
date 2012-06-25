@@ -60,6 +60,7 @@ NET SPI_FLASH_SS			 	LOC=AB5		| IOSTANDARD = LVCMOS33;
 # I2C connections
 NET I2C_SCL	        			LOC = H3	| IOSTANDARD = LVCMOS33;
 NET I2C_SDA	        			LOC = H4	| IOSTANDARD = LVCMOS33;
+NET USB_INT0	        		LOC = D1	| IOSTANDARD = LVCMOS33;
 #================================================
 # EZ-USB FX2 Interface
 #================================================
@@ -80,7 +81,6 @@ NET I2C_SDA	        			LOC = H4	| IOSTANDARD = LVCMOS33;
 #NET "USB_FIFOADR_pin<*>" 	OFFSET = OUT   9.5 ns AFTER  "USB_IFCLK_pin" RISING;
 
 # FX2 connections
-#NET USB_INT0_pin        	LOC = D1	| IOSTANDARD = LVCMOS33;
 #NET USB_IFCLK_pin        	LOC = N4	| IOSTANDARD = LVCMOS33;
 #NET USB_SLRD_pin         	LOC = M4	| IOSTANDARD = LVCMOS33;
 #NET USB_SLWR_pin         	LOC = M3	| IOSTANDARD = LVCMOS33;

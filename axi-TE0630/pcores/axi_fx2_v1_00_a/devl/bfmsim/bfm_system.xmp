@@ -1,0 +1,26 @@
+#Please do not modify this file by hand
+XmpVersion: 13.2
+VerMgmt: 13.2
+IntStyle: default
+Flow: ise
+ModuleSearchPath: ../../../../../
+MHS File: bfm_system.mhs
+Architecture: virtex6
+Device: xc6vlx240t
+Package: ff1156
+SpeedGrade: -1
+UserCmd1: 
+UserCmd1Type: 0
+UserCmd2: 
+UserCmd2Type: 0
+GenSimTB: 1
+SdkExportBmmBit: 1
+SdkExportDir: 
+InsertNoPads: 0
+WarnForEAArch: 1
+HdlLang: VERILOG
+SimModel: BEHAVIORAL
+ExternalMemSim: 0
+UcfFile: C:/Projects/Trenz/repos/TE063X-Reference-Designs/axi-TE0630/data/system.ucf
+EnableParTimingError: 1
+ShowLicenseDialog: 1

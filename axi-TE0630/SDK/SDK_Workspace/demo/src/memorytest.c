@@ -56,7 +56,7 @@ void test_memory_range(struct memory_range_s *range) {
 
 }
 
-int main()
+int mtmain()
 {
     int i;
 

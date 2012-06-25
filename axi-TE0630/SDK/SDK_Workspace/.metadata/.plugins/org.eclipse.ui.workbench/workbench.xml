@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="16" version="2.0">
+<workbench progressCount="23" version="2.0">
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="112" y="0">
 <fastViewData fastViewLocation="1024"/>
@@ -33,6 +33,12 @@
 <part id="0"/>
 <part id="1"/>
 <part id="2"/>
+<part id="3"/>
+<part id="4"/>
+<part id="5"/>
+<part id="6"/>
+<part id="7"/>
+<part id="8"/>
 </presentation>
 </folder>
 </info>
@@ -43,9 +49,32 @@
 <editor id="com.xilinx.sdk.sw.MSSEditor" name="system.mss" partName="system.mss" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/axi-TE0630/SDK/SDK_Workspace/standalone_bsp_0/system.mss" title="system.mss" tooltip="standalone_bsp_0/system.mss" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/standalone_bsp_0/system.mss"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="memorytest.c" partName="memorytest.c" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/axi-TE0630/SDK/SDK_Workspace/demo/src/memorytest.c" title="memorytest.c" tooltip="demo/src/memorytest.c" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="memorytest.c" partName="memorytest.c" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/axi-TE0630/SDK/SDK_Workspace/demo/src/memorytest.c" title="memorytest.c" tooltip="demo/src/memorytest.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/demo/src/memorytest.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1221" selectionTopPixel="867"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2494" selectionTopPixel="816"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/axi-TE0630/SDK/SDK_Workspace/demo/src/main.c" title="main.c" tooltip="demo/src/main.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/demo/src/main.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4279" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="xparameters.h" partName="xparameters.h" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/axi-TE0630/SDK/SDK_Workspace/standalone_bsp_0/microblaze_0/include/xparameters.h" title="xparameters.h" tooltip="standalone_bsp_0/microblaze_0/include/xparameters.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/standalone_bsp_0/microblaze_0/include/xparameters.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="30" selectionOffset="650" selectionTopPixel="3315"/>
+</editor>
+<editor id="com.xilinx.sdk.lscript.editor" name="lscript.ld" partName="lscript.ld" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/axi-TE0630/SDK/SDK_Workspace/demo/src/lscript.ld" title="lscript.ld" tooltip="demo/src/lscript.ld" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/demo/src/lscript.ld"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="xiic.h" partName="xiic.h" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/axi-TE0630/SDK/SDK_Workspace/standalone_bsp_0/microblaze_0/include/xiic.h" title="xiic.h" tooltip="standalone_bsp_0/microblaze_0/include/xiic.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/standalone_bsp_0/microblaze_0/include/xiic.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="18" selectionOffset="23252" selectionTopPixel="9188"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="version.h" partName="version.h" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/axi-TE0630/SDK/SDK_Workspace/demo/src/version.h" title="version.h" tooltip="demo/src/version.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/demo/src/version.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="1087" selectionOffset="0" selectionTopPixel="76"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="fx2_iic.h" partName="fx2_iic.h" path="C:/Projects/Trenz/repos/TE063X-Reference-Designs/axi-TE0630/SDK/SDK_Workspace/demo/src/fx2_iic.h" title="fx2_iic.h" tooltip="demo/src/fx2_iic.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/demo/src/fx2_iic.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1159" selectionTopPixel="178"/>
 </editor>
 </editors>
 <views>
@@ -60,7 +89,11 @@
 <view id="org.eclipse.tm.terminal.view.TerminalView" partName="Terminal"/>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<columnWidths org.eclipse.ui.ide.locationField="64" org.eclipse.ui.ide.markerType="94" org.eclipse.ui.ide.pathField="124" org.eclipse.ui.ide.resourceField="94" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
+<expanded>
+<category IMemento.internal.id="Warnings"/>
+<category IMemento.internal.id="Errors"/>
+</expanded>
+<columnWidths org.eclipse.ui.ide.locationField="0" org.eclipse.ui.ide.markerType="0" org.eclipse.ui.ide.pathField="0" org.eclipse.ui.ide.resourceField="0" org.eclipse.ui.ide.severityAndDescriptionField="0"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.pathField"/>
@@ -76,7 +109,7 @@
 <viewState/>
 </view>
 </views>
-<perspectives activePart="org.eclipse.ui.navigator.ProjectExplorer" activePerspective="org.eclipse.cdt.ui.CPerspective">
+<perspectives activePart="org.eclipse.cdt.ui.editor.CEditor" activePerspective="org.eclipse.cdt.ui.CPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.cdt.internal.ui.CPerspectiveFactory" id="org.eclipse.cdt.ui.CPerspective" label="C/C++"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -156,7 +189,7 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.25" ratioLeft="250" ratioRight="750" relationship="2" relative="topLeft"/>
-<info folder="true" part="bottom" ratio="0.7496136" ratioLeft="485" ratioRight="162" relationship="4" relative="org.eclipse.ui.editorss">
+<info folder="true" part="bottom" ratio="0.57272726" ratioLeft="378" ratioRight="282" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
@@ -191,18 +224,164 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.xilinx.sdk.hw.ui.HwSpecXMLEditor" path="/axi-TE0630_hw_platform/system.xml"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.xilinx.sdk.sw.MSSEditor" path="/standalone_bsp_0/system.mss"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/src/memorytest.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="" path="/standalone_bsp_0/system.mss"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/src/main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/standalone_bsp_0/microblaze_0/include/xiic.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/version.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/src/version.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/src/main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/src/fx2_iic.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/demo/src/fx2_iic.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/standalone_bsp_0/microblaze_0/include/xiic.h"/>
 </editors>
-<item historyLabel="system.xml" index="0"/>
-<item historyLabel="system.mss" index="1"/>
-<item historyLabel="memorytest.c" index="2">
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="1199" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="4901" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="4977" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="4976" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="5292" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="5291" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="7699" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="7641" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="9164" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="9163" y="0"/>
+</item>
+<item historyLabel="xiic.h" index="1">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item active="true" historyLabel="system.mss" index="3">
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="1147" y="6"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="8352" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="5550" y="0"/>
+</item>
+<item historyLabel="version.h" index="2">
+<position info="not_deleted" x="1087" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="0" y="1087"/>
+</item>
+<item historyLabel="version.h" index="2">
+<position info="not_deleted" x="1129" y="90"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="0" y="1087"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="4675" y="0"/>
+</item>
+<item historyLabel="version.h" index="2">
+<position info="not_deleted" x="1129" y="90"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="4675" y="0"/>
+</item>
+<item historyLabel="version.h" index="3">
+<position info="not_deleted" x="1129" y="90"/>
+</item>
+<item historyLabel="main.c" index="4">
+<position info="not_deleted" x="8623" y="0"/>
+</item>
+<item historyLabel="fx2_iic.h" index="5">
+<position info="not_deleted" x="0" y="1087"/>
+</item>
+<item historyLabel="version.h" index="3">
+<position info="not_deleted" x="0" y="1087"/>
+</item>
+<item historyLabel="fx2_iic.h" index="5">
+<position info="not_deleted" x="1087" y="0"/>
+</item>
+<item historyLabel="main.c" index="4">
+<position info="not_deleted" x="8623" y="0"/>
+</item>
+<item historyLabel="main.c" index="4">
+<position info="not_deleted" x="1469" y="0"/>
+</item>
+<item historyLabel="fx2_iic.h" index="5">
+<position info="not_deleted" x="1129" y="0"/>
+</item>
+<item historyLabel="main.c" index="4">
+<position info="not_deleted" x="1159" y="19"/>
+</item>
+<item historyLabel="fx2_iic.h" index="5">
+<position info="not_deleted" x="1129" y="0"/>
+</item>
+<item historyLabel="fx2_iic.c" index="6">
 <position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="fx2_iic.h" index="5">
+<position info="not_deleted" x="0" y="1087"/>
+</item>
+<item historyLabel="fx2_iic.c" index="6">
+<position/>
+</item>
+<item historyLabel="fx2_iic.h" index="5">
+<position info="not_deleted" x="0" y="1087"/>
+</item>
+<item historyLabel="main.c" index="4">
+<position info="not_deleted" x="1137" y="41"/>
+</item>
+<item historyLabel="fx2_iic.c" index="6">
+<position/>
+</item>
+<item historyLabel="main.c" index="4">
+<position info="not_deleted" x="5265" y="1393"/>
+</item>
+<item historyLabel="fx2_iic.c" index="6">
+<position/>
+</item>
+<item historyLabel="main.c" index="4">
+<position info="not_deleted" x="5265" y="1393"/>
+</item>
+<item historyLabel="xiic.h" index="7">
+<position info="not_deleted" x="23252" y="18"/>
+</item>
+<item historyLabel="fx2_iic.c" index="6">
+<position/>
+</item>
+<item historyLabel="xiic.h" index="7">
+<position info="not_deleted" x="23252" y="18"/>
+</item>
+<item historyLabel="fx2_iic.c" index="6">
+<position/>
+</item>
+<item historyLabel="main.c" index="4">
+<position info="not_deleted" x="1169" y="6"/>
+</item>
+<item historyLabel="xiic.h" index="7">
+<position info="not_deleted" x="23252" y="18"/>
+</item>
+<item historyLabel="fx2_iic.c" index="6">
+<position/>
+</item>
+<item historyLabel="xiic.h" index="7">
+<position info="not_deleted" x="23252" y="18"/>
+</item>
+<item historyLabel="fx2_iic.h" index="5">
+<position info="not_deleted" x="1159" y="0"/>
+</item>
+<item active="true" historyLabel="main.c" index="4">
+<position info="not_deleted" x="1169" y="6"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -221,6 +400,27 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="fx2_iic.c" tooltip="demo/src/fx2_iic.c">
+<persistable path="/demo/src/fx2_iic.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="fx2_iic.h" tooltip="demo/src/fx2_iic.h">
+<persistable path="/demo/src/fx2_iic.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="version.h" tooltip="demo/version.h">
+<persistable path="/demo/version.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="xiic.h" tooltip="standalone_bsp_0/microblaze_0/include/xiic.h">
+<persistable path="/standalone_bsp_0/microblaze_0/include/xiic.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.xilinx.sdk.lscript.editor" name="lscript.ld" tooltip="demo/src/lscript.ld">
+<persistable path="/demo/src/lscript.ld"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="xparameters.h" tooltip="standalone_bsp_0/microblaze_0/include/xparameters.h">
+<persistable path="/standalone_bsp_0/microblaze_0/include/xparameters.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="demo/src/main.c">
+<persistable path="/demo/src/main.c"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="memorytest.c" tooltip="demo/src/memorytest.c">
 <persistable path="/demo/src/memorytest.c"/>
 </file>

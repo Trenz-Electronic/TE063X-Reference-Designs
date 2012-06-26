@@ -23,31 +23,32 @@ IN THE SOFTWARE.
 #include "xparameters.h"
 #include "version.h"
 #include "fx2_iic.h"
+#include "main.h"
 #include "xiic.h"
 #include "xintc.h"
+#include "xgpio.h"
 #include "xil_exception.h"
 #include "stdio.h"
 //-----------------------------------------------------------------------------
 #define IIC_DEVICE_ID		XPAR_IIC_0_DEVICE_ID
 #define INTC_DEVICE_ID		XPAR_INTC_0_DEVICE_ID
 #define IIC_INTR_ID			XPAR_INTC_0_IIC_0_VEC_ID
-
+#define GPIO_DEVICE_ID  	XPAR_LEDS_DEVICE_ID
 //-----------------------------------------------------------------------------
 // Functions prototypes
 //-----------------------------------------------------------------------------
-int IicSlaveExample();
 int I2CWriteData(u8 *BufferPtr, u16 ByteCount);
 int I2CReadData(u8 *BufferPtr, u16 ByteCount);
 static int SetupInterruptSystem(XIic * IicInstPtr);
 static void I2CStatusHandler(XIic *InstancePtr, int Event);
 static void I2CSendHandler(XIic *InstancePtr);
 static void I2CReceiveHandler(XIic *InstancePtr);
-
 //-----------------------------------------------------------------------------
 // Variables
 //-----------------------------------------------------------------------------
 XIic IicInstance;			/* The instance of the IIC device. */
 XIntc InterruptController;	/* The instance of the Interrupt Controller */
+XGpio Gpio; 				/* The Instance of the GPIO Driver */
 
 
 u8 WriteBuffer[I2C_TRANSFER_COUNT];	/* Write buffer for writing a page. */
@@ -59,119 +60,90 @@ volatile u8 ReceiveComplete;
 volatile u8 SlaveRead;
 volatile u8 SlaveWrite;
 
-
 //-----------------------------------------------------------------------------
 int main(){
 	int Status;
 
-	/*
-	 * Run the IIC Slave example.
-	 */
-	xil_printf("Test started \r\n");
-	Status = IicSlaveExample();
-	if (Status != XST_SUCCESS) {
-		xil_printf("Test failed \r\n");
-		return XST_FAILURE;
-	}
-	xil_printf("Test passed \r\n");
-	return XST_SUCCESS;
-}
+	XIic_Config *ConfigPtr;	// Pointer to configuration data
 
-/*****************************************************************************/
-/**
-* This function writes and reads the data as a slave. The IIC master on the bus
-* initiates the transfers.
-*
-* @param	None.
-*
-* @return	XST_SUCCESS if successful else XST_FAILURE.
-*
-* @note		None.
-*
-******************************************************************************/
-int IicSlaveExample()
-{
-	int Status;
-	//u8 Index;
-	XIic_Config *ConfigPtr;	/* Pointer to configuration data */
-
-
-	/*
-	 * Initialize the IIC driver so that it is ready to use.
-	 */
+	// Initialize the IIC driver so that it is ready to use.
 	ConfigPtr = XIic_LookupConfig(IIC_DEVICE_ID);
 	if (ConfigPtr == NULL) {
+		xil_printf("Failed to initialize IIC\r\n");
 		return XST_FAILURE;
 	}
 
-	Status = XIic_CfgInitialize(&IicInstance, ConfigPtr,
-					ConfigPtr->BaseAddress);
+	Status = XIic_CfgInitialize(&IicInstance, ConfigPtr, ConfigPtr->BaseAddress);
 	if (Status != XST_SUCCESS) {
+		xil_printf("Failed to initialize IIC\r\n");
 		return XST_FAILURE;
 	}
 
-	/*
-	 * Setup the Interrupt System.
-	 */
+	//Setup the Interrupt System.
 	Status = SetupInterruptSystem(&IicInstance);
 	if (Status != XST_SUCCESS) {
+		xil_printf("Failed to initialize IIC\r\n");
 		return XST_FAILURE;
 	}
 
-	/*
-	 * Include the Slave functions.
-	 */
-	XIic_SlaveInclude();
+	XIic_SlaveInclude();	// Include slave functions
 
-	/*
-	 * Set the Transmit, Receive and Status Handlers.
-	 */
-	XIic_SetStatusHandler(&IicInstance, &IicInstance,
-				  (XIic_StatusHandler) I2CStatusHandler);
-	XIic_SetSendHandler(&IicInstance, &IicInstance,
-				(XIic_Handler) I2CSendHandler);
-	XIic_SetRecvHandler(&IicInstance, &IicInstance,
-				(XIic_Handler) I2CReceiveHandler);
+	// Set the Transmit, Receive and Status Handlers.
+	XIic_SetStatusHandler(&IicInstance, &IicInstance, (XIic_StatusHandler) I2CStatusHandler);
+	XIic_SetSendHandler(&IicInstance, &IicInstance, (XIic_Handler) I2CSendHandler);
+	XIic_SetRecvHandler(&IicInstance, &IicInstance, (XIic_Handler) I2CReceiveHandler);
 
-	/*
-	 * Set the Address as a RESPOND type.
-	 */
+	// Set the Address as a RESPOND type.
 	Status = XIic_SetAddress(&IicInstance, XII_ADDR_TO_RESPOND_TYPE, I2C_SLAVE_ADDRESS);
 	if (Status != XST_SUCCESS) {
+		xil_printf("Failed to initialize IIC\r\n");
 		return XST_FAILURE;
 	}
 
-	/*
-	 * The IIC Master on this bus should initiate the transfer
-	 * and write data to the slave at this instance.
-	 */
-	I2CReadData(ReadBuffer, I2C_TRANSFER_COUNT);
-	//for(Index = 0; Index < I2C_TRANSFER_COUNT; Index++){
-	//	xil_printf("0x%02X ",ReadBuffer[Index]);
-	//}
-	//xil_printf("\r\n");
+	Status = XGpio_Initialize(&Gpio, GPIO_DEVICE_ID);
+	if (Status != XST_SUCCESS) {
+		xil_printf("Failed to initialize GPIO\r\n");
+		return XST_FAILURE;
+	}
+	XGpio_SetDataDirection(&Gpio, 1, 0x00);	// All outputs
 
-	//for (Index = 0; Index < SEND_COUNT; Index++) {
-	//	WriteBuffer[Index] = ReadBuffer[Index];
-	//}
+	xil_printf("\r\n--TE USB DEMO ver %d.%d--\r\n", MAJOR_VERSION,MINOR_VERSION);
+	XGpio_DiscreteWrite(&Gpio, 1, 0x0F);	// Switch on LEDs
 
-
-	WriteBuffer[0] = MAJOR_VERSION;
-	WriteBuffer[1] = MINOR_VERSION;
-	WriteBuffer[2] = RELEASE;
-	WriteBuffer[3] = BUILD;
-
-	/*
-	 * The IIC Master on this bus should initiate the transfer
-	 * and read data from the slave.
-	 */
-	I2CWriteData(WriteBuffer,I2C_TRANSFER_COUNT);
-	xil_printf("Done \r\n");
-	return XST_SUCCESS;
+	while(1){	// Main loop
+		I2CReadData(ReadBuffer, I2C_TRANSFER_COUNT);	// Read data from IIC
+		switch(ReadBuffer[3]){	// Analyze command
+			case CMD_NOP:
+				break;
+			case CMD_GETVERSION:
+				WriteBuffer[0] = MAJOR_VERSION;
+				WriteBuffer[1] = MINOR_VERSION;
+				WriteBuffer[2] = RELEASE;
+				WriteBuffer[3] = BUILD;
+				xil_printf("*");
+				break;
+			case CMD_START_TX:
+				xil_printf("starting TX test\r\n");
+				break;
+			case CMD_START_RX:
+				xil_printf("starting RX test\r\n");
+				break;
+			case CMD_STOP:
+				xil_printf("stop test\r\n");
+				break;
+			case CMD_PING:
+				WriteBuffer[0] = 0x70;	//p
+				WriteBuffer[1] = 0x6F;	//o
+				WriteBuffer[2] = 0x6E;	//n
+				WriteBuffer[3] = 0x67;	//g
+				break;
+		}
+		I2CWriteData(WriteBuffer,I2C_TRANSFER_COUNT);	// Send response
+		while(TransmitComplete) {};	// Wait while transfer completed
+	}
 }
 
-/*****************************************************************************/
-/**
+/******************************************************************************
 * This function reads a buffer of bytes  when the IIC Master on the bus writes
 * data to the slave device.
 *
@@ -187,43 +159,26 @@ int I2CReadData(u8 *BufferPtr, u16 ByteCount)
 {
 	int Status;
 
-	/*
-	 * Set the defaults.
-	 */
-	ReceiveComplete = 1;
+	ReceiveComplete = 1;	//Set the defaults.
 
-	/*
-	 * Start the IIC device.
-	 */
-	Status = XIic_Start(&IicInstance);
+	Status = XIic_Start(&IicInstance);	// Start the IIC device.
 	if (Status != XST_SUCCESS) {
 		return XST_FAILURE;
 	}
 
-	/*
-	 * Set the Global Interrupt Enable.
-	 */
-	XIic_IntrGlobalEnable(IicInstance.BaseAddress);
+	XIic_IntrGlobalEnable(IicInstance.BaseAddress);	// Set the Global Interrupt Enable.
 
-	/*
-	 * Wait for AAS interrupt and completion of data reception.
-	 */
 	while ((ReceiveComplete) || (XIic_IsIicBusy(&IicInstance) == TRUE)) {
 		if (SlaveRead) {
-			XIic_SlaveRecv(&IicInstance, ReadBuffer, I2C_TRANSFER_COUNT);
+			//XIic_SlaveRecv(&IicInstance, ReadBuffer, I2C_TRANSFER_COUNT);
+			XIic_SlaveRecv(&IicInstance, BufferPtr, I2C_TRANSFER_COUNT);
 			SlaveRead = 0;
 		}
 	}
 
-	/*
-	 * Disable the Global Interrupt Enable.
-	 */
-	XIic_IntrGlobalDisable(IicInstance.BaseAddress);
+	XIic_IntrGlobalDisable(IicInstance.BaseAddress);	// Disable the Global Interrupt Enable.
 
-	/*
-	 * Stop the IIC device.
-	 */
-	Status = XIic_Stop(&IicInstance);
+	Status = XIic_Stop(&IicInstance);	// Stop the IIC device.
 	if (Status != XST_SUCCESS) {
 		return XST_FAILURE;
 	}
@@ -231,8 +186,7 @@ int I2CReadData(u8 *BufferPtr, u16 ByteCount)
 	return XST_SUCCESS;
 }
 
-/*****************************************************************************/
-/**
+/******************************************************************************
 * This function writes a buffer of bytes to the IIC bus when the IIC master
 * initiates a read operation.
 *
@@ -245,33 +199,18 @@ int I2CReadData(u8 *BufferPtr, u16 ByteCount)
 *
 ******************************************************************************/
 int I2CWriteData(u8 *BufferPtr, u16 ByteCount)
-//int I2CWriteData(u16 ByteCount)
 {
 	int Status;
 
-	/*
-	 * Set the defaults.
-	 */
-	TransmitComplete = 1;
+	TransmitComplete = 1;	// Set the defaults.
 
-	/*
-	 * Start the IIC device.
-	 */
-	Status = XIic_Start(&IicInstance);
+	Status = XIic_Start(&IicInstance);	// Start the IIC device.
 	if (Status != XST_SUCCESS) {
 		return XST_FAILURE;
 	}
 
-	/*
-	 * Set the Global Interrupt Enable.
-	 */
-	XIic_IntrGlobalEnable(IicInstance.BaseAddress);
+	XIic_IntrGlobalEnable(IicInstance.BaseAddress);	// Set the Global Interrupt Enable.
 
-	/*
-	 * Wait for AAS interrupt and transmission to complete.
-	 */
-	//xil_printf("TransmitComplete = %d busy = %d SlaveWrite = %d \r\n",TransmitComplete,XIic_IsIicBusy(&IicInstance),SlaveWrite);
-	//while ((TransmitComplete) || (XIic_IsIicBusy(&IicInstance) == TRUE)) {
 	XIic_WriteReg(IicInstance.BaseAddress, XIIC_GPO_REG_OFFSET, 0xFF);
 
 	while ((TransmitComplete) || (XIic_IsIicBusy(&IicInstance) == FALSE)) {
@@ -283,15 +222,9 @@ int I2CWriteData(u8 *BufferPtr, u16 ByteCount)
 		}
 	}
 
-	/*
-	 * Disable the Global Interrupt Enable bit.
-	 */
-	XIic_IntrGlobalDisable(IicInstance.BaseAddress);
+	XIic_IntrGlobalDisable(IicInstance.BaseAddress);	// Disable the Global Interrupt Enable bit.
 
-	/*
-	 * Stop the IIC device.
-	 */
-	Status = XIic_Stop(&IicInstance);
+	Status = XIic_Stop(&IicInstance); // Stop the IIC device.
 	if (Status != XST_SUCCESS) {
 		return XST_FAILURE;
 	}
@@ -299,8 +232,7 @@ int I2CWriteData(u8 *BufferPtr, u16 ByteCount)
 	return XST_SUCCESS;
 }
 
-/****************************************************************************/
-/**
+/******************************************************************************
 * This Status handler is called asynchronously from an interrupt context and
 * indicates the events that have occurred.
 *
@@ -312,29 +244,17 @@ int I2CWriteData(u8 *BufferPtr, u16 ByteCount)
 *
 * @note		None.
 *
-****************************************************************************/
+******************************************************************************/
 static void I2CStatusHandler(XIic *InstancePtr, int Event)
 {
-	/*
-	 * Check whether the Event is to write or read the data from the slave.
-	 */
-	if (Event == XII_MASTER_WRITE_EVENT) {
-		/*
-		 * Its a Write request from Master.
-		 */
+	if (Event == XII_MASTER_WRITE_EVENT) {	// Its a Write request from Master.
 		SlaveRead = 1;
-		//xil_printf("*W*\r\n");
-	} else {
-		/*
-		 * Its a Read request from the master.
-		 */
+	} else {	// Its a Read request from the master.
 		SlaveWrite = 1;
-		//xil_printf("*R*\r\n");
 	}
 }
 
-/****************************************************************************/
-/**
+/******************************************************************************
 * This Send handler is called asynchronously from an interrupt
 * context and indicates that data in the specified buffer has been sent.
 *
@@ -351,8 +271,7 @@ static void I2CSendHandler(XIic *InstancePtr)
 	TransmitComplete = 0;
 }
 
-/****************************************************************************/
-/**
+/******************************************************************************
 * This Receive handler is called asynchronously from an interrupt
 * context and indicates that data in the specified buffer has been Received.
 *
@@ -422,28 +341,17 @@ static int SetupInterruptSystem(XIic * IicInstPtr)
 		return XST_FAILURE;
 	}
 
-	/*
-	 * Enable the interrupts for the IIC device.
-	 */
+	// Enable the interrupts for the IIC device.
 	XIntc_Enable(&InterruptController, IIC_INTR_ID);
 
-	/*
-	 * Initialize the exception table.
-	 */
-	Xil_ExceptionInit();
+	Xil_ExceptionInit();	// Initialize the exception table.
 
-	/*
-	 * Register the interrupt controller handler with the exception table.
-	 */
+	// Register the interrupt controller handler with the exception table.
 	Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_INT,
 				 (Xil_ExceptionHandler) XIntc_InterruptHandler,
 				 &InterruptController);
 
-	/*
-	 * Enable non-critical exceptions.
-	 */
-	Xil_ExceptionEnable();
-
+	Xil_ExceptionEnable();	// Enable non-critical exceptions.
 
 	return XST_SUCCESS;
 }

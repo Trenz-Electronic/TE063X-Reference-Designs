@@ -1,23 +1,24 @@
 
 # ##############################################################################
-# Created by Base System Builder Wizard for Xilinx EDK 13.2 Build EDK_O.61xd
 # Fri Jun 22 22:24:45 2012
-# Target Board:  Custom
-# Family:    spartan6
-# Device:    xc6slx45
-# Package:   csg484
-# Speed Grade:  -2
+# Target Board:  TE0630
+# Family:        spartan6
+# Device:        xc6slx45
+# Package:       csg484
+# Speed Grade:   -2
 # ##############################################################################
  PARAMETER VERSION = 2.1.0
 
 
+ PORT sys_clk_pin = CLK, DIR = I, SIGIS = CLK, CLK_FREQ = 100000000
+ PORT sys_rst_pin = RESET, DIR = I, SIGIS = RST, RST_POLARITY = 1
+ PORT LED = LEDS_TRI_O, DIR = O, VEC = [0:3]
  PORT SPI_FLASH_SS = SPI_FLASH_SS, DIR = IO
  PORT SPI_FLASH_SCK = SPI_FLASH_SCLK, DIR = IO
  PORT SPI_FLASH_MOSI = SPI_FLASH_MOSI, DIR = IO
  PORT SPI_FLASH_MISO = SPI_FLASH_MISO, DIR = IO
  PORT RS232_TX = RS232_Uart_1_sout, DIR = O
  PORT RS232_RX = RS232_Uart_1_sin, DIR = I
- PORT sys_rst_pin = RESET, DIR = I, SIGIS = RST, RST_POLARITY = 1
  PORT MCB_DDR3_zio = MCB_DDR3_zio, DIR = IO
  PORT MCB_DDR3_rzq = MCB_DDR3_rzq, DIR = IO
  PORT MCB_DDR3_dram_we_n = MCB_DDR3_dram_we_n, DIR = O
@@ -30,7 +31,6 @@
  PORT MCB_DDR3_dram_dqs_n = MCB_DDR3_dram_dqs_n, DIR = IO
  PORT MCB_DDR3_dram_dqs = MCB_DDR3_dram_dqs, DIR = IO
  PORT MCB_DDR3_dram_dq = MCB_DDR3_dram_dq, DIR = IO, VEC = [15:0]
-# PORT MCB_DDR3_dram_ddr3_rst = net_gnd, DIR = O
  PORT MCB_DDR3_dram_ddr3_rst = MCB_DDR3_dram_ddr3_rst, DIR = O
  PORT MCB_DDR3_dram_clk_n = MCB_DDR3_dram_clk_n, DIR = O
  PORT MCB_DDR3_dram_clk = MCB_DDR3_dram_clk, DIR = O
@@ -38,13 +38,22 @@
  PORT MCB_DDR3_dram_cas_n = MCB_DDR3_dram_cas_n, DIR = O
  PORT MCB_DDR3_dram_ba = MCB_DDR3_dram_ba, DIR = O, VEC = [2:0]
  PORT MCB_DDR3_dram_addr = MCB_DDR3_dram_addr, DIR = O, VEC = [12:0]
- PORT LED = LEDS_TRI_O, DIR = O, VEC = [0:3]
-# PORT CLK_P = CLK, DIR = I, DIFFERENTIAL_POLARITY = P, SIGIS = CLK, CLK_FREQ = 100000000
-# PORT CLK_N = CLK, DIR = I, DIFFERENTIAL_POLARITY = N, SIGIS = CLK, CLK_FREQ = 100000000
- PORT sys_clk_pin = CLK, DIR = I, SIGIS = CLK, CLK_FREQ = 100000000
+# IIC external connections
  PORT I2C_SDA = i2c_sda_s, DIR = IO
  PORT I2C_SCL = i2c_scl_s, DIR = IO
  PORT USB_INT0 = i2c_int, DIR = O
+# FX2 external connections
+ PORT USB_IFCLK_pin = USB_IFCLK, DIR = I, SIGIS = CLK, CLK_FREQ = 48000000
+ PORT USB_SLRD_pin = USB_SLRD, DIR = O
+ PORT USB_SLWR_pin = USB_SLWR, DIR = O
+ PORT USB_FLAGA_pin = USB_FLAGA, DIR = I
+ PORT USB_FLAGB_pin = USB_FLAGB, DIR = I
+ PORT USB_FLAGC_pin = USB_FLAGC, DIR = I
+ PORT USB_FLAGD_pin = USB_FLAGD, DIR = I
+ PORT USB_PKTEND_pin = USB_PKTEND, DIR = O
+ PORT USB_SLOE_pin = USB_SLOE, DIR = O
+ PORT USB_FIFOADR_pin = USB_FIFOADR, DIR = O, VEC = [1:0]
+ PORT USB_FD_pin = USB_FD, DIR = IO, VEC = [7:0]
 
 
 BEGIN proc_sys_reset
@@ -68,7 +77,7 @@ BEGIN axi_intc
  BUS_INTERFACE S_AXI = axi4lite_0
  PORT IRQ = microblaze_0_interrupt
  PORT S_AXI_ACLK = clk_100_0000MHzPLL0
- PORT INTR = Generic_IIC_Bus_IIC2INTC_Irpt & Generic_SPI_IP2INTC_Irpt & RS232_Interrupt
+ PORT INTR = Generic_IIC_Bus_IIC2INTC_Irpt & Generic_SPI_IP2INTC_Irpt & RS232_Interrupt & fifo_Irpt
 END
 
 BEGIN lmb_v10
@@ -282,9 +291,9 @@ BEGIN axi_iic
  PARAMETER HW_VER = 1.01.a
  PARAMETER C_IIC_FREQ = 100000
  PARAMETER C_TEN_BIT_ADR = 0
+ PARAMETER C_GPO_WIDTH = 1
  PARAMETER C_BASEADDR = 0x40800000
  PARAMETER C_HIGHADDR = 0x4080ffff
- PARAMETER C_GPO_WIDTH = 1
  BUS_INTERFACE S_AXI = axi4lite_0
  PORT S_AXI_ACLK = clk_100_0000MHzPLL0
  PORT IIC2INTC_Irpt = Generic_IIC_Bus_IIC2INTC_Irpt
@@ -299,6 +308,57 @@ BEGIN axi_fx2
  PARAMETER C_BASEADDR = 0x7ee00000
  PARAMETER C_HIGHADDR = 0x7ee0ffff
  BUS_INTERFACE S_AXI = axi4lite_0
+ BUS_INTERFACE M_AXIS = axi_fx2_0_M_AXIS
+ BUS_INTERFACE S_AXIS = axi_fx2_0_S_AXIS
  PORT S_AXI_ACLK = clk_100_0000MHzPLL0
+ PORT S_AXIS_ACLK = clk_100_0000MHzPLL0
+ PORT M_AXIS_ACLK = clk_100_0000MHzPLL0
+ PORT USB_IFCLK = USB_IFCLK
+ PORT USB_SLRD = USB_SLRD
+ PORT USB_SLWR = USB_SLWR
+ PORT USB_FLAGA = USB_FLAGA
+ PORT USB_FLAGB = USB_FLAGB
+ PORT USB_FLAGC = USB_FLAGC
+ PORT USB_FLAGD = USB_FLAGD
+ PORT USB_SLOE = USB_SLOE
+ PORT USB_PKTEND = USB_PKTEND
+ PORT USB_FIFOADR = USB_FIFOADR
+ PORT USB_FD = USB_FD
+ PORT CHIPSCOPE = axi_fx2_ChipScope
+ PORT dbgin = fifo_Irpt
+END
+
+BEGIN axi_fifo_mm_s
+ PARAMETER INSTANCE = axi_fifo_mm_s_0
+ PARAMETER HW_VER = 2.00.a
+ PARAMETER C_BASEADDR = 0x7a000000
+ PARAMETER C_HIGHADDR = 0x7a00ffff
+ PARAMETER C_S_AXI_ID_WIDTH = 1
+ BUS_INTERFACE S_AXI = axi4lite_0
+ BUS_INTERFACE AXI_STR_RXD = axi_fx2_0_M_AXIS
+ BUS_INTERFACE AXI_STR_TXD = axi_fx2_0_S_AXIS
+ PORT S_AXI_ACLK = clk_100_0000MHzPLL0
+ PORT AXI_STR_TXD_ACLK = clk_100_0000MHzPLL0
+ PORT AXI_STR_RXD_ACLK = clk_100_0000MHzPLL0
+ PORT Interrupt = fifo_Irpt
+END
+
+BEGIN chipscope_icon
+ PARAMETER INSTANCE = chipscope_icon_0
+ PARAMETER HW_VER = 1.05.a
+ PORT control0 = chipscope_ila_0_control
+END
+
+BEGIN chipscope_ila
+ PARAMETER INSTANCE = chipscope_ila_0
+ PARAMETER HW_VER = 1.04.a
+ PARAMETER C_ENABLE_TRIGGER_OUT = 0
+ PARAMETER C_TRIG0_TRIGGER_IN_WIDTH = 64
+ PARAMETER C_TRIG0_UNIT_MATCH_TYPE = basic with edges
+ PARAMETER C_NUM_DATA_SAMPLES = 1024
+ PARAMETER C_TRIG0_UNIT_COUNTER_WIDTH = 16
+ PORT TRIG0 = axi_fx2_ChipScope
+ PORT CLK = clk_100_0000MHzPLL0
+ PORT CHIPSCOPE_ILA_CONTROL = chipscope_ila_0_control
 END
 

@@ -34,3 +34,4 @@ All projects contain already implemented result files ready to download.
 	use FX2 USB interface at TE0630 module
 * TE-EDK-IP - subproject which contain cores used in reference projects
 * vcom-TE0630 - Virtual COM port example project for TE0630 module
+* axi-TE0630 - AXI based project with Microblaze processor. Under development.

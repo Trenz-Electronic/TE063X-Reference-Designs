@@ -5,8 +5,6 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../src/main.c \
-../src/memory_config_g.c \
-../src/memorytest.c \
 ../src/platform.c 
 
 LD_SRCS += \
@@ -14,14 +12,10 @@ LD_SRCS += \
 
 OBJS += \
 ./src/main.o \
-./src/memory_config_g.o \
-./src/memorytest.o \
 ./src/platform.o 
 
 C_DEPS += \
 ./src/main.d \
-./src/memory_config_g.d \
-./src/memorytest.d \
 ./src/platform.d 
 
 

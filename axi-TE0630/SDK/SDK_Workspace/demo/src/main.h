@@ -30,4 +30,8 @@ IN THE SOFTWARE.
 #define CMD_STOP 4
 #define CMD_PING 5
 
+#define STATE_IDLE 0
+#define STATE_RX_TEST 1
+#define STATE_TX_TEST 2
+
 #endif /* MAIN_H_ */

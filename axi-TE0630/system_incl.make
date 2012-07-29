@@ -59,7 +59,9 @@ DEFAULT_SIM_SCRIPT = $(BEHAVIORAL_SIM_SCRIPT)
 SIMGEN_OPTIONS = -p $(DEVICE) -lang $(LANGUAGE) $(SEARCHPATHOPT) $(BRAMINIT_ELF_SIM_FILE_ARGS) -msg __xps/ise/xmsgprops.lst -s isim
 
 
-CORE_STATE_DEVELOPMENT_FILES = C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/family.vhd \
+CORE_STATE_DEVELOPMENT_FILES = pcores/axi_fx2_v1_00_a/netlist/tx_fifo.ngc \
+pcores/axi_fx2_v1_00_a/netlist/rx_fifo.ngc \
+C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/family.vhd \
 C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/family_support.vhd \
 C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/coregen_comp_defs.vhd \
 C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/common_types_pkg.vhd \
@@ -122,7 +124,10 @@ C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/axi_lite_ipif_v1_01_a/h
 C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/axi_lite_ipif_v1_01_a/hdl/vhdl/slave_attachment.vhd \
 C:/Xilinx/13.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/axi_lite_ipif_v1_01_a/hdl/vhdl/axi_lite_ipif.vhd \
 pcores/axi_fx2_v1_00_a/hdl/vhdl/user_logic.vhd \
-pcores/axi_fx2_v1_00_a/hdl/vhdl/axi_fx2.vhd
+pcores/axi_fx2_v1_00_a/hdl/vhdl/axi_fx2.vhd \
+pcores/axi_fx2_v1_00_a/hdl/vhdl/fx2_core.vhd \
+pcores/axi_fx2_v1_00_a/hdl/vhdl/fx2_engine.vhd \
+pcores/axi_fx2_v1_00_a/hdl/vhdl/axi_stream_transmitter.vhd
 
 WRAPPER_NGC_FILES = implementation/proc_sys_reset_0_wrapper.ngc \
 implementation/microblaze_0_intc_wrapper.ngc \
@@ -141,7 +146,9 @@ implementation/mcb_ddr3_wrapper.ngc \
 implementation/leds_wrapper.ngc \
 implementation/generic_spi_wrapper.ngc \
 implementation/generic_iic_bus_wrapper.ngc \
-implementation/axi_fx2_0_wrapper.ngc
+implementation/axi_fx2_0_wrapper.ngc \
+implementation/chipscope_icon_0_wrapper.ngc \
+implementation/chipscope_ila_0_wrapper.ngc
 
 POSTSYN_NETLIST = implementation/$(SYSTEM).ngc
 

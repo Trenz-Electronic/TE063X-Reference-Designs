@@ -140,19 +140,36 @@ entity axi_fx2 is
     -- ADD USER PORTS BELOW THIS LINE ------------------
     --USER ports added here
     -- ADD USER PORTS ABOVE THIS LINE ------------------
-	-- USB_IFCLK           			: in  std_logic;
-    -- USB_SLRD            			: out std_logic;
-    -- USB_SLWR            			: out std_logic;
-    -- USB_FLAGA           			: in  std_logic;
-    -- USB_FLAGB           			: in  std_logic;
-    -- USB_FLAGC           			: in  std_logic;
-	-- USB_FLAGD           			: in  std_logic;
-	-- USB_SLOE            			: out std_logic;
-	-- USB_PKTEND          			: out std_logic;
-	-- USB_FIFOADR         			: out std_logic_vector(1 downto 0); --"00"=EP2,"01"=EP4,"10"=EP6,11"=EP8
-    -- USB_FD_T            			: out std_logic_vector(7 downto 0) := (others => '1'); --OE active low
-    -- USB_FD_O            			: out std_logic_vector(7 downto 0) := (others => '0');
-    -- USB_FD_I            			: in  std_logic_vector(7 downto 0);
+	USB_IFCLK           			: in  std_logic;
+    USB_SLRD            			: out std_logic;
+    USB_SLWR            			: out std_logic;
+    USB_FLAGA           			: in  std_logic;
+    USB_FLAGB           			: in  std_logic;
+    USB_FLAGC           			: in  std_logic;
+	USB_FLAGD           			: in  std_logic;
+	USB_SLOE            			: out std_logic;
+	USB_PKTEND          			: out std_logic;
+	USB_FIFOADR         			: out std_logic_vector(1 downto 0); --"00"=EP2,"01"=EP4,"10"=EP6,11"=EP8
+    USB_FD_T            			: out std_logic_vector(7 downto 0) := (others => '1'); --OE active low
+    USB_FD_O            			: out std_logic_vector(7 downto 0) := (others => '0');
+    USB_FD_I            			: in  std_logic_vector(7 downto 0);
+	
+	S_AXIS_ACLK						: in  std_logic;
+	S_AXIS_TREADY					: out std_logic;
+	S_AXIS_TDATA					: in  std_logic_vector(31 downto 0);
+	S_AXIS_TKEEP					: in  std_logic_vector( 3 downto 0);
+	S_AXIS_TLAST					: in  std_logic;
+	S_AXIS_TVALID					: in  std_logic;
+	M_AXIS_ACLK						: in  std_logic;
+	M_AXIS_TVALID					: out std_logic;
+	M_AXIS_TDATA					: out std_logic_vector(31 downto 0);
+	M_AXIS_TKEEP					: out std_logic_vector( 3 downto 0);
+	M_AXIS_TLAST					: out std_logic;
+	M_AXIS_TREADY					: in  std_logic;
+	
+	CHIPSCOPE						: out STD_LOGIC_VECTOR(63 downto 0);
+	dbgin							: in  STD_LOGIC;
+	
     -- DO NOT EDIT BELOW THIS LINE ---------------------
     -- Bus protocol ports, do not add to or delete
     S_AXI_ACLK                     : in  std_logic;
@@ -355,34 +372,50 @@ begin
     (
       -- MAP USER PORTS BELOW THIS LINE ------------------
       --USER ports mapped here
-	-- USB_IFCLK   					=> USB_IFCLK,  
-    -- USB_SLRD						=> USB_SLRD,   
-    -- USB_SLWR						=> USB_SLWR,   
-    -- USB_FLAGA						=> USB_FLAGA,  
-    -- USB_FLAGB						=> USB_FLAGB,  
-    -- USB_FLAGC						=> USB_FLAGC,  
-    -- USB_FLAGD						=> USB_FLAGD,  
-    -- USB_SLOE						=> USB_SLOE,   
-    -- USB_PKTEND						=> USB_PKTEND, 
-    -- USB_FIFOADR						=> USB_FIFOADR,
-    -- USB_FD_T						=> USB_FD_T,   
-    -- USB_FD_O						=> USB_FD_O,   
-    -- USB_FD_I						=> USB_FD_I,	 
+		USB_IFCLK   					=> USB_IFCLK,  
+		USB_SLRD						=> USB_SLRD,   
+		USB_SLWR						=> USB_SLWR,   
+		USB_FLAGA						=> USB_FLAGA,  
+		USB_FLAGB						=> USB_FLAGB,  
+		USB_FLAGC						=> USB_FLAGC,  
+		USB_FLAGD						=> USB_FLAGD,  
+		USB_SLOE						=> USB_SLOE,   
+		USB_PKTEND						=> USB_PKTEND, 
+		USB_FIFOADR						=> USB_FIFOADR,
+		USB_FD_T						=> USB_FD_T,   
+		USB_FD_O						=> USB_FD_O,   
+		USB_FD_I						=> USB_FD_I,	 
+		
+		S_AXIS_ACLK						=> S_AXIS_ACLK,
+		S_AXIS_TREADY					=> S_AXIS_TREADY,
+		S_AXIS_TDATA					=> S_AXIS_TDATA,
+		S_AXIS_TKEEP					=> S_AXIS_TKEEP,
+		S_AXIS_TLAST					=> S_AXIS_TLAST,
+		S_AXIS_TVALID					=> S_AXIS_TVALID,
+		M_AXIS_ACLK						=> M_AXIS_ACLK,
+		M_AXIS_TVALID					=> M_AXIS_TVALID,
+		M_AXIS_TDATA					=> M_AXIS_TDATA,
+		M_AXIS_TKEEP					=> M_AXIS_TKEEP,
+		M_AXIS_TLAST					=> M_AXIS_TLAST,
+		M_AXIS_TREADY					=> M_AXIS_TREADY,
+		
+		CHIPSCOPE						=> CHIPSCOPE,
+		dbgin							=> dbgin,
       -- MAP USER PORTS ABOVE THIS LINE ------------------
 
-      Bus2IP_Clk                     => ipif_Bus2IP_Clk,
-      Bus2IP_Resetn                  => rst_Bus2IP_Reset_tmp,
-      Bus2IP_Addr                    => ipif_Bus2IP_Addr,
-      Bus2IP_CS                      => ipif_Bus2IP_CS,
-      Bus2IP_RNW                     => ipif_Bus2IP_RNW,
-      Bus2IP_Data                    => ipif_Bus2IP_Data,
-      Bus2IP_BE                      => ipif_Bus2IP_BE,
-      Bus2IP_RdCE                    => user_Bus2IP_RdCE,
-      Bus2IP_WrCE                    => user_Bus2IP_WrCE,
-      IP2Bus_Data                    => user_IP2Bus_Data,
-      IP2Bus_RdAck                   => user_IP2Bus_RdAck,
-      IP2Bus_WrAck                   => user_IP2Bus_WrAck,
-      IP2Bus_Error                   => user_IP2Bus_Error
+		Bus2IP_Clk                     => ipif_Bus2IP_Clk,
+		Bus2IP_Resetn                  => rst_Bus2IP_Reset_tmp,
+		Bus2IP_Addr                    => ipif_Bus2IP_Addr,
+		Bus2IP_CS                      => ipif_Bus2IP_CS,
+		Bus2IP_RNW                     => ipif_Bus2IP_RNW,
+		Bus2IP_Data                    => ipif_Bus2IP_Data,
+		Bus2IP_BE                      => ipif_Bus2IP_BE,
+		Bus2IP_RdCE                    => user_Bus2IP_RdCE,
+		Bus2IP_WrCE                    => user_Bus2IP_WrCE,
+		IP2Bus_Data                    => user_IP2Bus_Data,
+		IP2Bus_RdAck                   => user_IP2Bus_RdAck,
+		IP2Bus_WrAck                   => user_IP2Bus_WrAck,
+		IP2Bus_Error                   => user_IP2Bus_Error
     );
 
   ------------------------------------------

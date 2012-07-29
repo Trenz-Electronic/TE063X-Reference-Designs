@@ -1,6 +1,6 @@
 =========================================================================
-Time: Mon Jun 25 8:16:19 PM FLE Daylight Time 2012
-Running: run_batch_mode 196406784
+Time: Thu Jul 26 10:38:48 PM FLE Daylight Time 2012
+Running: run_batch_mode 139021632
 {COLLECTING:  INSTANCE MCB_DDR3    }
 {COLLECTING:  C_INTERCONNECT_S0_AXI_MASTERS microblaze_0.M_AXI_DC & microblaze_0.M_AXI_IC OPTIONAL string none microblaze_0.M_AXI_DC & microblaze_0.M_AXI_IC}
 {COLLECTING:  C_INTERCONNECT_S0_AXI_IS_ACLK_ASYNC 0 OPTIONAL_UPDATE integer 0 }
@@ -561,3 +561,7 @@ Running: run_batch_mode 196406784
 {SET: IGNORE C_MEM_PARTNO = MT41J64M16XX-187E (BATCH:REQUIRE::MHS:COMPVAL)}
 {SET: CHECK C_NUM_DQ_PINS = 16 (BATCH:OPTIONAL_UPDATE:CHECK:MPD:MPDVAL)}
 RETURN: 0
+=========================================================================
+Time: Thu Jul 26 10:38:50 PM FLE Daylight Time 2012
+Running: generate_corelevel_constraints 139021632
+RETURN: 

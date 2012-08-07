@@ -1,0 +1,3 @@
+PROCESSOR=microblaze_0
+REPOSITORIES=-lp C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP
+HWSPEC=../reference-TE0630_hw_platform/system.xml

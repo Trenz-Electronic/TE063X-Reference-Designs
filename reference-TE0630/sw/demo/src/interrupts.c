@@ -64,8 +64,7 @@ void start_intc(void) {
 void i2c_slave_int_handler(void *baseaddr_p) {
 	
 	Xuint32 BaseAddress = (Xuint32)baseaddr_p;
-	Xuint32 status, reg0, reg1, reg2,cmd;
-	Xuint8 i;
+	Xuint32 reg0, reg1, reg2;
 
 	DBGINT(xil_printf("\r\nCommand from host PC received!\r\n");)
 	reg0=XIo_In32(BaseAddress + XPS_I2C_SLAVE_FX2MB_REG0_OFFSET); //read control reg0

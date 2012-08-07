@@ -1,0 +1,26 @@
+elfcheck
+Xilinx EDK 13.2 Build EDK_O.61xd
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+
+Command Line: elfcheck -hw ../../reference-TE0630_hw_platform/system.xml -pe
+microblaze_0 demo.elf 
+
+ELF file	: demo.elf
+ERROR:EDK:3165 - elfcheck failed!
+The following sections did not fit into Processor  memory:
+	Section .stack (0x1C003108 - 0x1C003507)
+	Section .heap (0x1C002D04 - 0x1C003107)
+	Section .bss (0x1C002C10 - 0x1C002D03)
+	Section .jcr (0x1C002C08 - 0x1C002C0B)
+	Section .eh_frame (0x1C002C04 - 0x1C002C07)
+	Section .data (0x1C002AC0 - 0x1C002C03)
+	Section .sdata2 (0x1C002ABA - 0x1C002ABF)
+	Section .rodata (0x1C00219C - 0x1C002AB9)
+	Section .dtors (0x1C002194 - 0x1C00219B)
+	Section .ctors (0x1C00218C - 0x1C002193)
+	Section .fini (0x1C002170 - 0x1C00218B)
+	Section .init (0x1C002134 - 0x1C00216F)
+	Section .text (0x1C000000 - 0x1C002133)
+
+Try using the linker script generation tools to generate an ELF that maps
+correctly to your hardware design.

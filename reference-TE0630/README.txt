@@ -18,11 +18,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
 IN THE SOFTWARE.
 --------------------------------------------------------------------------------
-Simple LED blinkin project for TE0630 boards.
-For TE0630 board with xc6slx45-2csg484 FPGA use blinkin-TE0630-45 project.
-For TE0630 board with xc6slx75-2csg484 FPGA use blinkin-TE0630-75 project.
-For TE0630 board with xc6slx100-2csg484 FPGA use blinkin-TE0630-100 project.
-For TE0630 board with xc6slx150-2csg484 FPGA use blinkin-TE0630-150 project.
+Reference project for TE0630 boards.
+
+To work with software part:
+
+- Launch Xilinx SDK and specify new workspace.
+
+- In Xilinx SDK "Xilinx Tools"->"Repositories". Add new repository which point
+  to ..\TE-EDK-IP
+  
+- Import standalone_bsp_0 and demo from sw folder to your workspace.
+
+- Build project.
+
+- Launch Xilinx EDK and do right mouse click to "Project files"->"Elf files"->
+  "microblaze_0"->"Imp Executable" select Browse and specify demo.elf file in
+  your workspace
+  
+- Do "Device Configuration"->"Update Bitstream"
 
 Project is under MIT license. All contributions should mit MIT license.
 --------------------------------------------------------------------------------

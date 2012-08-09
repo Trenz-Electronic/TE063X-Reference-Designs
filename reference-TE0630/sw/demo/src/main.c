@@ -22,13 +22,11 @@ void menu(void) {
 //====================================================
 int main (void) 
 {	
-	Xint16 character, fifo_trig, fifo_mask;
-	Xint8  char8, timeout, cache=1;
-	Xuint32 i, ver;
+	Xint16 character;
+	Xint8  cache=1;
+	Xuint32 ver;
 	Xuint32 counter=0;
-	Xuint8 k;
-	Xuint16 tx_count, rx_count;
-	Xuint32 data;
+	Xuint16 tx_count;
 	NPI_DMA_TYPE DMA;
 
 	Xuint8 rx_run = 0; //rx xfer start flag

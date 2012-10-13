@@ -1,8 +1,0 @@
-INTSTYLE=ise
-INFILE=C:\Projects\Trenz\FX2_vcom\vcom-TE0630\top.ncd
-OUTFILE=C:\Projects\Trenz\FX2_vcom\vcom-TE0630\top.bit
-FAMILY=Spartan6
-PART=xc6slx150-2csg484
-WORKINGDIR=C:\Projects\Trenz\FX2_vcom\vcom-TE0630
-LICENSE=ISE
-USER_INFO=No user information available.

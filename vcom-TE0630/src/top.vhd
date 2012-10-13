@@ -22,18 +22,14 @@
 -- Company: Trenz Electronics GmbH
 -- Engineer: Oleksandr Kiyenko (a.kienko@gmail.com)
 -- 
--- Create Date:    22:36:35 05/16/2012 
--- Design Name:    vcom-TE0320
--- Module Name:    top - Behavioral 
--- Project Name:   vcom
--- Target Devices: all TE USB modules
--- Tool versions:  ISE 13.2
--- Description:    Simple stub to communicate with FX2 in Virtual COM mode
+-- Create Date: 19:51:49 09/03/2012 
+-- Design Name: user test
+-- Module Name: top - RTL 
 -------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use IEEE.std_logic_arith.all;
+use IEEE.std_logic_unsigned.all;
 -------------------------------------------------------------------------------
 entity top is
 port ( 
@@ -41,10 +37,10 @@ port (
 	sys_rst				: in    STD_LOGIC;	-- aclive high
 	LED					: out   STD_LOGIC_VECTOR(3 downto 0);
 	USB_FD_pin			: inout STD_LOGIC_VECTOR(7 downto 0);
-	USB_FLAGA_pin		: in    STD_LOGIC;	-- FlagA = EP2EF
-	USB_FLAGB_pin		: in    STD_LOGIC;	-- FlagB = EP8FF
-	USB_FLAGC_pin		: in    STD_LOGIC;	-- FlagC = EP8PF (half of buffer)
-	USB_FLAGD_pin		: in    STD_LOGIC;	-- FlagD = LED (toggle each rx byte)
+	USB_FLAGA_pin		: in    STD_LOGIC;
+	USB_FLAGB_pin		: in    STD_LOGIC;
+	USB_FLAGC_pin		: in    STD_LOGIC;
+	USB_FLAGD_pin		: in    STD_LOGIC;
 	USB_SLWR_pin		: out   STD_LOGIC;
 	USB_SLRD_pin		: out   STD_LOGIC;
 	USB_SLOE_pin		: out   STD_LOGIC;
@@ -54,84 +50,164 @@ port (
 );
 end top;
 -------------------------------------------------------------------------------
-architecture Behavioral of top is
+architecture RTL of top is
 -------------------------------------------------------------------------------
--- Endpoints addresses for FIFOADR pins
-constant EP2ADR			: STD_LOGIC_VECTOR( 1 downto 0) := "00";
-constant EP4ADR			: STD_LOGIC_VECTOR( 1 downto 0) := "01";
-constant EP6ADR			: STD_LOGIC_VECTOR( 1 downto 0) := "10";
-constant EP8ADR			: STD_LOGIC_VECTOR( 1 downto 0) := "11";
--- Polarity is configured by FIFOPINPOLAR register in FX2 firmware
-constant ENABLE			: STD_LOGIC := '1';
-constant DISABLE		: STD_LOGIC := '0';
--- Signals
-signal fd_d_drv			: STD_LOGIC_VECTOR( 7 downto 0);
-signal fd_t_drv			: STD_LOGIC := '1';
-signal sloe				: STD_LOGIC := DISABLE;
-signal slwr				: STD_LOGIC := DISABLE;
-signal slrd				: STD_LOGIC := DISABLE;
-signal pktend			: STD_LOGIC := DISABLE;
-signal fifoadr			: STD_LOGIC_VECTOR( 1 downto 0);
-signal usb_clk			: STD_LOGIC;
-signal usb_empty		: STD_LOGIC;
-signal usb_full			: STD_LOGIC;
-type sm_state_type is (ST_IDLE, ST_READ, ST_READ_END, ST_WRITE);
-signal sm_state			: sm_state_type;
-signal rd_data			: STD_LOGIC_VECTOR( 7 downto 0);
--------------------------------------------------------------------------------
-begin
--------------------------------------------------------------------------------
-usb_clk			<= USB_IFCLK_pin;
-usb_empty		<= USB_FLAGA_pin;
-usb_full		<= USB_FLAGB_pin;
-LED				<= USB_FLAGD_pin & USB_FLAGC_pin & USB_FLAGB_pin & USB_FLAGA_pin;
-USB_FD_pin		<= "ZZZZZZZZ" when fd_t_drv = '1' else fd_d_drv;
-USB_SLWR_pin	<= slwr;
-USB_SLRD_pin	<= slrd;
-USB_SLOE_pin	<= sloe;
-USB_PKTEND_pin	<= pktend;
-USB_FIFOADR_pin	<= fifoadr;
+component ic_fifo is
+port (
+    m_aclk				: in  STD_LOGIC;
+    s_aclk				: in  STD_LOGIC;
+    s_aresetn			: in  STD_LOGIC;
+    s_axis_tvalid		: in  STD_LOGIC;
+    s_axis_tready		: out STD_LOGIC;
+    s_axis_tdata		: in  STD_LOGIC_VECTOR(7 downto 0);
+    m_axis_tvalid		: out STD_LOGIC;
+    m_axis_tready		: in  STD_LOGIC;
+	m_axis_tdata		: out STD_LOGIC_VECTOR(7 downto 0)
+);
+end component ic_fifo;
 
-process(usb_clk,sys_rst)
+component fx2_interface is
+port ( 
+	USB_FD_I			: in  STD_LOGIC_VECTOR(7 downto 0);
+	USB_FD_O			: out STD_LOGIC_VECTOR(7 downto 0);
+	USB_FD_T			: out STD_LOGIC;
+	USB_FLAGA_pin		: in  STD_LOGIC;
+	USB_FLAGB_pin		: in  STD_LOGIC;
+	USB_FLAGC_pin		: in  STD_LOGIC;
+	USB_FLAGD_pin		: in  STD_LOGIC;
+	USB_SLWR_pin		: out STD_LOGIC;
+	USB_SLRD_pin		: out STD_LOGIC;
+	USB_SLOE_pin		: out STD_LOGIC;
+	USB_PKTEND_pin		: out STD_LOGIC;
+	USB_FIFOADR_pin		: out STD_LOGIC_VECTOR(1 downto 0);
+	USB_IFCLK_pin		: in  STD_LOGIC;
+    m_aclk				: out STD_LOGIC;
+    s_aclk				: out STD_LOGIC;
+    s_aresetn			: in  STD_LOGIC;
+    s_axis_tvalid		: in  STD_LOGIC;
+    s_axis_tready		: out STD_LOGIC;
+    s_axis_tdata		: in  STD_LOGIC_VECTOR(7 downto 0);
+    m_axis_tvalid		: out STD_LOGIC;
+    m_axis_tready		: in  STD_LOGIC;
+	m_axis_tdata		: out STD_LOGIC_VECTOR(7 downto 0)
+);
+end component fx2_interface;
+
+component user_engine is
+port ( 
+    aclk				: in  STD_LOGIC;
+    aresetn				: in  STD_LOGIC;
+    s_axis_tvalid		: in  STD_LOGIC;
+    s_axis_tready		: out STD_LOGIC;
+    s_axis_tdata		: in  STD_LOGIC_VECTOR(7 downto 0);
+    m_axis_tvalid		: out STD_LOGIC;
+    m_axis_tready		: in  STD_LOGIC;
+	m_axis_tdata		: out STD_LOGIC_VECTOR(7 downto 0)
+);
+end component user_engine;
+
+-- Signals
+signal USB_FD_O				: STD_LOGIC_VECTOR( 7 downto 0);
+signal USB_FD_T				: STD_LOGIC;
+signal fx2_m_aclk			: STD_LOGIC;
+signal fx2_s_aclk			: STD_LOGIC;
+signal s_aresetn			: STD_LOGIC;
+signal fx2_s_axis_tvalid	: STD_LOGIC;
+signal fx2_s_axis_tready	: STD_LOGIC;
+signal fx2_s_axis_tdata		: STD_LOGIC_VECTOR( 7 downto 0);
+signal fx2_m_axis_tvalid	: STD_LOGIC;
+signal fx2_m_axis_tready	: STD_LOGIC;
+signal fx2_m_axis_tdata		: STD_LOGIC_VECTOR( 7 downto 0);
+signal user_s_axis_tvalid	: STD_LOGIC;
+signal user_s_axis_tready	: STD_LOGIC;
+signal user_s_axis_tdata	: STD_LOGIC_VECTOR( 7 downto 0);
+signal user_m_axis_tvalid	: STD_LOGIC;
+signal user_m_axis_tready	: STD_LOGIC;
+signal user_m_axis_tdata	: STD_LOGIC_VECTOR( 7 downto 0);
+signal led_cnt				: STD_LOGIC_VECTOR(26 downto 0);
+-------------------------------------------------------------------------------
 begin
-	if(sys_rst = '1')then
-		fd_t_drv	<= '1';
-	elsif(usb_clk = '1' and usb_clk'event)then
-		case sm_state is
-			when ST_IDLE => 
-				fd_t_drv		<= '1';				
-				slwr			<= DISABLE;
-				pktend			<= DISABLE;		
-				if(usb_empty = DISABLE)then		-- We have data to read
-					fifoadr		<= EP2ADR;		-- Read from EP2
-					sloe		<= ENABLE;
-					sm_state	<= ST_READ;
-				end if;
-			
-			when ST_READ =>
-				rd_data			<= USB_FD_pin;	-- Store received byte
-				slrd			<= ENABLE;		-- Pop data from FIFO
-				sm_state		<= ST_READ_END;
-			
-			when ST_READ_END =>					-- Return all to initial state
-				slrd			<= DISABLE;
-				sloe			<= DISABLE;
-				sm_state		<= ST_WRITE;
-				
-			when ST_WRITE =>
-				if(usb_full = DISABLE)then		-- If FX2 FIFO not full
-					fifoadr		<= EP8ADR;		-- Write to EP8
-					fd_t_drv	<= '0';			-- Drive FD bus
-					fd_d_drv	<= rd_data + 1;	-- Data to transmit
-												-- In this example we just add 1
-												-- to received byte 
-					slwr		<= ENABLE;		-- Write
-					pktend		<= ENABLE;		-- Commit packet
-					sm_state	<= ST_IDLE;		
-				end if;
-		end case;
+-------------------------------------------------------------------------------
+-- Glue logic
+USB_FD_pin		<= "ZZZZZZZZ" when USB_FD_T = '1' else USB_FD_O;
+s_aresetn		<= not sys_rst;
+-- Indication
+process(sys_clk,s_aresetn)
+begin
+	if(s_aresetn='0')then
+		led_cnt	<= (others => '0');
+	elsif(sys_clk = '1' and sys_clk'event)then
+		led_cnt	<= led_cnt + 1;
 	end if;
 end process;
+LED	<= 
+	(led_cnt(23) and led_cnt(24) and led_cnt(25) and led_cnt(26)) &		-- 1
+	(led_cnt(23) and led_cnt(25) and led_cnt(26)) &						-- 2
+	(led_cnt(23) and (led_cnt(24) or led_cnt(25)) and led_cnt(26)) &	-- 3
+	(led_cnt(23) and led_cnt(26));										-- 4
+
+fx2_intf: fx2_interface
+port map( 
+	USB_FD_I			=> USB_FD_pin,
+	USB_FD_O			=> USB_FD_O,
+	USB_FD_T			=> USB_FD_T,
+	USB_FLAGA_pin		=> USB_FLAGA_pin,
+	USB_FLAGB_pin		=> USB_FLAGB_pin,
+	USB_FLAGC_pin		=> USB_FLAGC_pin,
+	USB_FLAGD_pin		=> USB_FLAGD_pin,
+	USB_SLWR_pin		=> USB_SLWR_pin,
+	USB_SLRD_pin		=> USB_SLRD_pin,
+	USB_SLOE_pin		=> USB_SLOE_pin,
+	USB_PKTEND_pin		=> USB_PKTEND_pin,
+	USB_FIFOADR_pin		=> USB_FIFOADR_pin,
+	USB_IFCLK_pin		=> USB_IFCLK_pin,
+    m_aclk				=> fx2_m_aclk,
+    s_aclk				=> fx2_s_aclk,
+    s_aresetn			=> s_aresetn,
+    s_axis_tvalid		=> fx2_s_axis_tvalid,
+    s_axis_tready		=> fx2_s_axis_tready,
+    s_axis_tdata		=> fx2_s_axis_tdata,
+    m_axis_tvalid		=> fx2_m_axis_tvalid,
+    m_axis_tready		=> fx2_m_axis_tready,
+	m_axis_tdata		=> fx2_m_axis_tdata
+);
+
+fx2user_fifo: ic_fifo
+port map(
+    m_aclk				=> fx2_m_aclk,
+    s_aclk				=> sys_clk,	-- can be changed
+    s_aresetn			=> s_aresetn,
+    s_axis_tvalid		=> fx2_m_axis_tvalid,
+    s_axis_tready		=> fx2_m_axis_tready,
+    s_axis_tdata		=> fx2_m_axis_tdata,
+    m_axis_tvalid		=> user_s_axis_tvalid,
+    m_axis_tready		=> user_s_axis_tready,
+	m_axis_tdata		=> user_s_axis_tdata
+);
+
+user2fx_fifo: ic_fifo
+port map(
+    m_aclk				=> sys_clk,	-- can be changed
+    s_aclk				=> fx2_s_aclk,
+    s_aresetn			=> s_aresetn,
+    s_axis_tvalid		=> user_m_axis_tvalid,
+    s_axis_tready		=> user_m_axis_tready,
+    s_axis_tdata		=> user_m_axis_tdata,
+    m_axis_tvalid		=> fx2_s_axis_tvalid,
+    m_axis_tready		=> fx2_s_axis_tready,
+	m_axis_tdata		=> fx2_s_axis_tdata
+);
+
+user_engine_inst: user_engine
+port map( 
+    aclk				=> sys_clk,	-- can be changed
+    aresetn				=> s_aresetn,
+    s_axis_tvalid		=> user_s_axis_tvalid,
+    s_axis_tready		=> user_s_axis_tready,
+    s_axis_tdata		=> user_s_axis_tdata,
+    m_axis_tvalid		=> user_m_axis_tvalid,
+    m_axis_tready		=> user_m_axis_tready,
+	m_axis_tdata		=> user_m_axis_tdata
+);
 -------------------------------------------------------------------------------
-end Behavioral;
--------------------------------------------------------------------------------
+end RTL;

@@ -1,0 +1,11 @@
+# PROMGEN: Xilinx Prom Generator P.28xd
+# Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+SOFTWARE_VERSION P.28xd
+DATE            10/15/2012 - 13:11
+SOURCE          TE0630-LX100.mcs
+DEVICE          32768K
+DATA_WIDTH      1
+FILL_DATA       0xFF
+SIGNATURE       0xCC7CAD7B
+START_ADDRESS   0x00000000 END_ADDRESS 0x0032A093 DIRECTION_UP   "download_lx100.bit" 6slx100csg484

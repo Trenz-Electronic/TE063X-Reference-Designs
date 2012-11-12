@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item value="Default C source template" key="LastUsedSourceTemplate"/>
-	<item value="Default C header template" key="LastUsedHeaderTemplate"/>
 	<section name="completion_proposal_size">
 	</section>
-	<section name="PDOMSearchPage">
-	</section>
 	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration.internal">
-		<item value="553" key="size.width"/>
+		<item value="569" key="size.width"/>
 		<item value="180" key="size.height"/>
 	</section>
 	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration">

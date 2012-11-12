@@ -184,7 +184,9 @@ end process;
 				when STATE_WR_REM =>
 					sloe_drv				<= C_USB_SLOE_DISABLE_LEVEL;
 					slwr_drv				<= C_USB_SLWR_PASSIVE;
-					if(usb_tx_full = '0')then
+					if(usb_rx_empty = '0' and rx_fifo_almostfull = '0')then
+						wr_fsm_state		<= STATE_WR_INIT;
+					elsif(usb_tx_full = '0')then
 						wr_fsm_state		<= STATE_WR;
 					end if;
 

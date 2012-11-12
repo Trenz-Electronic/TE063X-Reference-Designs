@@ -24,7 +24,7 @@ IN THE SOFTWARE.
 
 #define MAJOR_VERSION	2
 #define MINOR_VERSION	0
-#define RELEASE			0
+#define RELEASE			1
 #define BUILD			4
 
 #endif /* VERSION_H_ */

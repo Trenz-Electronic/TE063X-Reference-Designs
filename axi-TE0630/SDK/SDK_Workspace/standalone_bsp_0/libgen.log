@@ -2,14 +2,9 @@ Release 13.2 - libgen Xilinx EDK 13.2 Build EDK_O.61xd
  (nt64)
 Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
 
-Command Line: libgen -hw ../axi-TE0630_hw_platform/system.xml -pe microblaze_0
--log libgen.log system.mss 
-
-WARNING:EDK - INFO:Security:56 - Part 'xc6slx45' is not a WebPack part.
-   WARNING:Security:42 - Your software subscription period has lapsed. Your
-   current version of Xilinx tools will continue to function, but you no longer
-   qualify for Xilinx software updates or new releases.
-
+Command Line: libgen -hw ../axi-TE0630_hw_platform/system.xml -lp
+C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP -pe microblaze_0 -log
+libgen.log system.mss 
 
 
 Staging source files.

@@ -2,34 +2,29 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="257" key="DIALOG_WIDTH"/>
-		<item value="128" key="DIALOG_Y_ORIGIN"/>
+		<item value="140" key="DIALOG_Y_ORIGIN"/>
+		<item value="981" key="DIALOG_X_ORIGIN"/>
 		<item value="380" key="DIALOG_HEIGHT"/>
-		<item value="814" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="ReceiveComplete" key="selection"/>
+		<item value="I2CSendHandler" key="selection"/>
 		<list key="findhistory">
-			<item value="ReceiveComplete"/>
+			<item value="I2CSendHandler"/>
+			<item value="TransmitComplete"/>
+			<item value="I2CRead"/>
 			<item value="?"/>
-			<item value="XPAR_MICROBLAZE_0_INTC_AXI_FIFO_MM_S_0_INTERRUPT_INTR"/>
-			<item value="xil_printf"/>
-			<item value="XLLF_INT_"/>
-			<item value="XPAR_INTC_0_IIC_0_VEC_ID"/>
-			<item value="IIC_INTR_ID"/>
-			<item value="XIic_InterruptHandler"/>
+			<item value="total_cnt"/>
+			<item value="&quot;&amp;&quot;"/>
+			<item value="XIic_Start"/>
+			<item value="I2CReadData"/>
 		</list>
 		<list key="replacehistory">
-			<item value="I2CReceiveHandler"/>
-			<item value="I2CSendHandler"/>
-			<item value="I2CStatusHandler"/>
-			<item value="I2CReadData"/>
-			<item value="I2CWriteData"/>
 		</list>
 	</section>
 </section>

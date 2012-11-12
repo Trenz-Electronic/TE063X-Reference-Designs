@@ -58,9 +58,9 @@
 ------------------------------------------------------------------------------
 
 library ieee;
-use ieee.std_logic_1164.all;
-use ieee.std_logic_arith.all;
-use ieee.std_logic_unsigned.all;
+use ieee.STD_LOGIC_1164.all;
+use ieee.STD_LOGIC_arith.all;
+use ieee.STD_LOGIC_unsigned.all;
 
 library proc_common_v3_00_a;
 use proc_common_v3_00_a.proc_common_pkg.all;
@@ -123,11 +123,11 @@ entity axi_fx2 is
     -- Bus protocol parameters, do not add to or delete
     C_S_AXI_DATA_WIDTH             : integer              := 32;
     C_S_AXI_ADDR_WIDTH             : integer              := 32;
-    C_S_AXI_MIN_SIZE               : std_logic_vector     := X"000001FF";
+    C_S_AXI_MIN_SIZE               : STD_LOGIC_VECTOR     := X"000001FF";
     C_USE_WSTRB                    : integer              := 0;
     C_DPHASE_TIMEOUT               : integer              := 8;
-    C_BASEADDR                     : std_logic_vector     := X"FFFFFFFF";
-    C_HIGHADDR                     : std_logic_vector     := X"00000000";
+    C_BASEADDR                     : STD_LOGIC_VECTOR     := X"FFFFFFFF";
+    C_HIGHADDR                     : STD_LOGIC_VECTOR     := X"00000000";
     C_FAMILY                       : string               := "virtex6";
     C_NUM_REG                      : integer              := 1;
     C_NUM_MEM                      : integer              := 1;
@@ -140,66 +140,74 @@ entity axi_fx2 is
     -- ADD USER PORTS BELOW THIS LINE ------------------
     --USER ports added here
     -- ADD USER PORTS ABOVE THIS LINE ------------------
-	USB_IFCLK           			: in  std_logic;
-    USB_SLRD            			: out std_logic;
-    USB_SLWR            			: out std_logic;
-    USB_FLAGA           			: in  std_logic;
-    USB_FLAGB           			: in  std_logic;
-    USB_FLAGC           			: in  std_logic;
-	USB_FLAGD           			: in  std_logic;
-	USB_SLOE            			: out std_logic;
-	USB_PKTEND          			: out std_logic;
-	USB_FIFOADR         			: out std_logic_vector(1 downto 0); --"00"=EP2,"01"=EP4,"10"=EP6,11"=EP8
-    USB_FD_T            			: out std_logic_vector(7 downto 0) := (others => '1'); --OE active low
-    USB_FD_O            			: out std_logic_vector(7 downto 0) := (others => '0');
-    USB_FD_I            			: in  std_logic_vector(7 downto 0);
+	USB_IFCLK           			: in  STD_LOGIC;
+    USB_SLRD            			: out STD_LOGIC;
+    USB_SLWR            			: out STD_LOGIC;
+    USB_FLAGA           			: in  STD_LOGIC;
+    USB_FLAGB           			: in  STD_LOGIC;
+    USB_FLAGC           			: in  STD_LOGIC;
+	USB_FLAGD           			: in  STD_LOGIC;
+	USB_SLOE            			: out STD_LOGIC;
+	USB_PKTEND          			: out STD_LOGIC;
+	USB_FIFOADR         			: out STD_LOGIC_VECTOR(1 downto 0); --"00"=EP2,"01"=EP4,"10"=EP6,11"=EP8
+    USB_FD_T            			: out STD_LOGIC_VECTOR(7 downto 0) := (others => '1'); --OE active low
+    USB_FD_O            			: out STD_LOGIC_VECTOR(7 downto 0) := (others => '0');
+    USB_FD_I            			: in  STD_LOGIC_VECTOR(7 downto 0);
 	
-	S_AXIS_ACLK						: in  std_logic;
-	S_AXIS_TREADY					: out std_logic;
-	S_AXIS_TDATA					: in  std_logic_vector(31 downto 0);
-	S_AXIS_TKEEP					: in  std_logic_vector( 3 downto 0);
-	S_AXIS_TLAST					: in  std_logic;
-	S_AXIS_TVALID					: in  std_logic;
-	M_AXIS_ACLK						: in  std_logic;
-	M_AXIS_TVALID					: out std_logic;
-	M_AXIS_TDATA					: out std_logic_vector(31 downto 0);
-	M_AXIS_TKEEP					: out std_logic_vector( 3 downto 0);
-	M_AXIS_TLAST					: out std_logic;
-	M_AXIS_TREADY					: in  std_logic;
+	S_AXIS_ACLK						: in  STD_LOGIC;
+	S_AXIS_TREADY					: out STD_LOGIC;
+	S_AXIS_TDATA					: in  STD_LOGIC_VECTOR(31 downto 0);
+	S_AXIS_TKEEP					: in  STD_LOGIC_VECTOR( 3 downto 0);
+	S_AXIS_TLAST					: in  STD_LOGIC;
+	S_AXIS_TVALID					: in  STD_LOGIC;
 	
+	M_AXIS_ACLK						: in  STD_LOGIC;
+	M_AXIS_TVALID					: out STD_LOGIC;
+	M_AXIS_TDATA					: out STD_LOGIC_VECTOR(31 downto 0);
+	M_AXIS_TKEEP					: out STD_LOGIC_VECTOR( 3 downto 0);
+	M_AXIS_TLAST					: out STD_LOGIC;
+	M_AXIS_TREADY					: in  STD_LOGIC;
+	
+	C_AXIS_ACLK						: in  STD_LOGIC;
+	C_AXIS_TVALID					: in  STD_LOGIC;
+	C_AXIS_TREADY					: out STD_LOGIC;
+	C_AXIS_TLAST					: in  STD_LOGIC;
+	C_AXIS_TKEEP					: in  STD_LOGIC_VECTOR( 3 downto 0);
+	C_AXIS_TDATA					: in  STD_LOGIC_VECTOR(31 downto 0);
+
 	CHIPSCOPE						: out STD_LOGIC_VECTOR(63 downto 0);
 	dbgin							: in  STD_LOGIC;
 	
     -- DO NOT EDIT BELOW THIS LINE ---------------------
     -- Bus protocol ports, do not add to or delete
-    S_AXI_ACLK                     : in  std_logic;
-    S_AXI_ARESETN                  : in  std_logic;
-    S_AXI_AWADDR                   : in  std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
-    S_AXI_AWVALID                  : in  std_logic;
-    S_AXI_WDATA                    : in  std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
-    S_AXI_WSTRB                    : in  std_logic_vector((C_S_AXI_DATA_WIDTH/8)-1 downto 0);
-    S_AXI_WVALID                   : in  std_logic;
-    S_AXI_BREADY                   : in  std_logic;
-    S_AXI_ARADDR                   : in  std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
-    S_AXI_ARVALID                  : in  std_logic;
-    S_AXI_RREADY                   : in  std_logic;
-    S_AXI_ARREADY                  : out std_logic;
-    S_AXI_RDATA                    : out std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
-    S_AXI_RRESP                    : out std_logic_vector(1 downto 0);
-    S_AXI_RVALID                   : out std_logic;
-    S_AXI_WREADY                   : out std_logic;
-    S_AXI_BRESP                    : out std_logic_vector(1 downto 0);
-    S_AXI_BVALID                   : out std_logic;
-    S_AXI_AWREADY                  : out std_logic
+    S_AXI_ACLK                     : in  STD_LOGIC;
+    S_AXI_ARESETN                  : in  STD_LOGIC;
+    S_AXI_AWADDR                   : in  STD_LOGIC_VECTOR(C_S_AXI_ADDR_WIDTH-1 downto 0);
+    S_AXI_AWVALID                  : in  STD_LOGIC;
+    S_AXI_WDATA                    : in  STD_LOGIC_VECTOR(C_S_AXI_DATA_WIDTH-1 downto 0);
+    S_AXI_WSTRB                    : in  STD_LOGIC_VECTOR((C_S_AXI_DATA_WIDTH/8)-1 downto 0);
+    S_AXI_WVALID                   : in  STD_LOGIC;
+    S_AXI_BREADY                   : in  STD_LOGIC;
+    S_AXI_ARADDR                   : in  STD_LOGIC_VECTOR(C_S_AXI_ADDR_WIDTH-1 downto 0);
+    S_AXI_ARVALID                  : in  STD_LOGIC;
+    S_AXI_RREADY                   : in  STD_LOGIC;
+    S_AXI_ARREADY                  : out STD_LOGIC;
+    S_AXI_RDATA                    : out STD_LOGIC_VECTOR(C_S_AXI_DATA_WIDTH-1 downto 0);
+    S_AXI_RRESP                    : out STD_LOGIC_VECTOR(1 downto 0);
+    S_AXI_RVALID                   : out STD_LOGIC;
+    S_AXI_WREADY                   : out STD_LOGIC;
+    S_AXI_BRESP                    : out STD_LOGIC_VECTOR(1 downto 0);
+    S_AXI_BVALID                   : out STD_LOGIC;
+    S_AXI_AWREADY                  : out STD_LOGIC
     -- DO NOT EDIT ABOVE THIS LINE ---------------------
   );
 
   attribute MAX_FANOUT : string;
   attribute SIGIS : string;
-  attribute MAX_FANOUT of S_AXI_ACLK       : signal is "10000";
-  attribute MAX_FANOUT of S_AXI_ARESETN       : signal is "10000";
-  attribute SIGIS of S_AXI_ACLK       : signal is "Clk";
-  attribute SIGIS of S_AXI_ARESETN       : signal is "Rst";
+  attribute MAX_FANOUT of S_AXI_ACLK	: signal is "10000";
+  attribute MAX_FANOUT of S_AXI_ARESETN	: signal is "10000";
+  attribute SIGIS of S_AXI_ACLK			: signal is "Clk";
+  attribute SIGIS of S_AXI_ARESETN		: signal is "Rst";
 end entity axi_fx2;
 
 ------------------------------------------------------------------------------
@@ -208,15 +216,13 @@ end entity axi_fx2;
 
 architecture IMP of axi_fx2 is
 
-  constant USER_SLV_DWIDTH                : integer              := C_S_AXI_DATA_WIDTH;
-
-  constant IPIF_SLV_DWIDTH                : integer              := C_S_AXI_DATA_WIDTH;
-
-  constant ZERO_ADDR_PAD                  : std_logic_vector(0 to 31) := (others => '0');
-  constant RST_BASEADDR                   : std_logic_vector     := C_BASEADDR or X"00000100";
-  constant RST_HIGHADDR                   : std_logic_vector     := C_BASEADDR or X"000001FF";
-  constant USER_SLV_BASEADDR              : std_logic_vector     := C_BASEADDR or X"00000000";
-  constant USER_SLV_HIGHADDR              : std_logic_vector     := C_BASEADDR or X"000000FF";
+  constant USER_SLV_DWIDTH      : integer              := C_S_AXI_DATA_WIDTH;
+  constant IPIF_SLV_DWIDTH      : integer              := C_S_AXI_DATA_WIDTH;
+  constant ZERO_ADDR_PAD        : STD_LOGIC_VECTOR(0 to 31) := (others => '0');
+  constant RST_BASEADDR         : STD_LOGIC_VECTOR     := C_BASEADDR or X"00000100";
+  constant RST_HIGHADDR         : STD_LOGIC_VECTOR     := C_BASEADDR or X"000001FF";
+  constant USER_SLV_BASEADDR	: STD_LOGIC_VECTOR     := C_BASEADDR or X"00000000";
+  constant USER_SLV_HIGHADDR    : STD_LOGIC_VECTOR     := C_BASEADDR or X"000000FF";
 
   constant IPIF_ARD_ADDR_RANGE_ARRAY      : SLV64_ARRAY_TYPE     := 
     (
@@ -226,10 +232,10 @@ architecture IMP of axi_fx2 is
       ZERO_ADDR_PAD & USER_SLV_HIGHADDR   -- user logic slave space high address
     );
 
-  constant RST_NUM_CE                     : integer              := 1;
-  constant USER_SLV_NUM_REG               : integer              := 8;
-  constant USER_NUM_REG                   : integer              := USER_SLV_NUM_REG;
-  constant TOTAL_IPIF_CE                  : integer              := USER_NUM_REG + RST_NUM_CE;
+  constant RST_NUM_CE           : integer              := 1;
+  constant USER_SLV_NUM_REG     : integer              := 8;
+  constant USER_NUM_REG         : integer              := USER_SLV_NUM_REG;
+  constant TOTAL_IPIF_CE        : integer              := USER_NUM_REG + RST_NUM_CE;
 
   constant IPIF_ARD_NUM_CE_ARRAY          : INTEGER_ARRAY_TYPE   := 
     (
@@ -249,36 +255,35 @@ architecture IMP of axi_fx2 is
   constant RST_CE_INDEX                   : integer              := USER_NUM_REG;
   constant USER_SLV_CS_INDEX              : integer              := 1;
   constant USER_SLV_CE_INDEX              : integer              := calc_start_ce_index(IPIF_ARD_NUM_CE_ARRAY, USER_SLV_CS_INDEX);
-
   constant USER_CE_INDEX                  : integer              := USER_SLV_CE_INDEX;
 
   ------------------------------------------
   -- IP Interconnect (IPIC) signal declarations
   ------------------------------------------
-  signal ipif_Bus2IP_Clk                : std_logic;
-  signal ipif_Bus2IP_Resetn             : std_logic;
-  signal ipif_Bus2IP_Addr               : std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
-  signal ipif_Bus2IP_RNW                : std_logic;
-  signal ipif_Bus2IP_BE                 : std_logic_vector(IPIF_SLV_DWIDTH/8-1 downto 0);
-  signal ipif_Bus2IP_CS                 : std_logic_vector((IPIF_ARD_ADDR_RANGE_ARRAY'LENGTH)/2-1 downto 0);
-  signal ipif_Bus2IP_RdCE               : std_logic_vector(calc_num_ce(IPIF_ARD_NUM_CE_ARRAY)-1 downto 0);
-  signal ipif_Bus2IP_WrCE               : std_logic_vector(calc_num_ce(IPIF_ARD_NUM_CE_ARRAY)-1 downto 0);
-  signal ipif_Bus2IP_Data               : std_logic_vector(IPIF_SLV_DWIDTH-1 downto 0);
-  signal ipif_IP2Bus_WrAck              : std_logic;
-  signal ipif_IP2Bus_RdAck              : std_logic;
-  signal ipif_IP2Bus_Error              : std_logic;
-  signal ipif_IP2Bus_Data               : std_logic_vector(IPIF_SLV_DWIDTH-1 downto 0);
-  signal ipif_Bus2IP_Reset              : std_logic;
-  signal rst_Bus2IP_Reset               : std_logic;
-  signal rst_IP2Bus_WrAck               : std_logic;
-  signal rst_IP2Bus_Error               : std_logic;
-  signal rst_Bus2IP_Reset_tmp           : std_logic;
-  signal user_Bus2IP_RdCE               : std_logic_vector(USER_NUM_REG-1 downto 0);
-  signal user_Bus2IP_WrCE               : std_logic_vector(USER_NUM_REG-1 downto 0);
-  signal user_IP2Bus_Data               : std_logic_vector(USER_SLV_DWIDTH-1 downto 0);
-  signal user_IP2Bus_RdAck              : std_logic;
-  signal user_IP2Bus_WrAck              : std_logic;
-  signal user_IP2Bus_Error              : std_logic;
+  signal ipif_Bus2IP_Clk                : STD_LOGIC;
+  signal ipif_Bus2IP_Resetn             : STD_LOGIC;
+  signal ipif_Bus2IP_Addr               : STD_LOGIC_VECTOR(C_S_AXI_ADDR_WIDTH-1 downto 0);
+  signal ipif_Bus2IP_RNW                : STD_LOGIC;
+  signal ipif_Bus2IP_BE                 : STD_LOGIC_VECTOR(IPIF_SLV_DWIDTH/8-1 downto 0);
+  signal ipif_Bus2IP_CS                 : STD_LOGIC_VECTOR((IPIF_ARD_ADDR_RANGE_ARRAY'LENGTH)/2-1 downto 0);
+  signal ipif_Bus2IP_RdCE               : STD_LOGIC_VECTOR(calc_num_ce(IPIF_ARD_NUM_CE_ARRAY)-1 downto 0);
+  signal ipif_Bus2IP_WrCE               : STD_LOGIC_VECTOR(calc_num_ce(IPIF_ARD_NUM_CE_ARRAY)-1 downto 0);
+  signal ipif_Bus2IP_Data               : STD_LOGIC_VECTOR(IPIF_SLV_DWIDTH-1 downto 0);
+  signal ipif_IP2Bus_WrAck              : STD_LOGIC;
+  signal ipif_IP2Bus_RdAck              : STD_LOGIC;
+  signal ipif_IP2Bus_Error              : STD_LOGIC;
+  signal ipif_IP2Bus_Data               : STD_LOGIC_VECTOR(IPIF_SLV_DWIDTH-1 downto 0);
+  signal ipif_Bus2IP_Reset              : STD_LOGIC;
+  signal rst_Bus2IP_Reset               : STD_LOGIC;
+  signal rst_IP2Bus_WrAck               : STD_LOGIC;
+  signal rst_IP2Bus_Error               : STD_LOGIC;
+  signal rst_Bus2IP_Reset_tmp           : STD_LOGIC;
+  signal user_Bus2IP_RdCE               : STD_LOGIC_VECTOR(USER_NUM_REG-1 downto 0);
+  signal user_Bus2IP_WrCE               : STD_LOGIC_VECTOR(USER_NUM_REG-1 downto 0);
+  signal user_IP2Bus_Data               : STD_LOGIC_VECTOR(USER_SLV_DWIDTH-1 downto 0);
+  signal user_IP2Bus_RdAck              : STD_LOGIC;
+  signal user_IP2Bus_WrAck              : STD_LOGIC;
+  signal user_IP2Bus_Error              : STD_LOGIC;
 
 begin
 
@@ -432,13 +437,15 @@ begin
 
   end process IP2BUS_DATA_MUX_PROC;
 
-  ipif_IP2Bus_WrAck <= user_IP2Bus_WrAck or rst_IP2Bus_WrAck;
-  ipif_IP2Bus_RdAck <= user_IP2Bus_RdAck;
-  ipif_IP2Bus_Error <= user_IP2Bus_Error or rst_IP2Bus_Error;
+  ipif_IP2Bus_WrAck 	<= user_IP2Bus_WrAck or rst_IP2Bus_WrAck;
+  ipif_IP2Bus_RdAck 	<= user_IP2Bus_RdAck;
+  ipif_IP2Bus_Error 	<= user_IP2Bus_Error or rst_IP2Bus_Error;
 
-  user_Bus2IP_RdCE <= ipif_Bus2IP_RdCE(USER_NUM_REG-1 downto 0);
-  user_Bus2IP_WrCE <= ipif_Bus2IP_WrCE(USER_NUM_REG-1 downto 0);
+  user_Bus2IP_RdCE 		<= ipif_Bus2IP_RdCE(USER_NUM_REG-1 downto 0);
+  user_Bus2IP_WrCE 		<= ipif_Bus2IP_WrCE(USER_NUM_REG-1 downto 0);
 
-  ipif_Bus2IP_Reset <= not ipif_Bus2IP_Resetn;
-  rst_Bus2IP_Reset_tmp <= not rst_Bus2IP_Reset;
+  ipif_Bus2IP_Reset 	<= not ipif_Bus2IP_Resetn;
+  rst_Bus2IP_Reset_tmp	<= not rst_Bus2IP_Reset;
+  C_AXIS_TREADY			<= '1'; -- Stub
+--------------------------------------------------------------------------------
 end IMP;

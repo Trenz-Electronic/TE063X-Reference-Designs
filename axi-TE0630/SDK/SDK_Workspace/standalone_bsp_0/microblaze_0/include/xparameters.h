@@ -173,6 +173,40 @@
 
 /******************************************************************/
 
+/* Definitions for driver AXIDMA */
+#define XPAR_XAXIDMA_NUM_INSTANCES 1
+
+/* Definitions for peripheral AXI_DMA_0 */
+#define XPAR_AXI_DMA_0_DEVICE_ID 0
+#define XPAR_AXI_DMA_0_BASEADDR 0x41E00000
+#define XPAR_AXI_DMA_0_HIGHADDR 0x41E0FFFF
+#define XPAR_AXI_DMA_0_SG_INCLUDE_STSCNTRL_STRM 1
+#define XPAR_AXI_DMA_0_INCLUDE_MM2S_DRE 0
+#define XPAR_AXI_DMA_0_INCLUDE_S2MM_DRE 0
+#define XPAR_AXI_DMA_0_INCLUDE_MM2S 1
+#define XPAR_AXI_DMA_0_INCLUDE_S2MM 1
+#define XPAR_AXI_DMA_0_M_AXIS_MM2S_TDATA_WIDTH 32
+#define XPAR_AXI_DMA_0_S_AXIS_S2MM_TDATA_WIDTH 32
+#define XPAR_AXI_DMA_0_INCLUDE_SG 1
+
+
+/******************************************************************/
+
+/* Canonical definitions for peripheral AXI_DMA_0 */
+#define XPAR_AXIDMA_0_DEVICE_ID XPAR_AXI_DMA_0_DEVICE_ID
+#define XPAR_AXIDMA_0_BASEADDR 0x41E00000
+#define XPAR_AXIDMA_0_SG_INCLUDE_STSCNTRL_STRM 1
+#define XPAR_AXIDMA_0_INCLUDE_MM2S 1
+#define XPAR_AXIDMA_0_INCLUDE_MM2S_DRE 0
+#define XPAR_AXIDMA_0_M_AXIS_MM2S_TDATA_WIDTH 32
+#define XPAR_AXIDMA_0_INCLUDE_S2MM 1
+#define XPAR_AXIDMA_0_INCLUDE_S2MM_DRE 0
+#define XPAR_AXIDMA_0_S_AXIS_S2MM_TDATA_WIDTH 32
+#define XPAR_AXIDMA_0_INCLUDE_SG 1
+
+
+/******************************************************************/
+
 /* Definitions for driver LLFIFO */
 #define XPAR_XLLFIFO_NUM_INSTANCES 1
 

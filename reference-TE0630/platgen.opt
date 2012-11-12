@@ -3,7 +3,7 @@ xc6slx150csg484-2
 -lang
 vhdl
 -lp
-C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP/
+B:/GIT/TE063X-Reference-Designs/TE-EDK-IP/
 -msg
 __xps/ise/xmsgprops.lst
 system.mhs

@@ -71,7 +71,6 @@ port (
 	rx_fifo_reset				: in  STD_LOGIC;
 	tx_fifo_reset				: in  STD_LOGIC;
 	wr_ep_reg					: in  STD_LOGIC_VECTOR( 1 downto 0);	
-	
 	-- ChipScope
 	CHIPSCOPE					: out STD_LOGIC_VECTOR(63 downto 0);
 	dbgin						: in  STD_LOGIC
@@ -244,6 +243,7 @@ port map(
     rd_clk 				=> M_AXIS_ACLK,
     din 				=> rx_fifo_wr_data,
     wr_en 				=> rx_fifo_wr,
+--    wr_en 				=> '0',	-- FIX ME !!!
     rd_en 				=> rx_fifo_rd,
     dout 				=> rx_fifo_rd_data,
     full 				=> rx_fifo_full,

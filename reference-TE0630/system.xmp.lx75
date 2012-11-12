@@ -25,5 +25,5 @@ UcfFile: data/system.ucf
 EnableParTimingError: 1
 ShowLicenseDialog: 1
 Processor: microblaze_0
-ElfImp: sw/demo.elf
+ElfImp: SDK/SDK_Workspace/demo/Debug/demo.elf
 ElfSim: 

@@ -1,1 +1,0 @@
-prepare_bootdata 0x10000000

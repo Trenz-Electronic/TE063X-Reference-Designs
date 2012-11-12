@@ -55,7 +55,7 @@ int rx_test(XLlFifo* InstancePtr);
 int tx_test(XLlFifo* InstancePtr);
 
 u8 state = STATE_IDLE;
-u64 rx_count = 0;
+volatile u32 total_cnt,err_cnt;
 //-----------------------------------------------------------------------------
 // Variables
 //-----------------------------------------------------------------------------
@@ -65,22 +65,31 @@ XGpio Gpio; 				// The Instance of the GPIO Driver
 XLlFifo LLFifo;				// The instance of the LL FIFO
 volatile u32 *Fx2_core	= (u32*)XPAR_AXI_FX2_0_BASEADDR;	// FX2 core base
 
+// Buffers to access from interrupt context
+u8 iic_receive_buffer[I2C_TRANSFER_COUNT];
+u8 iic_transmit_buffer[I2C_TRANSFER_COUNT];
+volatile u8 iic_receive_valid = 0;
+volatile u8 iic_transmit_valid = 0;
 
 u8 iic_int_buffer[I2C_TRANSFER_COUNT];	// Read buffer for internal use
 u8 iic_read_count = 0;					// Read buffer counter
 u8 I2CBuffer[I2C_TRANSFER_COUNT];	// Read/Write buffer for IIC operations
 //u8 I2CWriteBuffer[I2C_TRANSFER_COUNT];	// Write buffer for IIC operations
 
-volatile u8 TransmitComplete = 1;
-volatile u8 ReceiveComplete = 1;
+//volatile u8 TransmitComplete = 1;
+//volatile u8 ReceiveComplete = 1;
+//volatile u8 ReceiveComplete = 0;
 
 volatile u8 SlaveRead;
 volatile u8 SlaveWrite;
 
+u8 get_rx_test_status(void){
+	// Wait for test to finish
+	return (err_cnt == 0)? 1 : 0;
+}
 //-----------------------------------------------------------------------------
 int main(){
 	u32 Status;
-//	u32 i;
 
 	XIic_Config *ConfigPtr;	// Pointer to configuration data
 
@@ -100,7 +109,7 @@ int main(){
 	//Setup the Interrupt System.
 	Status = SetupInterruptSystem(&IicInstance, &LLFifo);
 	if (Status != XST_SUCCESS) {
-		xil_printf("Failed to initialize IIC\r\n");
+		xil_printf("Failed to initialize LL FIFO\r\n");
 		return XST_FAILURE;
 	}
 
@@ -119,7 +128,6 @@ int main(){
 	}
 
 	XIic_WriteReg(IicInstance.BaseAddress, XIIC_RFD_REG_OFFSET,	I2C_TRANSFER_COUNT - 1);
-	//
 	XIic_Start(&IicInstance);
 	XIic_IntrGlobalEnable(IicInstance.BaseAddress);
 
@@ -135,43 +143,40 @@ int main(){
 	XLlFifo_Reset(&LLFifo);
 	XLlFifo_IntEnable(&LLFifo, XLLF_INT_RC_MASK);
 
-	xil_printf("\r\n--TE USB DEMO ver %d.%d--\r\n", MAJOR_VERSION,MINOR_VERSION);
+	xil_printf("\r\n-- TE USB DEMO ver %d.%d --\r\n", MAJOR_VERSION,MINOR_VERSION);
 	XGpio_DiscreteWrite(&Gpio, 1, 0x0F);	// Switch on LEDs
 
 	while(1){	// Main loop
-		if(I2CReadData(&IicInstance, I2CBuffer, I2C_TRANSFER_COUNT)){	// Read data from IIC
-			switch(I2CBuffer[3]){	// Analyze command
+		if(iic_receive_valid == 1){
+			iic_receive_valid = 0;
+			switch(iic_receive_buffer[3]){
 				case CMD_NOP:
-					break;
+					xil_printf("NOP\r\n");
+				break;
 				case CMD_GETVERSION:
-					I2CBuffer[0] = MAJOR_VERSION;
-					I2CBuffer[1] = MINOR_VERSION;
-					I2CBuffer[2] = RELEASE;
-					I2CBuffer[3] = BUILD;
-					break;
+					xil_printf("GETVERSION\r\n");
+				break;
 				case CMD_START_TX:
-					xil_printf("T\r\n");
-					break;
+					xil_printf("Start TX\r\n");
+				break;
 				case CMD_START_RX:
-					xil_printf("R\r\n");
-					rx_count = 0;	// Clear counter
-					//rx_test(&LLFifo);
-					break;
+					xil_printf("Start RX\r\n");
+				break;
 				case CMD_STOP:
-					xil_printf("stop test rx=%d\r\n",rx_count);
-					break;
+					xil_printf("Stop\r\n");
+					xil_printf("Received %d (%d errors)\r\n",total_cnt,err_cnt);
+					iic_transmit_buffer[0] = 0;
+					iic_transmit_buffer[1] = 0;
+					iic_transmit_buffer[2] = 0;
+					iic_transmit_buffer[3] = get_rx_test_status();
+					XIic_WriteReg(IicInstance.BaseAddress, XIIC_GPO_REG_OFFSET, 0xFF); // Activate FX2 interrupt
+				break;
 				case CMD_PING:
-					I2CBuffer[0] = 0x70;	//p
-					I2CBuffer[1] = 0x6F;	//o
-					I2CBuffer[2] = 0x6E;	//n
-					I2CBuffer[3] = 0x67;	//g
-					break;
+					xil_printf("Ping\r\n");
+				break;
 				default:
-					xil_printf("Unknown command 0x%02X\n\r",I2CBuffer[3]);
+					xil_printf("Unknown command 0x%02X\n\r",iic_receive_buffer[3]);
 			}
-
-			I2CWriteData(I2CBuffer,I2C_TRANSFER_COUNT);	// Send response
-			while(TransmitComplete) {};	// Wait while transfer completed
 		}
 	}
 }
@@ -247,21 +252,24 @@ int tx_test(XLlFifo* TxInstance){
 * @note		None
 *
 ******************************************************************************/
+/*
 int I2CReadData(XIic* InstancePtr, u8 *BufferPtr, u16 ByteCount)
 {
+
 	if((ReceiveComplete) || (XIic_IsIicBusy(InstancePtr) == TRUE)){
 		if (SlaveRead) {
-			XIic_SlaveRecv(InstancePtr, BufferPtr, I2C_TRANSFER_COUNT);
+			XIic_SlaveRecv(InstancePtr, BufferPtr, ByteCount);
 			SlaveRead = 0;
-			return 0;
 		}
+		return 0;
 	}
 	else {
 		ReceiveComplete = 1;
 		return I2C_TRANSFER_COUNT;
 	}
-}
 
+}
+*/
 /******************************************************************************
 * This function writes a buffer of bytes to the IIC bus when the IIC master
 * initiates a read operation.
@@ -274,6 +282,7 @@ int I2CReadData(XIic* InstancePtr, u8 *BufferPtr, u16 ByteCount)
 * @note		None.
 *
 ******************************************************************************/
+/*
 int I2CWriteData(u8 *BufferPtr, u16 ByteCount)
 {
 	int Status;
@@ -287,11 +296,11 @@ int I2CWriteData(u8 *BufferPtr, u16 ByteCount)
 
 	XIic_IntrGlobalEnable(IicInstance.BaseAddress);	// Set the Global Interrupt Enable.
 
-	XIic_WriteReg(IicInstance.BaseAddress, XIIC_GPO_REG_OFFSET, 0xFF);
+	XIic_WriteReg(IicInstance.BaseAddress, XIIC_GPO_REG_OFFSET, 0xFF); // Activate FX2 interrupt
 
 	while ((TransmitComplete) || (XIic_IsIicBusy(&IicInstance) == FALSE)) {
 		if (SlaveWrite) {
-			XIic_WriteReg(IicInstance.BaseAddress, XIIC_GPO_REG_OFFSET, 0x00);
+			XIic_WriteReg(IicInstance.BaseAddress, XIIC_GPO_REG_OFFSET, 0x00); // Remove interrupt
 			XIic_SlaveSend(&IicInstance, BufferPtr, ByteCount);
 			SlaveWrite = 0;
 			break;
@@ -307,7 +316,7 @@ int I2CWriteData(u8 *BufferPtr, u16 ByteCount)
 
 	return XST_SUCCESS;
 }
-
+*/
 /******************************************************************************
 * This Status handler is called asynchronously from an interrupt context and
 * indicates the events that have occurred.
@@ -325,8 +334,12 @@ static void I2CStatusHandler(XIic *InstancePtr, int Event)
 {
 	if (Event == XII_MASTER_WRITE_EVENT) {	// Its a Write request from Master.
 		SlaveRead = 1;
+		XIic_SlaveRecv(InstancePtr, iic_receive_buffer, I2C_TRANSFER_COUNT);
 	} else {	// Its a Read request from the master.
 		SlaveWrite = 1;
+		// Write prepared buffer
+		XIic_WriteReg(InstancePtr->BaseAddress, XIIC_GPO_REG_OFFSET, 0x00); // Remove interrupt
+		XIic_SlaveSend(InstancePtr, iic_transmit_buffer, I2C_TRANSFER_COUNT);
 	}
 }
 
@@ -344,7 +357,7 @@ static void I2CStatusHandler(XIic *InstancePtr, int Event)
 ****************************************************************************/
 static void I2CSendHandler(XIic *InstancePtr)
 {
-	TransmitComplete = 0;
+	//TransmitComplete = 0;
 }
 
 /******************************************************************************
@@ -361,7 +374,42 @@ static void I2CSendHandler(XIic *InstancePtr)
 ****************************************************************************/
 static void I2CReceiveHandler(XIic *InstancePtr)
 {
-	ReceiveComplete = 0;
+	//ReceiveComplete = 0;
+
+	iic_receive_valid = 1;
+	switch(iic_receive_buffer[3]){	// Analyze command
+		case CMD_NOP:
+		break;
+		case CMD_GETVERSION:
+			iic_transmit_buffer[0] = MAJOR_VERSION;
+			iic_transmit_buffer[1] = MINOR_VERSION;
+			iic_transmit_buffer[2] = RELEASE;
+			iic_transmit_buffer[3] = BUILD;
+			XIic_WriteReg(IicInstance.BaseAddress, XIIC_GPO_REG_OFFSET, 0xFF); // Activate FX2 interrupt
+		break;
+		case CMD_START_TX:
+		break;
+		case CMD_START_RX:
+			total_cnt = 0;	// Clear counter
+			err_cnt = 0;	// Clear err_cnt
+		break;
+		case CMD_STOP:
+		break;
+		case CMD_PING:
+			iic_transmit_buffer[0] = 0x70;	//p
+			iic_transmit_buffer[1] = 0x6F;	//o
+			iic_transmit_buffer[2] = 0x6E;	//n
+			iic_transmit_buffer[3] = 0x67;	//g
+			XIic_WriteReg(IicInstance.BaseAddress, XIIC_GPO_REG_OFFSET, 0xFF); // Activate FX2 interrupt
+		break;
+		default:
+			//xil_printf("Unknown packet\r\n");
+			//xil_printf("%02X %02X %02X %02X\r\n",iic_receive_buffer[ 0],iic_receive_buffer[ 1],iic_receive_buffer[ 2],iic_receive_buffer[ 3]);
+			//xil_printf("%02X %02X %02X %02X\r\n",iic_receive_buffer[ 4],iic_receive_buffer[ 5],iic_receive_buffer[ 6],iic_receive_buffer[ 7]);
+			//xil_printf("%02X %02X %02X %02X\r\n",iic_receive_buffer[ 8],iic_receive_buffer[ 9],iic_receive_buffer[10],iic_receive_buffer[11]);
+		break;
+	}
+	XIic_WriteReg(IicInstance.BaseAddress, XIIC_GPO_REG_OFFSET, 0xFF); // Activate FX2 interrupt
 }
 
 /******************************************************************************
@@ -378,9 +426,9 @@ static void I2CReceiveHandler(XIic *InstancePtr)
 ****************************************************************************/
 static void FIFOReceiveHandler(XLlFifo *InstancePtr){
 	u32 frame_len, fifo_status;
-	u8 buffer[1024];
+	u8 buffer[2048];
 	//int i;
-	//xil_printf("&");
+	xil_printf("&");
 	fifo_status = XLlFifo_Status(InstancePtr);	// Read status
 	//if(fifo_status & XLLF_INT_RC_MASK){
 	//	xil_printf("R");
@@ -396,17 +444,31 @@ static void FIFOReceiveHandler(XLlFifo *InstancePtr){
 		while (frame_len) {
 			unsigned bytes = min(sizeof(buffer), frame_len);
 			XLlFifo_Read(InstancePtr, buffer, bytes);
-			xil_printf("&");
+			//xil_printf("&");
 
-			rx_count += bytes;	// Update counter
-			//xil_printf("received %d bytes\n\r");
-			//for(i = 0;i<bytes;i++){
-			//	xil_printf("0x%02X ",buffer[i]);
+			//xil_printf("received %d bytes\n\r",bytes);
+			//xil_printf("%d\n\r",frame_len);
+			//for(i = 0;i<bytes;i+=4)
+			//	xil_printf("0x%02X 0x%02X 0x%02X 0x%02X\n\r",buffer[i],buffer[i+1],buffer[i+2],buffer[i+3]);
+
+			//for(i = 0;i<bytes;i+=4){
+			//	rx_int = (buffer[i]|(buffer[i+1]<<8)|(buffer[i+2]<<16)|(buffer[i+3]<<24));
+				//xil_printf("0x%04X\n\r",rx_int);
+				//xil_printf("0x%04X\n\r",total_cnt);
+				//
+
+			//	if(total_cnt != rx_int){
+					//xil_printf("-");
+					//xil_printf("0x%04X != 0x%04X\n\r",total_cnt,rx_int);
+			//		err_cnt++;
+			//	}
+			//	total_cnt++;
 			//}
 			// ********
 			// do something with buffer here
 			// ********
 			frame_len -= bytes;
+			total_cnt++;
 		}
 	}
 }

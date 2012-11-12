@@ -23,7 +23,6 @@
 -g Security:None
 -g DonePipe:No
 -g DriveDone:Yes
--g Encrypt:No
 -g en_sw_gsr:No
 -g drive_awake:No
 -g sw_clk:Startupclk

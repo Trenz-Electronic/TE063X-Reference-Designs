@@ -148,7 +148,9 @@ implementation/generic_spi_wrapper.ngc \
 implementation/generic_iic_bus_wrapper.ngc \
 implementation/axi_fx2_0_wrapper.ngc \
 implementation/chipscope_icon_0_wrapper.ngc \
-implementation/chipscope_ila_0_wrapper.ngc
+implementation/chipscope_ila_0_wrapper.ngc \
+implementation/axi_dma_0_wrapper.ngc \
+implementation/axis_loopback_widget_0_wrapper.ngc
 
 POSTSYN_NETLIST = implementation/$(SYSTEM).ngc
 

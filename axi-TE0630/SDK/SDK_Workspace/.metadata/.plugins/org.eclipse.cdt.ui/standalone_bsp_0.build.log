@@ -1,2 +1,39 @@
 make -k all 
+libgen -hw ../axi-TE0630_hw_platform/system.xml\
+	       -lp C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP\
+	       -pe microblaze_0 \
+	       -log libgen.log \
+	       system.mss
+libgen
+Xilinx EDK 13.2 Build EDK_O.61xd
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+
+Command Line: libgen -hw ../axi-TE0630_hw_platform/system.xml -lp
+C:/Projects/Trenz/repos/TE063X-Reference-Designs/TE-EDK-IP -pe microblaze_0 -log
+libgen.log system.mss 
+
+
+Staging source files.
+Running DRCs.
+Running generate.
+Running post_generate.
+Running include - 'make -s include "COMPILER=mb-gcc" "ARCHIVER=mb-ar"
+"COMPILER_FLAGS=-mlittle-endian -mno-xl-soft-mul -mxl-barrel-shift
+-mxl-pattern-compare -mcpu=v8.20.a  -O2 -c" "EXTRA_COMPILER_FLAGS=-g"'.
+
+Running libs - 'make -s libs "COMPILER=mb-gcc" "ARCHIVER=mb-ar"
+"COMPILER_FLAGS=-mlittle-endian -mno-xl-soft-mul -mxl-barrel-shift
+-mxl-pattern-compare -mcpu=v8.20.a  -O2 -c" "EXTRA_COMPILER_FLAGS=-g"'.
+"Compiling common"
+"Compiling standalone";
+"Compiling iic"
+"Compiling spi"
+"Compiling gpio"
+"Compiling uartlite"
+"Compiling axidma v3.00a"
+"Compiling llfifo"
+"Compiling bram"
+"Compiling intc"
+"Compiling cpu"
+Running execs_generate.
 'Finished building libraries'

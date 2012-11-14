@@ -1,0 +1,49 @@
+
+**** Build of configuration Debug for project demo ****
+
+make all 
+Building file: ../src/interrupts.c
+Invoking: MicroBlaze gcc compiler
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -I../../standalone_bsp_0/microblaze_0/include -mxl-pattern-compare -mcpu=v7.30.b -mno-xl-soft-mul -MMD -MP -MF"src/interrupts.d" -MT"src/interrupts.d" -o"src/interrupts.o" "../src/interrupts.c"
+In file included from ../src/Interrupts.h:8,
+                 from ../src/interrupts.c:1:
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:227:1: warning: multi-line comment
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:229:1: warning: multi-line comment
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:231:1: warning: multi-line comment
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:233:1: warning: multi-line comment
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:235:1: warning: multi-line comment
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:237:1: warning: multi-line comment
+Finished building: ../src/interrupts.c
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:240:1: warning: multi-line comment
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:242:1: warning: multi-line comment
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:244:1: warning: multi-line comment
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:246:1: warning: multi-line comment
+' '
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:248:1: warning: multi-line comment
+../../standalone_bsp_0/microblaze_0/include/xps_npi_dma.h:250:1: warning: multi-line comment
+Building target: demo.elf
+Invoking: MicroBlaze gcc linker
+mb-gcc -Wl,-T -Wl,../src/lscript.ld -L../../standalone_bsp_0/microblaze_0/lib -mxl-pattern-compare -mcpu=v7.30.b -mno-xl-soft-mul -o"demo.elf"  ./src/control_fifo.o ./src/func.o ./src/interrupts.o ./src/main.o   
+Finished building target: demo.elf
+' '
+Invoking: MicroBlaze Print Size
+mb-size demo.elf  |tee "demo.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  11486	    348	   2298	  14132	   3734	demo.elf
+Finished building: demo.elf.size
+' '
+Invoking: Xilinx ELF Check
+elfcheck demo.elf -hw ../../reference-TE0300_hw_platform/system.xml -pe microblaze_0  |tee "demo.elf.elfcheck"
+elfcheck
+Xilinx EDK 13.2 Build EDK_O.61xd
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+
+Command Line: elfcheck -hw ../../reference-TE0300_hw_platform/system.xml -pe
+microblaze_0 demo.elf 
+
+ELF file	: demo.elf
+ERROR:EDK:756 - Cannot read XML file
+   ../../reference-TE0300_hw_platform/system.xml
+Error: Creating Hardware Debug Object from ../../reference-TE0300_hw_platform/system.xml
+Finished building: demo.elf.elfcheck
+' '

@@ -1,0 +1,11 @@
+elfcheck
+Xilinx EDK 13.2 Build EDK_O.61xd
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+
+Command Line: elfcheck -hw ../../reference-TE0300_hw_platform/system.xml -pe
+microblaze_0 demo.elf 
+
+ELF file	: demo.elf
+ERROR:EDK:756 - Cannot read XML file
+   ../../reference-TE0300_hw_platform/system.xml
+Error: Creating Hardware Debug Object from ../../reference-TE0300_hw_platform/system.xml

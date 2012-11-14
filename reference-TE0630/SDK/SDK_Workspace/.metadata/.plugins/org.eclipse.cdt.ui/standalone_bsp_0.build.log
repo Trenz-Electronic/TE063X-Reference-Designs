@@ -1,0 +1,42 @@
+make -k all 
+libgen -hw ../reference-TE0630_hw_platform/system.xml\
+	       -lp B:/GIT/TE063X-Reference-Designs/TE-EDK-IP\
+	       -pe microblaze_0 \
+	       -log libgen.log \
+	       system.mss
+libgen
+Xilinx EDK 13.2 Build EDK_O.61xd
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+
+Command Line: libgen -hw ../reference-TE0630_hw_platform/system.xml -lp
+B:/GIT/TE063X-Reference-Designs/TE-EDK-IP -pe microblaze_0 -log libgen.log
+system.mss 
+
+
+Staging source files.
+Running DRCs.
+Running generate.
+Running post_generate.
+Running include - 'make -s include "COMPILER=mb-gcc" "ARCHIVER=mb-ar"
+"COMPILER_FLAGS=-mno-xl-soft-mul -mxl-barrel-shift -mxl-pattern-compare
+-mno-xl-soft-div -mcpu=v8.20.a  -O2 -c" "EXTRA_COMPILER_FLAGS=-g"'.
+
+Running libs - 'make -s libs "COMPILER=mb-gcc" "ARCHIVER=mb-ar"
+"COMPILER_FLAGS=-mno-xl-soft-mul -mxl-barrel-shift -mxl-pattern-compare
+-mno-xl-soft-div -mcpu=v8.20.a  -O2 -c" "EXTRA_COMPILER_FLAGS=-g"'.
+"Compiling common"
+"Compiling lldma"
+"Compiling standalone";
+"Compiling mpmc"
+"Compiling gpio"
+"Compiling uartlite"
+"Compiling spi"
+"Compiling bram"
+"Compiling xps_fx2"
+"Compiling xps_i2c_slave"
+"Compiling intc"
+"Compiling xps_npi_dma"
+"Compiling tmrctr"
+"Compiling cpu"
+Running execs_generate.
+'Finished building libraries'

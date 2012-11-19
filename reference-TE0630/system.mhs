@@ -1,15 +1,37 @@
 
+# ==============================================================================
+# Copyright (C) 2012 Trenz Electronic
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the  Software ),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+# THE SOFTWARE IS PROVIDED  AS IS , WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+# IN THE SOFTWARE.
+# ==============================================================================
  PARAMETER VERSION = 2.1.0
 
 
+# Serial connections
  PORT fpga_0_RS232_RX_pin = fpga_0_RS232_RX, DIR = I
  PORT fpga_0_RS232_TX_pin = fpga_0_RS232_TX, DIR = O
+# GPIO
  PORT fpga_0_LED_GPIO_d_out_pin = fpga_0_LED_GPIO_d_out, DIR = O, VEC = [3:0]
  PORT fpga_0_LED_GPIO2_IO_I_pin = LED_GPIO2_IO_I, DIR = I, VEC = [9:0]
+# SPI
  PORT fpga_0_SPI_FLASH_MISO_pin = fpga_0_SPI_FLASH_MISO, DIR = IO
  PORT fpga_0_SPI_FLASH_MOSI_pin = fpga_0_SPI_FLASH_MOSI, DIR = IO
  PORT fpga_0_SPI_FLASH_SCK_pin = fpga_0_SPI_FLASH_SCK, DIR = IO
  PORT fpga_0_SPI_FLASH_SS_pin = fpga_0_SPI_FLASH_SS, DIR = IO, VEC = [0:0]
+# DDR Memory
  PORT fpga_0_MCB1_mcbx_dram_rst_pin = fpga_0_MCB1_mcbx_dram_rst_pin, DIR = O
  PORT fpga_0_MCB1_mcbx_dram_addr_pin = fpga_0_MCB1_mcbx_dram_addr_pin, DIR = O, VEC = [12:0]
  PORT fpga_0_MCB1_mcbx_dram_ba_pin = fpga_0_MCB1_mcbx_dram_ba_pin_vslice_2_0_concat, DIR = O, VEC = [2:0]
@@ -29,6 +51,7 @@
  PORT fpga_0_MCB1_mcbx_dram_odt_pin = fpga_0_MCB1_mcbx_dram_odt_pin, DIR = O
  PORT fpga_0_MCB1_rzq_pin = fpga_0_MCB1_rzq_pin, DIR = IO
  PORT fpga_0_MCB1_zio_pin = fpga_0_MCB1_zio_pin, DIR = IO
+# System
  PORT sys_clk_pin = dcm_clk_s, DIR = I, SIGIS = DCMCLK, CLK_FREQ = 100000000
  PORT sys_rst_pin = sys_rst_s, DIR = I, RST_POLARITY = 1, SIGIS = RST
 # FX2 external connections
@@ -129,19 +152,30 @@ BEGIN bram_block
  BUS_INTERFACE PORTB = dlmb_port
 END
 
+BEGIN util_reduced_logic
+ PARAMETER INSTANCE = Reset_logic
+ PARAMETER HW_VER = 1.00.a
+ PARAMETER C_OPERATION = and
+ PARAMETER C_SIZE = 2
+ PORT Op1 = sys_rst_s & enable_ext_rst
+ PORT Res = int_rst
+END
+
 BEGIN xps_gpio
  PARAMETER INSTANCE = LED
  PARAMETER HW_VER = 2.00.a
- PARAMETER C_GPIO_WIDTH = 4
+# PARAMETER C_GPIO_WIDTH = 4
+ PARAMETER C_GPIO_WIDTH = 5
  PARAMETER C_TRI_DEFAULT = 0x00000000
  PARAMETER C_BASEADDR = 0x81400000
  PARAMETER C_HIGHADDR = 0x8140ffff
  PARAMETER C_IS_DUAL = 1
- PARAMETER C_GPIO2_WIDTH = 10
+# PARAMETER C_GPIO2_WIDTH = 10
+ PARAMETER C_GPIO2_WIDTH = 11
  PARAMETER C_ALL_INPUTS_2 = 1
  BUS_INTERFACE SPLB = mb_plb
- PORT GPIO_IO_O = fpga_0_LED_GPIO_d_out
- PORT GPIO2_IO_I = LED_GPIO2_IO_I
+ PORT GPIO_IO_O = enable_ext_rst & fpga_0_LED_GPIO_d_out
+ PORT GPIO2_IO_I = sys_rst_s & LED_GPIO2_IO_I
 END
 
 BEGIN xps_spi
@@ -173,7 +207,7 @@ BEGIN mpmc
  PARAMETER C_MEM_DATA_WIDTH = 16
  PARAMETER C_PIM0_BASETYPE = 1
  PARAMETER C_XCL0_B_IN_USE = 1
- PARAMETER HW_VER = 6.04.a
+ PARAMETER HW_VER = 6.05.a
  PARAMETER C_MEM_TYPE = DDR3
  PARAMETER C_MEM_DYNAMIC_WRITE_ODT = DIV4
  PARAMETER C_MEM_HIGH_TEMP_SR = EXTENDED
@@ -216,20 +250,21 @@ END
 
 BEGIN clock_generator
  PARAMETER INSTANCE = clock_generator_0
- PARAMETER HW_VER = 4.02.a
+ PARAMETER HW_VER = 4.03.a
  PARAMETER C_EXT_RESET_HIGH = 1
  PARAMETER C_CLKIN_FREQ = 100000000
  PARAMETER C_CLKOUT0_FREQ = 50000000
  PARAMETER C_CLKOUT0_PHASE = 0
  PARAMETER C_CLKOUT0_GROUP = NONE
  PORT CLKOUT0 = sys_clk_s
- PORT RST = sys_rst_s
+# PORT RST = sys_rst_s
+ PORT RST = int_rst
  PORT CLKIN = dcm_clk_s
 END
 
 BEGIN clock_generator
  PARAMETER INSTANCE = clock_generator_1
- PARAMETER HW_VER = 4.02.a
+ PARAMETER HW_VER = 4.03.a
  PARAMETER C_EXT_RESET_HIGH = 1
  PARAMETER C_CLKIN_FREQ = 100000000
  PARAMETER C_CLKOUT0_FREQ = 625000000
@@ -243,7 +278,8 @@ BEGIN clock_generator
  PORT CLKOUT0 = clk_MCB_nobuf
  PORT CLKOUT1 = clk_MCB_180_nobuf
  PORT LOCKED = clock_generator_locked
- PORT RST = sys_rst_s
+# PORT RST = sys_rst_s
+ PORT RST = int_rst
  PORT CLKIN = dcm_clk_s
 END
 
@@ -265,7 +301,8 @@ BEGIN proc_sys_reset
  PARAMETER C_EXT_RESET_HIGH = 1
  PORT Slowest_sync_clk = sys_clk_s
  PORT Dcm_locked = clock_generator_locked
- PORT Ext_Reset_In = sys_rst_s
+# PORT Ext_Reset_In = sys_rst_s
+ PORT Ext_Reset_In = int_rst
  PORT MB_Reset = mb_reset
  PORT Bus_Struct_Reset = sys_bus_reset
  PORT MB_Debug_Sys_Rst = Debug_SYS_Rst
@@ -321,7 +358,7 @@ END
 
 BEGIN clock_generator
  PARAMETER INSTANCE = usb_clock_generator
- PARAMETER HW_VER = 4.02.a
+ PARAMETER HW_VER = 4.03.a
  PARAMETER C_CLKIN_FREQ = 48000000
  PARAMETER C_CLKFBIN_FREQ = 48000000
  PARAMETER C_CLKFBOUT_FREQ = 48000000
@@ -356,7 +393,6 @@ BEGIN xps_fx2
  PORT USB_FLAGA = USB_FLAGA
  PORT USB_SLWR = USB_SLWR
  PORT USB_SLRD = USB_SLRD
-# PORT ChipScope = xps_fx2_0_ChipScope
  PORT TX_FIFO_Clk = sys_clk_s
  PORT RX_FIFO_Clk = sys_clk_s
 END
@@ -377,22 +413,3 @@ BEGIN xps_npi_dma
  PORT NPI_Clk = sys_clk_s
 END
 
-# PORT ChipScope = xps_npi_dma_0_ChipScope
-# PORT ChipScope = xps_npi_dma_0_ChipScope
-# BEGIN chipscope_ila
-# PARAMETER INSTANCE = chipscope_ila_0
-# PARAMETER HW_VER = 1.03.a
-# PARAMETER C_TRIG0_TRIGGER_IN_WIDTH = 64
-# PARAMETER C_ENABLE_TRIGGER_OUT = 0
-# PARAMETER C_TRIG0_UNIT_MATCH_TYPE = basic with edges
-# PARAMETER C_NUM_DATA_SAMPLES = 1024
-# PARAMETER C_TRIG0_UNIT_COUNTER_WIDTH = 16
-# PORT TRIG0 = xps_npi_dma_0_ChipScope
-# PORT CLK = DDR_SDRAM_mpmc_clk_s
-# PORT CHIPSCOPE_ILA_CONTROL = chipscope_ila_0_CHIPSCOPE_ILA_CONTROL
-# END
-# BEGIN chipscope_icon
-# PARAMETER INSTANCE = chipscope_icon_0
-# PARAMETER HW_VER = 1.04.a
-# PORT control0 = chipscope_ila_0_CHIPSCOPE_ILA_CONTROL
-# END

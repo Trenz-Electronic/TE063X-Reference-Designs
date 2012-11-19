@@ -88,6 +88,7 @@ netlistclean:
 	rm -f platgen.log
 	rm -f __xps/ise/_xmsgs/platgen.xmsgs
 	rm -f $(BMM_FILE)
+	rm -rf implementation/cache
 
 bitsclean:
 	rm -f $(SYSTEM_BIT)
@@ -95,7 +96,7 @@ bitsclean:
 	rm -f implementation/$(SYSTEM)_bd.bmm 
 	rm -f implementation/$(SYSTEM)_map.ncd 
 	rm -f implementation/download.bit 
-	rm -f __xps/$(SYSTEM)_routed
+	rm -f __xps/$(SYSTEM)_bits
 
 simclean: 
 	rm -rf simulation/behavioral
@@ -165,7 +166,8 @@ $(SYSTEM_ACE):
 
 $(SYSTEM_HW_HANDOFF): $(MHSFILE) __xps/platgen.opt
 	IF NOT EXIST "$(SDK_EXPORT_DIR)" @mkdir "$(SDK_EXPORT_DIR)"
-	psf2Edward -inp $(SYSTEM).xmp -exit_on_error -edwver 1.2 -xml $(SDK_EXPORT_DIR)/$(SYSTEM).xml $(GLOBAL_SEARCHPATHOPT)
+	psf2Edward -inp $(SYSTEM).xmp -exit_on_error -dont_add_loginfo -edwver 1.2 -xml $(SDK_EXPORT_DIR)/$(SYSTEM).xml $(GLOBAL_SEARCHPATHOPT)
+	xdsgen -inp $(SYSTEM).xmp -report $(SDK_EXPORT_DIR)/$(SYSTEM).html $(GLOBAL_SEARCHPATHOPT) -make_docs_local
 
 $(SYSTEM_HW_HANDOFF_BIT): $(SYSTEM_BIT)
 	@rm -rf $(SYSTEM_HW_HANDOFF_BIT)

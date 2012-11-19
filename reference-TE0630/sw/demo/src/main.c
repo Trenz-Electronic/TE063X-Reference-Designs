@@ -37,7 +37,7 @@ int main (void)
 	XIo_In32(tx_addr);//workaround to init RAM before access
 
 	ver = VERSION;
-	xil_printf("\r\n--Entering main TE0300 DEMO ver 0x%08X--\r\n", ver);
+	xil_printf("\r\n--Entering main TE USB DEMO ver 0x%08X--\r\n", ver);
 	XIo_Out32(XPAR_LED_BASEADDR,0xF);
 	
 	start_intc();

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2012-11-12T18:52:49</DateModified>
+  <DateModified>2012-11-16T08:09:03</DateModified>
   <ModuleName>system</ModuleName>
-  <SummaryTimeStamp>2012-11-12T18:52:49</SummaryTimeStamp>
+  <SummaryTimeStamp>2012-11-16T08:09:02</SummaryTimeStamp>
   <SavedFilePath>B:/GIT/TE063X-Reference-Designs/reference-TE0630/__xps/ise/system.xreport</SavedFilePath>
   <FilterFile>filter.filter</FilterFile>
   <SavedFilterFilePath>B:/GIT/TE063X-Reference-Designs/reference-TE0630/__xps/ise</SavedFilterFilePath>

@@ -2,6 +2,8 @@
 xc6slx150csg484-2
 -lang
 vhdl
+-intstyle
+default
 -lp
 B:/GIT/TE063X-Reference-Designs/TE-EDK-IP/
 -msg

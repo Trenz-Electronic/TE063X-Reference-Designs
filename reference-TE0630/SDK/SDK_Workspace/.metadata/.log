@@ -1,0 +1,137 @@
+!SESSION 2012-11-14 13:53:23.440 -----------------------------------------------
+eclipse.buildId=Release 13.3 Build SDK_O.76xd
+java.version=1.6.0_21
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.cdt.core 1 0 2012-11-14 13:55:19.689
+!MESSAGE Indexed 'standalone_bsp_0' (0 sources, 8 headers) in 0,16 sec: 0 declarations; 0 references; 8 unresolved inclusions; 0 syntax errors; 0 unresolved names (0,00 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2012-11-14 14:03:45.080
+!MESSAGE Indexed 'demo' (4 sources, 43 headers) in 0,34 sec: 1.174 declarations; 1.541 references; 3 unresolved inclusions; 0 syntax errors; 1 unresolved names (0,04 %)
+!SESSION 2012-11-15 15:02:31.281 -----------------------------------------------
+eclipse.buildId=Release 13.3 Build SDK_O.76xd
+java.version=1.6.0_21
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.ui 4 0 2012-11-15 15:03:24.905
+!MESSAGE Unhandled event loop exception
+!STACK 0
+java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+	at java.util.ArrayList.RangeCheck(Unknown Source)
+	at java.util.ArrayList.get(Unknown Source)
+	at com.xilinx.sdk.targetmanager.ui.xmd.CommandHistory.getPreviousLine(Unknown Source)
+	at com.xilinx.sdk.targetmanager.ui.xmd.XMDConsolePresenter.xmdInputKeyPressed(Unknown Source)
+	at com.xilinx.sdk.targetmanager.ui.xmd.XMDConsoleView$1.keyPressed(Unknown Source)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:161)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1053)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1077)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1062)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1103)
+	at org.eclipse.swt.widgets.Text.sendKeyEvent(Text.java:1427)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1099)
+	at org.eclipse.swt.widgets.Widget.wmKeyDown(Widget.java:1808)
+	at org.eclipse.swt.widgets.Control.WM_KEYDOWN(Control.java:4498)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4193)
+	at org.eclipse.swt.widgets.Text.windowProc(Text.java:2170)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4873)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessageW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(OS.java:2459)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3655)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2640)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2604)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2438)
+	at org.eclipse.ui.internal.Workbench$7.run(Workbench.java:671)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:664)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:115)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:369)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:620)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:575)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1408)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1384)
+!SESSION 2012-11-16 09:09:59.184 -----------------------------------------------
+eclipse.buildId=Release 13.3 Build SDK_O.76xd
+java.version=1.6.0_21
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.debug.core 4 0 2012-11-16 09:31:51.271
+!MESSAGE 
+!STACK 0
+org.osgi.framework.BundleException: Exception in org.eclipse.debug.core.DebugPlugin.stop() of bundle org.eclipse.debug.core.
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.stop(BundleContextImpl.java:863)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.stopWorker(BundleHost.java:501)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.suspend(AbstractBundle.java:550)
+	at org.eclipse.osgi.framework.internal.core.Framework.suspendBundle(Framework.java:1097)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.decFWSL(StartLevelManager.java:597)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:257)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.shutdown(StartLevelManager.java:215)
+	at org.eclipse.osgi.framework.internal.core.InternalSystemBundle.suspend(InternalSystemBundle.java:266)
+	at org.eclipse.osgi.framework.internal.core.Framework.shutdown(Framework.java:690)
+	at org.eclipse.osgi.framework.internal.core.Framework.close(Framework.java:588)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.shutdown(EclipseStarter.java:415)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:198)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:620)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:575)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1408)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1384)
+Caused by: java.lang.RuntimeException: Unexpected IO error while issuing command {"command": "xstop 0"} to XMD
+	at com.xilinx.sdk.targetmanager.internal.TM.stop(Unknown Source)
+	at com.xilinx.sdk.debug.core.internal.AppRunner.stopRun(Unknown Source)
+	at com.xilinx.sdk.debug.core.internal.RemoteProcess.terminate(Unknown Source)
+	at org.eclipse.debug.core.Launch.terminate(Launch.java:252)
+	at org.eclipse.debug.internal.core.LaunchManager.shutdown(LaunchManager.java:2342)
+	at org.eclipse.debug.core.DebugPlugin.stop(DebugPlugin.java:605)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$2.run(BundleContextImpl.java:843)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.stop(BundleContextImpl.java:836)
+	... 19 more
+Root exception:
+java.lang.RuntimeException: Unexpected IO error while issuing command {"command": "xstop 0"} to XMD
+	at com.xilinx.sdk.targetmanager.internal.TM.stop(Unknown Source)
+	at com.xilinx.sdk.debug.core.internal.AppRunner.stopRun(Unknown Source)
+	at com.xilinx.sdk.debug.core.internal.RemoteProcess.terminate(Unknown Source)
+	at org.eclipse.debug.core.Launch.terminate(Launch.java:252)
+	at org.eclipse.debug.internal.core.LaunchManager.shutdown(LaunchManager.java:2342)
+	at org.eclipse.debug.core.DebugPlugin.stop(DebugPlugin.java:605)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$2.run(BundleContextImpl.java:843)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.stop(BundleContextImpl.java:836)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.stopWorker(BundleHost.java:501)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.suspend(AbstractBundle.java:550)
+	at org.eclipse.osgi.framework.internal.core.Framework.suspendBundle(Framework.java:1097)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.decFWSL(StartLevelManager.java:597)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:257)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.shutdown(StartLevelManager.java:215)
+	at org.eclipse.osgi.framework.internal.core.InternalSystemBundle.suspend(InternalSystemBundle.java:266)
+	at org.eclipse.osgi.framework.internal.core.Framework.shutdown(Framework.java:690)
+	at org.eclipse.osgi.framework.internal.core.Framework.close(Framework.java:588)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.shutdown(EclipseStarter.java:415)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:198)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:620)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:575)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1408)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1384)

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="B:\GIT\TE063X-Reference-Designs\reference-TE0630\SDK\SDK_Workspace\reference-TE0630_hw_platform\system.bit" key="reference-TE0630_hw_platform-bitFile"/>
+	<item value="bootloop" key="reference-TE0630_hw_platform-microblaze_0-initElf"/>
+	<item value="B:\GIT\TE063X-Reference-Designs\reference-TE0630\SDK\SDK_Workspace\reference-TE0630_hw_platform\system_bd.bmm" key="reference-TE0630_hw_platform-bmmFile"/>
+</section>

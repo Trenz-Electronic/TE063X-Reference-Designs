@@ -58,9 +58,11 @@ port (
     s_aclk				: in  STD_LOGIC;
     s_aresetn			: in  STD_LOGIC;
     s_axis_tvalid		: in  STD_LOGIC;
+    s_axis_tlast		: in  STD_LOGIC;
     s_axis_tready		: out STD_LOGIC;
     s_axis_tdata		: in  STD_LOGIC_VECTOR(7 downto 0);
     m_axis_tvalid		: out STD_LOGIC;
+    m_axis_tlast		: out STD_LOGIC;
     m_axis_tready		: in  STD_LOGIC;
 	m_axis_tdata		: out STD_LOGIC_VECTOR(7 downto 0)
 );
@@ -85,11 +87,13 @@ port (
     s_aclk				: out STD_LOGIC;
     s_aresetn			: in  STD_LOGIC;
     s_axis_tvalid		: in  STD_LOGIC;
+    s_axis_tlast		: in  STD_LOGIC;
     s_axis_tready		: out STD_LOGIC;
     s_axis_tdata		: in  STD_LOGIC_VECTOR(7 downto 0);
     m_axis_tvalid		: out STD_LOGIC;
     m_axis_tready		: in  STD_LOGIC;
-	m_axis_tdata		: out STD_LOGIC_VECTOR(7 downto 0)
+	m_axis_tdata		: out STD_LOGIC_VECTOR(7 downto 0);
+	b_cnt				: out STD_LOGIC_VECTOR(3 downto 0)
 );
 end component fx2_interface;
 
@@ -101,27 +105,31 @@ port (
     s_axis_tready		: out STD_LOGIC;
     s_axis_tdata		: in  STD_LOGIC_VECTOR(7 downto 0);
     m_axis_tvalid		: out STD_LOGIC;
+    m_axis_tlast		: out STD_LOGIC;
     m_axis_tready		: in  STD_LOGIC;
-	m_axis_tdata		: out STD_LOGIC_VECTOR(7 downto 0)
+	m_axis_tdata		: out STD_LOGIC_VECTOR(7 downto 0);
+	b_cnt				: out STD_LOGIC_VECTOR(3 downto 0)
 );
 end component user_engine;
 
 -- Signals
 signal USB_FD_O				: STD_LOGIC_VECTOR( 7 downto 0);
 signal USB_FD_T				: STD_LOGIC;
-signal fx2_m_aclk			: STD_LOGIC;
-signal fx2_s_aclk			: STD_LOGIC;
+signal usb_clk				: STD_LOGIC;
 signal s_aresetn			: STD_LOGIC;
 signal fx2_s_axis_tvalid	: STD_LOGIC;
+signal fx2_s_axis_tlast		: STD_LOGIC;
 signal fx2_s_axis_tready	: STD_LOGIC;
 signal fx2_s_axis_tdata		: STD_LOGIC_VECTOR( 7 downto 0);
 signal fx2_m_axis_tvalid	: STD_LOGIC;
 signal fx2_m_axis_tready	: STD_LOGIC;
 signal fx2_m_axis_tdata		: STD_LOGIC_VECTOR( 7 downto 0);
 signal user_s_axis_tvalid	: STD_LOGIC;
+signal user_s_axis_tlast	: STD_LOGIC;
 signal user_s_axis_tready	: STD_LOGIC;
 signal user_s_axis_tdata	: STD_LOGIC_VECTOR( 7 downto 0);
 signal user_m_axis_tvalid	: STD_LOGIC;
+signal user_m_axis_tlast	: STD_LOGIC;
 signal user_m_axis_tready	: STD_LOGIC;
 signal user_m_axis_tdata	: STD_LOGIC_VECTOR( 7 downto 0);
 signal led_cnt				: STD_LOGIC_VECTOR(26 downto 0);
@@ -130,7 +138,7 @@ begin
 -------------------------------------------------------------------------------
 -- Glue logic
 USB_FD_pin		<= "ZZZZZZZZ" when USB_FD_T = '1' else USB_FD_O;
-s_aresetn		<= not sys_rst;
+s_aresetn		<= '1';
 -- Indication
 process(sys_clk,s_aresetn)
 begin
@@ -140,11 +148,13 @@ begin
 		led_cnt	<= led_cnt + 1;
 	end if;
 end process;
-LED	<= 
-	(led_cnt(23) and led_cnt(24) and led_cnt(25) and led_cnt(26)) &		-- 1
-	(led_cnt(23) and led_cnt(25) and led_cnt(26)) &						-- 2
-	(led_cnt(23) and (led_cnt(24) or led_cnt(25)) and led_cnt(26)) &	-- 3
-	(led_cnt(23) and led_cnt(26));										-- 4
+--LED	<= 
+--	(led_cnt(23) and led_cnt(24) and led_cnt(25) and led_cnt(26)) &		-- 1
+--	(led_cnt(23) and led_cnt(25) and led_cnt(26)) &						-- 2
+--	(led_cnt(23) and (led_cnt(24) or led_cnt(25)) and led_cnt(26)) &	-- 3
+--	(led_cnt(23) and led_cnt(26));	
+
+usb_clk		<= 	USB_IFCLK_pin;
 
 fx2_intf: fx2_interface
 port map( 
@@ -161,53 +171,63 @@ port map(
 	USB_PKTEND_pin		=> USB_PKTEND_pin,
 	USB_FIFOADR_pin		=> USB_FIFOADR_pin,
 	USB_IFCLK_pin		=> USB_IFCLK_pin,
-    m_aclk				=> fx2_m_aclk,
-    s_aclk				=> fx2_s_aclk,
+    m_aclk				=> open,
+    s_aclk				=> open,
     s_aresetn			=> s_aresetn,
     s_axis_tvalid		=> fx2_s_axis_tvalid,
+    s_axis_tlast		=> fx2_s_axis_tlast,
     s_axis_tready		=> fx2_s_axis_tready,
     s_axis_tdata		=> fx2_s_axis_tdata,
     m_axis_tvalid		=> fx2_m_axis_tvalid,
     m_axis_tready		=> fx2_m_axis_tready,
-	m_axis_tdata		=> fx2_m_axis_tdata
+	m_axis_tdata		=> fx2_m_axis_tdata,
+	--b_cnt				=> LED
+	b_cnt				=> open
 );
 
 fx2user_fifo: ic_fifo
 port map(
-    m_aclk				=> fx2_m_aclk,
-    s_aclk				=> sys_clk,	-- can be changed
+    m_aclk				=> usb_clk,
+    s_aclk				=> usb_clk,	-- can be changed
     s_aresetn			=> s_aresetn,
     s_axis_tvalid		=> fx2_m_axis_tvalid,
+    s_axis_tlast		=> '0',
     s_axis_tready		=> fx2_m_axis_tready,
     s_axis_tdata		=> fx2_m_axis_tdata,
     m_axis_tvalid		=> user_s_axis_tvalid,
+    m_axis_tlast		=> open,
     m_axis_tready		=> user_s_axis_tready,
 	m_axis_tdata		=> user_s_axis_tdata
 );
 
 user2fx_fifo: ic_fifo
 port map(
-    m_aclk				=> sys_clk,	-- can be changed
-    s_aclk				=> fx2_s_aclk,
+    m_aclk				=> usb_clk,	-- can be changed
+    s_aclk				=> usb_clk,
     s_aresetn			=> s_aresetn,
     s_axis_tvalid		=> user_m_axis_tvalid,
+    s_axis_tlast		=> user_m_axis_tlast,
     s_axis_tready		=> user_m_axis_tready,
     s_axis_tdata		=> user_m_axis_tdata,
     m_axis_tvalid		=> fx2_s_axis_tvalid,
+    m_axis_tlast		=> fx2_s_axis_tlast,
     m_axis_tready		=> fx2_s_axis_tready,
 	m_axis_tdata		=> fx2_s_axis_tdata
 );
 
 user_engine_inst: user_engine
 port map( 
-    aclk				=> sys_clk,	-- can be changed
+    aclk				=> usb_clk,	-- can be changed
     aresetn				=> s_aresetn,
     s_axis_tvalid		=> user_s_axis_tvalid,
     s_axis_tready		=> user_s_axis_tready,
     s_axis_tdata		=> user_s_axis_tdata,
     m_axis_tvalid		=> user_m_axis_tvalid,
+    m_axis_tlast		=> user_m_axis_tlast,
     m_axis_tready		=> user_m_axis_tready,
-	m_axis_tdata		=> user_m_axis_tdata
+	m_axis_tdata		=> user_m_axis_tdata,
+	b_cnt				=> LED
+
 );
 -------------------------------------------------------------------------------
 end RTL;

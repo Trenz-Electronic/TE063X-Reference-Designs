@@ -22,7 +22,7 @@
 --    devices, or systems.  Use in such applications are expressly            --
 --    prohibited.                                                             --
 --                                                                            --
---    (c) Copyright 1995-2012 Xilinx, Inc.                                    --
+--    (c) Copyright 1995-2013 Xilinx, Inc.                                    --
 --    All rights reserved.                                                    --
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -48,9 +48,11 @@ ENTITY ic_fifo IS
     s_axis_tvalid : IN STD_LOGIC;
     s_axis_tready : OUT STD_LOGIC;
     s_axis_tdata : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    s_axis_tlast : IN STD_LOGIC;
     m_axis_tvalid : OUT STD_LOGIC;
     m_axis_tready : IN STD_LOGIC;
-    m_axis_tdata : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    m_axis_tdata : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+    m_axis_tlast : OUT STD_LOGIC
   );
 END ic_fifo;
 
@@ -64,9 +66,11 @@ COMPONENT wrapped_ic_fifo
     s_axis_tvalid : IN STD_LOGIC;
     s_axis_tready : OUT STD_LOGIC;
     s_axis_tdata : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    s_axis_tlast : IN STD_LOGIC;
     m_axis_tvalid : OUT STD_LOGIC;
     m_axis_tready : IN STD_LOGIC;
-    m_axis_tdata : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    m_axis_tdata : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+    m_axis_tlast : OUT STD_LOGIC
   );
 END COMPONENT;
 
@@ -101,7 +105,7 @@ END COMPONENT;
       c_data_count_width => 10,
       c_default_value => "BlankString",
       c_din_width => 18,
-      c_din_width_axis => 8,
+      c_din_width_axis => 9,
       c_din_width_rach => 32,
       c_din_width_rdch => 64,
       c_din_width_wach => 32,
@@ -133,7 +137,7 @@ END COMPONENT;
       c_has_axis_tdest => 0,
       c_has_axis_tid => 0,
       c_has_axis_tkeep => 0,
-      c_has_axis_tlast => 0,
+      c_has_axis_tlast => 1,
       c_has_axis_tready => 1,
       c_has_axis_tstrb => 0,
       c_has_axis_tuser => 0,
@@ -274,9 +278,11 @@ U0 : wrapped_ic_fifo
     s_axis_tvalid => s_axis_tvalid,
     s_axis_tready => s_axis_tready,
     s_axis_tdata => s_axis_tdata,
+    s_axis_tlast => s_axis_tlast,
     m_axis_tvalid => m_axis_tvalid,
     m_axis_tready => m_axis_tready,
-    m_axis_tdata => m_axis_tdata
+    m_axis_tdata => m_axis_tdata,
+    m_axis_tlast => m_axis_tlast
   );
 -- synthesis translate_on
 

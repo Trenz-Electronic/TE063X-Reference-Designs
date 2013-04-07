@@ -22,7 +22,7 @@
 --    devices, or systems.  Use in such applications are expressly            --
 --    prohibited.                                                             --
 --                                                                            --
---    (c) Copyright 1995-2012 Xilinx, Inc.                                    --
+--    (c) Copyright 1995-2013 Xilinx, Inc.                                    --
 --    All rights reserved.                                                    --
 --------------------------------------------------------------------------------
 
@@ -62,9 +62,11 @@ ENTITY ic_fifo IS
     s_axis_tvalid : IN STD_LOGIC;
     s_axis_tready : OUT STD_LOGIC;
     s_axis_tdata : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    s_axis_tlast : IN STD_LOGIC;
     m_axis_tvalid : OUT STD_LOGIC;
     m_axis_tready : IN STD_LOGIC;
-    m_axis_tdata : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    m_axis_tdata : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+    m_axis_tlast : OUT STD_LOGIC
   );
 END ic_fifo;
 

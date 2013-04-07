@@ -1,4 +1,5 @@
 # Output products list for <ic_fifo>
+_xmsgs\pn_parser.xmsgs
 ic_fifo.asy
 ic_fifo.gise
 ic_fifo.ngc

@@ -1,7 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 14.2
-# Date: Mon Sep 03 17:55:42 2012
+# Date: Sun Apr 07 14:48:43 2013
 #
 ##############################################################
 #
@@ -91,7 +91,7 @@ CSET enable_tdata=true
 CSET enable_tdest=false
 CSET enable_tid=false
 CSET enable_tkeep=false
-CSET enable_tlast=false
+CSET enable_tlast=true
 CSET enable_tready=true
 CSET enable_tstrobe=false
 CSET enable_tuser=false
@@ -210,4 +210,4 @@ CSET wuser_width=1
 MISC pkg_timestamp=2012-06-23T13:35:37Z
 # END Extra information
 GENERATE
-# CRC: 6986f1a0
+# CRC: 8492b2c6

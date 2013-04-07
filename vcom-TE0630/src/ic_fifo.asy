@@ -26,6 +26,10 @@ LINE Wide 832 848 800 848
 PIN 832 848 RIGHT 36
 PINATTR PinName m_axis_tdata[7:0]
 PINATTR Polarity OUT
+LINE Normal 832 944 800 944
+PIN 832 944 RIGHT 36
+PINATTR PinName m_axis_tlast
+PINATTR Polarity OUT
 LINE Normal 0 784 32 784
 PIN 0 784 LEFT 36
 PINATTR PinName s_axis_tvalid
@@ -37,5 +41,9 @@ PINATTR Polarity OUT
 LINE Wide 0 848 32 848
 PIN 0 848 LEFT 36
 PINATTR PinName s_axis_tdata[7:0]
+PINATTR Polarity IN
+LINE Normal 0 944 32 944
+PIN 0 944 LEFT 36
+PINATTR PinName s_axis_tlast
 PINATTR Polarity IN
 

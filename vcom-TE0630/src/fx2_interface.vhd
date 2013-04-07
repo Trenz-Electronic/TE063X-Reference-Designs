@@ -28,6 +28,8 @@
 -------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use ieee.STD_LOGIC_arith.all;
+use ieee.STD_LOGIC_unsigned.all;
 -------------------------------------------------------------------------------
 entity fx2_interface is
 port ( 
@@ -48,11 +50,13 @@ port (
     s_aclk				: out STD_LOGIC;
     s_aresetn			: in  STD_LOGIC;
     s_axis_tvalid		: in  STD_LOGIC;
+    s_axis_tlast		: in  STD_LOGIC;
     s_axis_tready		: out STD_LOGIC;
     s_axis_tdata		: in  STD_LOGIC_VECTOR(7 downto 0);
     m_axis_tvalid		: out STD_LOGIC;
     m_axis_tready		: in  STD_LOGIC;
-	m_axis_tdata		: out STD_LOGIC_VECTOR(7 downto 0)
+	m_axis_tdata		: out STD_LOGIC_VECTOR(7 downto 0);
+	b_cnt				: out STD_LOGIC_VECTOR(3 downto 0)
 );
 end fx2_interface;
 -------------------------------------------------------------------------------
@@ -81,12 +85,13 @@ signal usb_read_blok	: STD_LOGIC;
 signal usb_write_blok	: STD_LOGIC;
 type sm_state_type is (
 	ST_IDLE, 
-	ST_READ, 
-	ST_READ_END, 
-	ST_WRITE,
-	ST_WRITE_END
+	ST_READ_1, ST_READ_2, ST_READ_3, ST_READ_4, ST_READ_5, ST_READ_END, 
+	ST_WRITE_1, ST_WRITE_2, ST_WRITE_3, ST_WRITE_4, ST_WRITE_5,
+	ST_WRITE_6, ST_WRITE_7,	ST_WRITE_8
 	);
 signal sm_state			: sm_state_type := ST_IDLE;
+signal byte_cnt			: STD_LOGIC_VECTOR(3 downto 0);
+signal last				: STD_LOGIC;
 -------------------------------------------------------------------------------
 begin
 -------------------------------------------------------------------------------
@@ -104,11 +109,11 @@ USB_PKTEND_pin	<= pktend;
 USB_FIFOADR_pin	<= fifoadr;
 m_aclk			<= USB_IFCLK_pin;
 s_aclk			<= USB_IFCLK_pin;
+b_cnt			<= byte_cnt;
 
 process(usb_clk,s_aresetn)
 begin
 	if(s_aresetn = '0')then
-		--fd_t_drv		<= '1';
 		m_axis_tdata	<= (others => '0');
 		m_axis_tvalid	<= '0';
 		s_axis_tready	<= '0';
@@ -124,41 +129,77 @@ begin
 				s_axis_tready	<= '0';
 				m_axis_tvalid	<= '0';
 				if(usb_empty = DISABLE)then		-- We have data to read
-					sm_state		<= ST_READ;
+					sm_state		<= ST_READ_1;	-- Start of async read
 					fifoadr			<= EP2ADR;		-- Read from EP2
 					fd_t_drv		<= '1';			-- Read FD bus
 					sloe			<= ENABLE;
 				elsif(s_axis_tvalid = '1' and usb_full = DISABLE)then
-					sm_state		<= ST_WRITE;
+					sm_state		<= ST_WRITE_1;
+					fd_d_drv		<= s_axis_tdata;-- Data to transmit
+					last			<= s_axis_tlast;
+					s_axis_tready	<= '1';			-- Pop data
 					fifoadr			<= EP6ADR;		-- Write to EP6
 					fd_t_drv		<= '0';			-- Drive FD bus
 				end if;
 			
-			when ST_READ =>
-				m_axis_tdata	<= USB_FD_I;	-- Store received byte
-				m_axis_tvalid	<= '1';
+			when ST_READ_1 =>
+				sm_state		<= ST_READ_2;
+				
+			when ST_READ_2 =>
 				slrd			<= ENABLE;		-- Pop data from FIFO
+				sm_state		<= ST_READ_3;
+
+			when ST_READ_3 =>
+				sm_state		<= ST_READ_4;
+				
+			when ST_READ_4 =>
+				sm_state		<= ST_READ_5;
+				
+			when ST_READ_5 =>
+				m_axis_tdata	<= USB_FD_I;	-- Store received byte
+				slrd			<= DISABLE;
+				sloe			<= DISABLE;
+				m_axis_tvalid	<= '1';
 				sm_state		<= ST_READ_END;
 			
 			when ST_READ_END =>					-- Return all to initial state
-				slrd			<= DISABLE;
-				sloe			<= DISABLE;
 				if(m_axis_tready = '1')then
 					sm_state		<= ST_IDLE;
 					m_axis_tvalid	<= '0';
+					byte_cnt		<= byte_cnt + 1;
 				end if;
 				
-			when ST_WRITE =>
-				fd_d_drv		<= s_axis_tdata;	-- Data to transmit
+			when ST_WRITE_1 =>
 				slwr			<= ENABLE;		-- Write
-				pktend			<= ENABLE;		-- Commit packet
-				s_axis_tready	<= '1';
-				sm_state		<= ST_WRITE_END;
-			
-			when ST_WRITE_END =>
-				slwr			<= DISABLE;
-				pktend			<= DISABLE;		
+				if(last = '1')then
+					pktend			<= ENABLE;		-- Commit packet
+				else
+					pktend			<= DISABLE;		-- Not commit packet
+				end if;
 				s_axis_tready	<= '0';
+				sm_state		<= ST_WRITE_2;
+				
+			when ST_WRITE_2 =>
+				sm_state		<= ST_WRITE_3;
+
+			when ST_WRITE_3 =>
+				sm_state		<= ST_WRITE_4;
+
+			when ST_WRITE_4 =>
+				pktend			<= DISABLE;
+				slwr			<= DISABLE;
+				sm_state		<= ST_WRITE_5;
+			
+			when ST_WRITE_5 =>
+				sm_state		<= ST_WRITE_6;
+
+			when ST_WRITE_6 =>
+				sm_state		<= ST_WRITE_7;
+
+			when ST_WRITE_7 =>
+				sm_state		<= ST_WRITE_8;
+				
+			when ST_WRITE_8 =>
 				sm_state		<= ST_IDLE;
 		end case;
 	end if;
